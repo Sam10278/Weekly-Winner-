@@ -1,5 +1,15 @@
 # Weekly-Winner-
+
 We Will Win Weekly
+## What is Weekly Winner?
+    Goal:
+    Objective:
+    Tools used:
+
+
+
+
+
 
 ## Important Notes:
 
