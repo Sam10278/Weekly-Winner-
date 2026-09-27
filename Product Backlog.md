@@ -17,10 +17,17 @@
       - Votting for each layer expires after 1 day
       - Each user can vote 3 times per minute 
   - See the list of previous winner and completed challenges
+  - Works on any device
+  - Every user sees the same updated state
+  - 
 
 
 
 ## Technical requirements:
+
+  ### Live updates appear fast
+  ### No page refresh needed for live updates
+  ### Must use google cloud
   ### Tools 
   - **Login**: Firebase Auth
   - **Database**: Firestore
@@ -30,8 +37,8 @@
   - **Host the website**: Firebase Hosting or Cloud Run
   - **Store images**: Cloud Storage
   
-## Codebase and Languages
+### Codebase and Languages
   - **Frontend**: HTML, CSS, JavaScript	
   - **Backend**: JavaScript, Node.js
-  - **Database rules**:	Firestore Rules language
+  - **Database rules**:	Firestore Rules language (NoSQL)
   - **Cloud Scheduler**: Config file to set a timer and point to the fucntion
