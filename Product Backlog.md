@@ -19,7 +19,6 @@
   - See the list of previous winner and completed challenges
   - Works on any device
   - Every user sees the same updated state
-  - 
 
 
 
