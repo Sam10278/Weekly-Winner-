@@ -21,11 +21,11 @@
 
 
 ## Technical requirements:
-  # Tools 
+  ### Tools 
     **Login**: Firebase Auth
-    **Database*: Firestore (categories, items pool, challenges, matchups, votes)
-    **Bracket logic*: Cloud Fucntions 
-    **Live updates*: Firestore onSnapshot
+    **Database**: Firestore (categories, items pool, challenges, matchups, votes)
+    **Bracket logic**: Cloud Fucntions 
+    **Live updates**: Firestore onSnapshot
     **Auto-advance after round's expirition**:	Cloud Scheduler triggers a Cloud Function
     **Host the website**: Firebase Hosting or Cloud Run
     **Store images**: Cloud Storage
