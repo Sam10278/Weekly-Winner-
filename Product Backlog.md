@@ -30,8 +30,8 @@
   - **Host the website**: Firebase Hosting or Cloud Run
   - **Store images**: Cloud Storage
   
-  ## Codebase and Languages
-    - **Frontend**: HTML, CSS, JavaScript	
-    - **Backend**: JavaScript, Node.js
-    - **Database rules**:	Firestore Rules language
-    - **Cloud Scheduler**: Config file to set a timer and point to the fucntion
+## Codebase and Languages
+  - **Frontend**: HTML, CSS, JavaScript	
+  - **Backend**: JavaScript, Node.js
+  - **Database rules**:	Firestore Rules language
+  - **Cloud Scheduler**: Config file to set a timer and point to the fucntion
