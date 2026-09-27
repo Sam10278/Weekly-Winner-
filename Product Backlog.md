@@ -25,19 +25,19 @@
 
 ## Technical requirements:
 
-  ### Live updates appear fast
-  ### No page refresh needed for live updates
-  ### Must use google cloud
-  ### Tools 
-  - **Login**: Firebase Auth
-  - **Database**: Firestore
-  - **Bracket logic**: Cloud Fucntions 
-  - **Live updates**: Firestore onSnapshot
-  - **Auto-advance after round's expirition**:	Cloud Scheduler triggers a Cloud Function
-  - **Host the website**: Firebase Hosting or Cloud Run
-  - **Store images**: Cloud Storage
+  - ### Live updates appear fast
+  - ### No page refresh needed for live updates
+  - ### Must use google cloud
+  - ### Tools 
+    - **Login**: Firebase Auth
+    - **Database**: Firestore
+    - **Bracket logic**: Cloud Fucntions 
+    - **Live updates**: Firestore onSnapshot
+    - **Auto-advance after round's expirition**:	Cloud Scheduler triggers a Cloud Function
+    - **Host the website**: Firebase Hosting or Cloud Run
+    - **Store images**: Cloud Storage
   
-### Codebase and Languages
+- ### Codebase and Languages
   - **Frontend**: HTML, CSS, JavaScript	
   - **Backend**: JavaScript, Node.js
   - **Database rules**:	Firestore Rules language (NoSQL)
