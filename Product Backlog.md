@@ -16,7 +16,7 @@
       - Watch vote counts update live
       - Votting for each layer expires after 1 day
       - Each user can vote 3 times per minute 
-  - ### See the list of previous winner and completed challenges
+    - See the list of previous winner and completed challenges
   - ### Works on any device
   - ### Every user sees the same updated state
 
