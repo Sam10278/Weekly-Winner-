@@ -27,6 +27,10 @@
   - ### Live updates appear fast
   - ### No page refresh needed for live updates
   - ### Must use google cloud
+  - ### Must have operational visibility
+    - **Number of Concurrent Useres**
+    - **Latency**
+    - **Resource Usage**
   - ### Tools 
     - **Login**: Firebase Auth
     - **Database**: Firestore
@@ -36,8 +40,8 @@
     - **Host the website**: Firebase Hosting or Cloud Run
     - **Store images**: Cloud Storage
   
-- ### Codebase and Languages
-  - **Frontend**: HTML, CSS, JavaScript	
-  - **Backend**: JavaScript, Node.js
-  - **Database rules**:	Firestore Rules language (NoSQL)
-  - **Cloud Scheduler**: Config file to set a timer and point to the fucntion
+  - ### Codebase and Languages
+    - **Frontend**: HTML, CSS, JavaScript	
+    - **Backend**: JavaScript, Node.js
+    - **Database rules**:	Firestore Rules language (NoSQL)
+    - **Cloud Scheduler**: Config file to set a timer and point to the fucntion

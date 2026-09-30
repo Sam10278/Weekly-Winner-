@@ -1,0 +1,77 @@
+<map version="1.0.1">
+<!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
+<node CREATED="1790731403943" ID="ID_1" MODIFIED="1790735784182" TEXT="Every Week a Winner">
+<node CREATED="1790731403943" ID="ID_2" MODIFIED="1790735802070" POSITION="right" TEXT="User Requirements">
+<node CREATED="1790731403943" ID="ID_3" MODIFIED="1790731403943" TEXT="User Accounts &amp; Authentication">
+<node CREATED="1790731403943" ID="ID_4" MODIFIED="1790731403943" TEXT="Login / Sign Up"/>
+<node CREATED="1790731403943" ID="ID_5" MODIFIED="1790731403943" TEXT="Sign in with Google"/>
+</node>
+<node CREATED="1790731403943" ID="ID_6" MODIFIED="1790732317286" TEXT="Menu">
+<node CREATED="1790731403943" ID="ID_7" MODIFIED="1790732353723" TEXT="category management"/>
+<node CREATED="1790731403943" ID="ID_8" MODIFIED="1790732327521" TEXT="login / sign up"/>
+<node CREATED="1790731403943" ID="ID_9" MODIFIED="1790731403943" TEXT="Start a bracket challenge"/>
+<node CREATED="1790731403943" ID="ID_10" MODIFIED="1790731403943" TEXT="Open voting for a challenge"/>
+<node CREATED="1790731403943" ID="ID_11" MODIFIED="1790731403943" TEXT="View previous winners and completed challenges"/>
+</node>
+<node CREATED="1790731403943" ID="ID_12" MODIFIED="1790732400124" TEXT="Category Management">
+<node CREATED="1790731403943" ID="ID_13" MODIFIED="1790731403943" TEXT="Add a category"/>
+<node CREATED="1790731403943" ID="ID_14" MODIFIED="1790731403943" TEXT="Add items to a category"/>
+</node>
+<node CREATED="1790731403943" ID="ID_16" MODIFIED="1790731403943" TEXT="Bracket Challenge Creation">
+<node CREATED="1790731403943" ID="ID_17" MODIFIED="1790731403943" TEXT="Start a bracket challenge for a category"/>
+<node CREATED="1790731403943" ID="ID_18" MODIFIED="1790731403943" TEXT="Choose number of competing items">
+<node CREATED="1790731403943" ID="ID_19" MODIFIED="1790731403943" TEXT="Examples: 8, 16, 32"/>
+</node>
+<node CREATED="1790731403943" ID="ID_20" MODIFIED="1790731403943" TEXT="Randomly select items from the category pool"/>
+<node CREATED="1790731403943" ID="ID_21" MODIFIED="1790731403943" TEXT="Show an error if the pool has fewer items than the selected bracket size"/>
+</node>
+<node CREATED="1790731403943" HGAP="104" ID="ID_22" MODIFIED="1790734146749" TEXT="Voting &amp; Match Viewing" VSHIFT="33">
+<node CREATED="1790731403943" ID="ID_23" MODIFIED="1790731403943" TEXT="Vote for a challenge"/>
+<node CREATED="1790731403943" ID="ID_24" MODIFIED="1790735671989" TEXT="Each user may vote 3 times per minute"/>
+<node CREATED="1790731403943" ID="ID_26" MODIFIED="1790731403943" TEXT="Show live vote counts"/>
+<node CREATED="1790731403943" FOLDED="true" ID="ID_27" MODIFIED="1790734012839" TEXT="Show voting deadline">
+<node CREATED="1790731403944" ID="ID_28" MODIFIED="1790733880294" TEXT=""/>
+</node>
+<node CREATED="1790731403944" ID="ID_29" MODIFIED="1790731403944" TEXT="Show a countdown timer for each active match"/>
+<node CREATED="1790734109466" ID="ID_1794463643" MODIFIED="1790734117616" TEXT="Advance the bracket automatically after each round expires"/>
+</node>
+<node CREATED="1790731403944" ID="ID_37" MODIFIED="1790731403944" TEXT="Cross-Device &amp; Shared Experience">
+<node CREATED="1790731403944" ID="ID_38" MODIFIED="1790731403944" TEXT="Works on desktop, tablet, and mobile"/>
+<node CREATED="1790731403944" ID="ID_39" MODIFIED="1790731403944" TEXT="Every user sees the same updated state"/>
+</node>
+</node>
+<node CREATED="1790731403944" ID="ID_41" MODIFIED="1790735811421" POSITION="right" TEXT="Technical Requirements">
+<node CREATED="1790731403944" ID="ID_42" MODIFIED="1790731403944" TEXT="Cloud Platform &amp; Hosting">
+<node CREATED="1790731403944" ID="ID_43" MODIFIED="1790731403944" TEXT="Run the software stack on Google Cloud"/>
+<node CREATED="1790731403944" ID="ID_44" MODIFIED="1790731403944" TEXT="Host website using Firebase Hosting or Cloud Run"/>
+</node>
+<node CREATED="1790731403944" ID="ID_45" MODIFIED="1790731403944" TEXT="Frontend">
+<node CREATED="1790731403944" ID="ID_46" MODIFIED="1790731403944" TEXT="HTML"/>
+<node CREATED="1790731403944" ID="ID_47" MODIFIED="1790731403944" TEXT="CSS"/>
+<node CREATED="1790731403944" ID="ID_48" MODIFIED="1790731403944" TEXT="JavaScript"/>
+<node CREATED="1790731403944" ID="ID_49" MODIFIED="1790731403944" TEXT="Responsive layout for multiple devices"/>
+</node>
+<node CREATED="1790731403944" ID="ID_50" MODIFIED="1790731403944" TEXT="Authentication Service">
+<node CREATED="1790731403944" ID="ID_51" MODIFIED="1790731403944" TEXT="Firebase Authentication"/>
+<node CREATED="1790731403944" ID="ID_52" MODIFIED="1790731403944" TEXT="Google Sign-In"/>
+</node>
+<node CREATED="1790731403944" ID="ID_53" MODIFIED="1790731403944" TEXT="Database &amp; Security">
+<node CREATED="1790731403944" ID="ID_54" MODIFIED="1790731403944" TEXT="Cloud Firestore"/>
+<node CREATED="1790731403944" ID="ID_55" MODIFIED="1790735751999" TEXT="Firestore Security Rules"/>
+</node>
+<node CREATED="1790731403944" ID="ID_56" MODIFIED="1790732181138" TEXT="Backend &amp; Bracket Logic">
+<node CREATED="1790731403944" ID="ID_57" MODIFIED="1790731403944" TEXT="JavaScript / Node.js"/>
+<node CREATED="1790731403944" ID="ID_58" MODIFIED="1790732153922" TEXT="Google Cloud Functions "/>
+</node>
+<node CREATED="1790731403944" ID="ID_60" MODIFIED="1790731403944" TEXT="Real-Time Updates">
+<node CREATED="1790731403944" ID="ID_61" MODIFIED="1790731403944" TEXT="Firestore onSnapshot listeners"/>
+</node>
+<node CREATED="1790731403944" ID="ID_64" MODIFIED="1790731403944" TEXT="Scheduled Round Advancement">
+<node CREATED="1790731403944" ID="ID_65" MODIFIED="1790731403944" TEXT="Cloud Scheduler"/>
+</node>
+<node CREATED="1790731403944" ID="ID_69" MODIFIED="1790731403944" TEXT="Image Storage">
+<node CREATED="1790731403944" ID="ID_70" MODIFIED="1790731403944" TEXT="Google Cloud Storage for images"/>
+</node>
+</node>
+</node>
+</map>
