@@ -1,0 +1,21 @@
+DATE: 10/6/2026, Maygoal
+
+Here's everything we have done so far:
+
+Google Cloud & Firebase setup:
+
+Created our Google Cloud project called Weekly Winner
+Set up a $5 budget alert so we don't get charged
+We have $300 free credits until December 31, 2026
+Linked Firebase to our Google Cloud project
+Set up Firestore (our database) in us-central1
+Set up Firebase Authentication with Google sign-in
+Set up Cloud Storage for item images
+Set up Firebase Hosting, our site is live at:
+https://project-cf1e9443-caf0-460e-9ef.web.app
+
+GitHub repo: 
+
+Repo is set up with the full folder structure
+Everyone should clone the repo and create their own branch
+
