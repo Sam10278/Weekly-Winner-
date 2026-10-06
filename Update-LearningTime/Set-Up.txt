@@ -17,5 +17,4 @@ https://project-cf1e9443-caf0-460e-9ef.web.app
 GitHub repo: 
 
 Repo is set up with the full folder structure
-Everyone should clone the repo and create their own branch
 
