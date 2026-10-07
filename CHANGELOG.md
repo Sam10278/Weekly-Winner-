@@ -31,10 +31,16 @@ Example:
 
 Keep entries short and specific.
 -->
+## [2026-10-07]
+
+### Added
+- Cloud Functions initial setup in backend/functions/index.js
+- Backend package.json with firebase-admin and firebase-functions dependencies
+- Hello World test function to verify backend is running
 
 ## [2026-10-07]
 
 ### Added
-    - firestore-rules file
-    - lesson on firestore-rules file
+- firestore-rules file
+- lesson on firestore-rules file
 
