@@ -31,3 +31,10 @@ Example:
 
 Keep entries short and specific.
 -->
+
+## [2026-10-07]
+
+### Added
+    - firestore-rules file
+    - lesson on firestore-rules file
+
