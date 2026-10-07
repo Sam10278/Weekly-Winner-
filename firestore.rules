@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // anyone can read categories and items
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /items/{itemId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // only logged in users can vote
+    match /votes/{voteId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // only logged in users can create challenges
+    match /challenges/{challengeId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // matchups are read only for users
+    match /matchups/{matchupId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+  }
+}
