@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Bracket App</title>
+  <title>Login | Weekly Winner</title>
   <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -13,28 +13,9 @@
     <h1>Welcome to Weekly Winner!</h1>
     <p>Log in to vote or start a challenge!</p>
 
-    <form id="login-form">
-      <label for="email">Email: </label>
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        autocomplete="email"
-        required
-      >
+    <button id="google-login-btn">Sign in with Google</button>
+    <p id="login-error" role="alert"></p>
 
-      <label for="password">Password: </label>
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter your password"
-        autocomplete="current-password"
-        required
-      >
-
-      <button type="submit">Login</button>
-      <p id="login-error" role="alert"></p>
-    </form>
   </main>
 
   <script type="module" src="../js/auth.js"></script>
