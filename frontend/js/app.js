@@ -1,14 +1,17 @@
 
-/**
- * Every Week a Winner
- * Firebase Configuration
- *
- * Initializes Firebase Authentication and Firestore.
- * Shared configuration for frontend pages.
- */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
 
-// Replace these placeholders with the actual values
-// from Firebase Console > Project Settings > Config.
+const firebaseConfig = {
+  // paste your existing config from auth.js here
+};
+
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 
 const firebaseConfig = {
   apiKey: "AIzaSyCezCaH1q6L_SYuTpG9wHZSy_aKLSVuFpE",
