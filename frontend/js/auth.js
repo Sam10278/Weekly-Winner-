@@ -44,9 +44,9 @@ onAuthStateChanged(auth, (user) => {
       logoutBtn.addEventListener("click", logout);
     }
   } else {
-    const currentPage = window.location.pathname;
-    if (!currentPage.includes("login.html")) {
-      window.location.href = "/pages/login.html";
-    }
+    const loginLink = document.getElementById("login-link");
+    const logoutBtn = document.getElementById("logout-btn");
+    if (loginLink) loginLink.style.display = "block";
+    if (logoutBtn) logoutBtn.style.display = "none";
   }
 });
