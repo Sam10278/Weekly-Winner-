@@ -31,6 +31,12 @@ Example:
 
 Keep entries short and specific.
 -->
+
+## [2026-10-8]
+- auth.js with Firebase Google sign-in, logout, and auth state listener
+- Login button connected to firebase login fucntion 
+
+
 ## [2026-10-07]
 
 ### Added
