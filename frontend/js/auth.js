@@ -33,13 +33,17 @@ export function logout() {
   });
 }
 
-// check if user is logged in
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // user is logged in
     console.log("Logged in as:", user.displayName);
+    const loginLink = document.getElementById("login-link");
+    const logoutBtn = document.getElementById("logout-btn");
+    if (loginLink) loginLink.style.display = "none";
+    if (logoutBtn) {
+      logoutBtn.style.display = "block";
+      logoutBtn.addEventListener("click", logout);
+    }
   } else {
-    // user is not logged in
     const currentPage = window.location.pathname;
     if (!currentPage.includes("login.html")) {
       window.location.href = "/pages/login.html";
