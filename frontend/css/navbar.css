@@ -37,3 +37,38 @@
     margin-left: auto;
     padding-left: 15px;
 }
+
+
+
+/* Movile Navbar */
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-wrap: wrap;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .navbar-brand {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .navbar-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .navbar-links a,
+    .navbar-user a {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .navbar-user {
+        margin-left: 0;
+        padding-left: 0;
+    }
+}
