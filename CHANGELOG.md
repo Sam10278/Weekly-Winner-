@@ -32,7 +32,14 @@ Example:
 Keep entries short and specific.
 -->
 
+
 ## [2026-10-8]
+### Added
+- Navbar html in index.html
+- added auth.js to index.html 
+
+## [2026-10-8]
+### Added
 - auth.js with Firebase Google sign-in, logout, and auth state listener
 - Login button connected to firebase login fucntion 
 
