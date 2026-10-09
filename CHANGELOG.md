@@ -57,3 +57,29 @@ Keep entries short and specific.
 - firestore-rules file
 - lesson on firestore-rules file
 
+
+## [2026-10-09] — Sujit Lopchan
+
+### Added
+- Created shared HTML template structure with Bootstrap dependencies.
+- Configured Firebase SDK in `frontend/js/app.js`.
+- Initialized Firebase Authentication and Cloud Firestore.
+- Connected `frontend/pages/index.html` to the shared Firebase configuration.
+- Installed and configured Firebase CLI for local development.
+- Created developer documentation in `Update-LearningTime/`:
+  - `base-html.md`
+  - `firebase-sdk.md`
+  - `firebase-cli-hosting.md`
+  - `git-workflow.md`
+
+### Tested
+- Verified Firebase CLI installation and authentication.
+- Started the Firebase Hosting Emulator locally.
+- Confirmed successful Firebase initialization in the browser console.
+- Verified Firebase SDK scripts load without initialization errors.
+
+### Collaboration
+- Created and pushed feature branch `week1/firebase-config`.
+- Opened Pull Request #6 for Firebase SDK configuration.
+- Resolved merge conflicts while preserving teammates' navbar changes.
+- Documented the team's Git and GitHub collaboration workflow.
