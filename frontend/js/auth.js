@@ -19,7 +19,7 @@ const provider = new GoogleAuthProvider();
 export function login() {
   signInWithPopup(auth, provider)
     .then((result) => {
-      window.location.href = "index.html";
+      window.location.href = "/index.html";
     })
     .catch((error) => {
       document.getElementById("login-error").textContent = "Login failed. Please try again.";
@@ -29,7 +29,7 @@ export function login() {
 // sign out
 export function logout() {
   signOut(auth).then(() => {
-    window.location.href = "../pages/login.html";
+    window.location.href = "/pages/login.html";
   });
 }
 
@@ -42,7 +42,7 @@ onAuthStateChanged(auth, (user) => {
     // user is not logged in
     const currentPage = window.location.pathname;
     if (!currentPage.includes("login.html")) {
-      window.location.href = "login.html";
+      window.location.href = "/pages/login.html";
     }
   }
 });
