@@ -29,7 +29,7 @@ export function login() {
 // sign out
 export function logout() {
   signOut(auth).then(() => {
-    window.location.href = "/pages/login.html";
+    window.location.href = "/index.html";
   });
 }
 
