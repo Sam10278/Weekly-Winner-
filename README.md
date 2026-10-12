@@ -1,10 +1,45 @@
 # Weekly-Winner-
 
 We Will Win Weekly
+
 ## What is Weekly Winner?
-    Goal:
-    Objective:
-    Tools used:
+
+Weekly Winner is a web app where users vote for their favorite items in tournament bracket challenges. Each challenge is single elimination: users vote between two items in each matchup, and the winner moves to the next round. Vote counts update live for everyone.
+
+OUR WEB APP IS LIVE AT: https://project-cf1e9443-caf0-460e-9ef.web.app/
+
+### Goal
+
+Build a public website where a community can create bracket challenges and decide a winner together, with everyone seeing the same live results on any device.
+
+### Objective
+
+- Let users sign in with Google
+- Let users add categories and add items to a category
+- Let users start a bracket challenge and choose its size (32, 16, 8, ...)
+- Pick the bracket items randomly from the category's pool
+- Show an error if the category does not have enough items
+- Let users vote in each matchup (3 votes per minute per user)
+- Show live vote counts and a countdown timer for each round
+- Close each round after 1 day and move the winner forward automatically
+- Show past winners and completed challenges
+- Work on phones, tablets, and computers
+- Run on Google Cloud within the free tier
+
+### Tools used
+
+| Part | Tool |
+|---|---|
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Node.js, Firebase Cloud Functions |
+| Database | Cloud Firestore (NoSQL) |
+| Live updates | Firestore `onSnapshot` |
+| Login | Firebase Authentication (Google sign-in) |
+| Image storage | Cloud Storage |
+| Round timer | Cloud Scheduler |
+| Hosting | Firebase Hosting |
+| Code and teamwork | Git, GitHub |
+| Development |  Firebase CLI, Node.js |
 
 
 
