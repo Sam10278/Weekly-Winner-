@@ -32,6 +32,13 @@ Example:
 Keep entries short and specific.
 -->
 
+## [2026-10-12]
+
+### Added 
+- base-html learning doc
+- Firebase SDK learning doc
+- Firebase CLI and Hosting emulator lesson notes, including emulator ports
+
 
 ## [2026-10-12]
 
