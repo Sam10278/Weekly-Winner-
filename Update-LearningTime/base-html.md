@@ -1,108 +1,79 @@
-# Base HTML Template and Bootstrap — How It Works
+# Base HTML Template — How It Works
 
-## What is the Base HTML Template?
+## What is the base template?
 
-The base HTML template provides a reusable starting structure
-for the Every Week a Winner frontend.
+`frontend/pages/base.html` is a starting file for every new page in
+Every Week a Winner. It already has the shared parts, so each page
+only adds its own content.
 
-Instead of writing the same HTML structure for every page,
-developers can use this template to maintain consistency
-throughout the application.
+## Section 1 — What is inside base.html
 
-## Section 1 — HTML Structure
-
-The template includes the standard HTML5 structure:
+- **Head:** viewport tag (responsive layout), page title, and the
+  CSS links `style.css` and `navbar.css`
+- **Navbar:** the brand name, the six page links, and the user area
+- **Main:** an empty section where each page puts its content
+- **Script:** `auth.js` at the bottom of the body
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-    <title>Every Week a Winner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Every Week a Winner</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/navbar.css">
 </head>
 <body>
-
+  <nav class="navbar"> ... </nav>
+  <main> <!-- PAGE CONTENT GOES HERE --> </main>
+  <script type="module" src="/js/auth.js"></script>
 </body>
-</html>
 ```
 
-### Explanation
+## Section 2 — Shared navigation
 
-- DOCTYPE tells the browser to use HTML5.
-- The language attribute identifies the document language.
-- UTF-8 supports different characters and symbols.
-- The viewport tag makes the page responsive.
-- The title appears in the browser tab.
+The navbar links to: Home, Add Category, Add Items, Start Challenge,
+Vote, and Past Winners.
 
-## Section 2 — Bootstrap Integration
+The user area has three ids that `auth.js` looks for:
 
-Bootstrap is a CSS framework used to create responsive
-and consistent website layouts.
+| id | What it is |
+|---|---|
+| `user-name` | Shows the logged-in user's name |
+| `login-link` | The Login link (shown when logged out) |
+| `logout-btn` | The Logout button (shown when logged in) |
 
-The template loads Bootstrap through a CDN.
+If a page copies the navbar but loses these ids, the Login and
+Logout buttons will not switch.
 
-```html
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-  rel="stylesheet">
-```
+## Section 3 — Paths start with /
 
-### Why Bootstrap?
+All paths start with `/`, for example `/css/style.css`.
+Firebase Hosting uses the `frontend/` folder as the site root.
+Pages inside `frontend/pages/` would break with `../` paths,
+so `/` always starts from the root.
 
-- Provides responsive layouts.
-- Includes reusable UI components.
-- Reduces the amount of custom CSS required.
-- Helps maintain consistent styling.
+## Section 4 — Reusing the template
 
-## Section 3 — Shared Navigation
+1. Copy `frontend/pages/base.html`.
+2. Save the copy as a new file in `frontend/pages/`.
+3. Change the page title.
+4. Put the page content inside `<main>`.
+5. Add any page-specific CSS or JS links.
 
-The template includes placeholders for shared navigation.
-
-This allows developers to maintain a consistent navigation
-structure across different pages.
-
-The navigation can later be customized with links to:
-
-- Home
-- Login
-- Categories
-- Brackets
-- Leaderboard
-
-## Section 4 — Reusing the Template
-
-To create a new frontend page:
-
-1. Open `frontend/pages/base.html`.
-2. Copy the HTML structure.
-3. Create a new HTML file inside `frontend/pages/`.
-4. Replace the placeholder content.
-5. Update the page title.
-6. Add any page-specific styling or scripts.
-
-Note: Plain HTML does not automatically inherit another
-HTML file. The template must be copied or integrated
-through a templating system.
+Note: plain HTML cannot inherit another HTML file. The template
+must be copied. If the navbar changes, update it in every page.
 
 ## Section 5 — Testing
 
-The template was reviewed to verify:
-
-- Correct HTML5 structure.
-- Bootstrap CDN reference.
-- Shared navigation placeholders.
-- Proper organization of frontend files.
+- The page opens with no red errors in the Console tab.
+- The navbar links go to real pages.
+- CSS loads (the navbar is styled).
+- Login and Logout show correctly after `auth.js` loads.
 
 ## What I Learned
 
-This task helped me understand how reusable HTML templates
-improve maintainability and consistency.
-
-I also learned how Bootstrap can simplify responsive
-frontend development.
+Reusable templates keep pages consistent. I also learned why
+paths must start with `/` when the site is hosted from a root folder.
 
 ## Contribution
 
-Developer: Sujit Lopchan(10/8/2026)
+Developer: Sujit Lopchan (10/8/2026)
