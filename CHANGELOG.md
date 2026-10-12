@@ -32,6 +32,13 @@ Example:
 Keep entries short and specific.
 -->
 
+
+## [2026-10-09]
+
+### Added
+- base.html shared page template with navbar, CSS links and auth.js
+
+
 ## [2026-10-12]
 ### Added
 - app.js exports app, auth, db and storage for other files to use
