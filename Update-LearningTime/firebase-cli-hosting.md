@@ -57,6 +57,58 @@ Notes:
   Firebase project.
 - A favicon 404 in the Console is harmless.
 
+## Section 4.1 — Emulator ports
+
+### What the address means
+
+```text
+http://localhost:5000
+```
+
+- `localhost` means "this computer". The site is not on the internet.
+- `5000` is a port number. A computer runs many programs at once, and each
+  one listens on its own port. Think of a port as a door number.
+
+### Where does port 5000 come from?
+
+We did not set it. The port is built into the Firebase CLI program on each
+computer.
+
+When you run `firebase emulators:start`, the CLI looks in `firebase.json`
+for a port. If it finds none, it uses its own default.
+
+| Emulator | Default port |
+|---|---|
+| Hosting | 5000 |
+| Cloud Functions | 5001 |
+| Firestore | 8080 |
+| Authentication | 9099 |
+| Emulator UI | 4000 |
+
+Everyone on the team gets the same port without any setup, because
+everyone has the same CLI default.
+
+### How to see the real port
+
+Read the table the terminal prints when the emulator starts:
+
+```text
+┌───────────┬────────────────┐
+│ Emulator  │ Host:Port      │
+├───────────┼────────────────┤
+│ Hosting   │ 127.0.0.1:5000 │
+└───────────┴────────────────┘
+```
+
+If the table shows a different port, use that one.
+
+
+### If the default port is busy
+
+Recent CLI versions may pick another free port when no port is set in
+`firebase.json`, and they print it in the table. If a port is set in
+`firebase.json` and it is busy, the emulator stops with an error.
+
 ## Section 5 — Deploy
 
 ```powershell
