@@ -1,16 +1,15 @@
 # Firebase SDK — How It Works
 
-## What is Firebase SDK?
+## What is the Firebase SDK?
 
-Firebase SDK (Software Development Kit) provides tools that allow our frontend application to communicate with Firebase services.
-
-For the **Every Week a Winner** project, I configured Firebase to initialize the application and provide shared access to Firebase Authentication and Cloud Firestore.
+The Firebase SDK (Software Development Kit) is a set of tools that lets
+our frontend talk to Firebase services. For Every Week a Winner,
+`frontend/js/app.js` starts Firebase one time and shares the services
+with every other file.
 
 ## Section 1 — Firebase Configuration
 
 **File:** `frontend/js/app.js`
-
-Firebase requires a configuration object to connect the frontend to the correct Firebase project.
 
 ```javascript
 const firebaseConfig = {
@@ -23,177 +22,83 @@ const firebaseConfig = {
 };
 ```
 
-### Explanation
+- `apiKey` — identifies the Firebase project for API requests
+- `authDomain` — the domain used for sign-in
+- `projectId` — the Firebase project ID
+- `storageBucket` — the Cloud Storage bucket
+- `messagingSenderId` — used by Firebase messaging
+- `appId` — the registered web app
 
-- `apiKey` — Identifies the Firebase project for API requests.
-- `authDomain` — Specifies the authentication domain.
-- `projectId` — Identifies the Firebase project.
-- `storageBucket` — Specifies the Cloud Storage bucket.
-- `messagingSenderId` — Identifies the project for Firebase messaging.
-- `appId` — Identifies the registered Firebase web application.
+The values come from Firebase Console → Project Settings → Your apps.
 
-These values are obtained from Firebase Console → Project Settings → General → Your Apps.
+**Note:** these values are not secrets. Data is protected by
+Firebase Authentication and Firestore security rules.
 
-**Note:** Firebase web configuration values are not authentication secrets. Access to protected data must be controlled using Firebase Authentication and appropriate security rules.
-
-## Section 2 — Initialize Firebase
-
-Firebase must be initialized before using its services.
+## Section 2 — Initialize Firebase and export services
 
 ```javascript
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
+
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 ```
 
-### Explanation
+- `initializeApp` connects our code to our Firebase project.
+- `getAuth` gives access to login and logout.
+- `getFirestore` gives access to the database.
+- `getStorage` gives access to image uploads.
+- `export` lets other files use these objects.
+- A module runs only one time, so Firebase starts only one time.
+- All imports use version 10.0.0. Mixed versions cause errors.
 
-- `firebase.apps.length` checks whether Firebase has already been initialized.
-- `firebase.initializeApp()` initializes Firebase using the configuration.
-- The condition prevents duplicate initialization of the default Firebase app.
+## Section 3 — What each service is for
 
-## Section 3 — Firebase Authentication
+| Service | Used for |
+|---|---|
+| `auth` | Google sign-in, sign-out, who is logged in |
+| `db` | Categories, items, challenges, matchups, votes |
+| `storage` | Item images |
+
+Creating `db` does not create any collections. Firestore creates a
+collection the first time we save a document in it.
+
+## Section 4 — How other files use it
 
 ```javascript
-const auth = firebase.auth();
+import { auth, db, storage } from "./app.js";
 ```
 
-### Explanation
+Nobody should paste the Firebase config into another file.
 
-Firebase Authentication manages user identity.
+**Current chain:**
 
-It can support features such as:
+`index.html` loads `/js/auth.js` → `auth.js` imports `app.js` → `app.js` starts Firebase
 
-- Google sign-in
-- User login and logout
-- Authentication state monitoring
-- Protected application features
+The script tag uses `type="module"`. Without it, the browser
+rejects `import` with "Cannot use import statement outside a module".
 
-The shared `auth` object allows other frontend scripts to interact with Firebase Authentication.
+## Section 5 — Testing
 
-## Section 4 — Cloud Firestore
+Write only what you ran.
 
-```javascript
-const db = firebase.firestore();
-```
+1. Run `firebase deploy`, or use `firebase emulators:start --only hosting`.
+2. Open the home page and press Ctrl + Shift + R.
+3. Open the Console tab. There should be no red errors.
+4. Log in with Google. Login should still work.
+5. Log out. You should return to the home page.
 
-### Explanation
-
-Cloud Firestore is a NoSQL cloud database.
-
-For our Every Week a Winner project, it can be used to store:
-
-- User profiles
-- Tournament categories
-- Bracket information
-- Voting results
-- Leaderboard data
-
-The `db` object provides a shared reference to Firestore.
-
-Creating this reference does not automatically create collections or implement database operations.
-
-## Section 5 — Loading Firebase SDK Scripts
-
-**File:** `frontend/pages/index.html`
-
-The Firebase SDK scripts must load before `app.js`.
-
-Example:
-
-```html
-<script defer src="/__/firebase/12.19.0/firebase-app-compat.js"></script>
-
-<script defer src="/__/firebase/12.19.0/firebase-auth-compat.js"></script>
-
-<script defer src="/__/firebase/12.19.0/firebase-firestore-compat.js"></script>
-
-<script defer src="../js/app.js"></script>
-```
-
-### Why is the order important?
-
-The Firebase libraries define the global `firebase` object.
-
-If `app.js` executes before these libraries are loaded, the browser may report:
-
-`ReferenceError: firebase is not defined`
-
-The `defer` attribute allows scripts to download without blocking HTML parsing while preserving their execution order.
-
-The `/__/firebase/` URLs are provided by Firebase Hosting environments. Other development servers may require a different SDK-loading approach.
-
-## Section 6 — Testing Firebase Initialization
-
-I tested the configuration using the Firebase CLI and local Hosting Emulator.
-
-### Step 1 — Verify Firebase CLI
-
-```powershell
-firebase --version
-```
-
-Verified installed CLI version:
-
-`15.33.0`
-
-### Step 2 — Log in to Firebase
-
-```powershell
-firebase login
-```
-
-The browser confirmed successful Firebase CLI authentication.
-
-### Step 3 — Start the Hosting Emulator
-
-```powershell
-firebase emulators:start --only hosting
-```
-
-The local Hosting Emulator started at:
-
-`http://127.0.0.1:5000`
-
-### Step 4 — Open the Application
-
-I opened:
-
-`http://127.0.0.1:5000/pages/index.html`
-
-### Step 5 — Inspect Browser Console
-
-The browser console displayed:
-
-`Firebase initialized successfully!`
-
-This confirmed that the Firebase initialization script executed successfully.
-
-The browser also reported a missing favicon, which was unrelated to Firebase initialization.
-
-## Section 7 — GitHub Workflow
-
-I completed this task using a dedicated Git branch.
+## Section 6 — GitHub workflow
 
 **Branch:** `week1/firebase-config`
 
-**Commit:** `7f8561a`
-
 **Pull Request:** #6 — Week 1: Configure Firebase SDK and initialize services
 
-The pull request was submitted for team review before merging into the main branch.
-
-## What I Learned
-
-Through this task, I learned:
-
-1. How Firebase web applications are configured.
-2. How Firebase Authentication and Firestore are initialized.
-3. Why JavaScript SDK loading order matters.
-4. How to use Firebase CLI for local development.
-5. How to verify initialization using browser developer tools.
-6. How to submit Firebase changes through a GitHub pull request.
 
 ## Contribution
 
-Developer: Sujit Lopchan(10/8/2026)
+Developer: Sujit Lopchan (10/8/2026)
