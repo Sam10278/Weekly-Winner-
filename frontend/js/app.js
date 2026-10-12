@@ -20,13 +20,3 @@ export const storage = getStorage(app);
 
 
 
-// Initialize Firebase only once
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-// Shared Firebase services
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-console.log("Firebase initialized successfully!");
