@@ -32,6 +32,13 @@ Example:
 Keep entries short and specific.
 -->
 
+## [2026-10-12]
+### Added
+- app.js exports app, auth, db and storage for other files to use
+### Changged
+- Firebase config and initialization moved to app.js
+- auth.js now imports auth from app.js
+
 
 ## [2026-10-8]
 ### Added
