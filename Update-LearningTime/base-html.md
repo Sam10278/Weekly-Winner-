@@ -69,10 +69,6 @@ must be copied. If the navbar changes, update it in every page.
 - CSS loads (the navbar is styled).
 - Login and Logout show correctly after `auth.js` loads.
 
-## What I Learned
-
-Reusable templates keep pages consistent. I also learned why
-paths must start with `/` when the site is hosted from a root folder.
 
 ## Contribution
 
