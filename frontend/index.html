@@ -26,8 +26,13 @@
     </div>
 
     <div class="navbar-user">
-      <a href="/pages/login.html">Login</a>
-       <button id="logout-btn" style="display:none">Logout</button>
+        <div id="user-profile" class="navbar-profile" hidden>
+            <span id="user-avatar"></span>
+            <span id="user-name"></span>
+        </div>
+
+        <a href="/pages/login.html" id="login-link" hidden>Login</a>
+        <button id="logout-btn" hidden>Logout</button>
     </div>
     </nav>
 
