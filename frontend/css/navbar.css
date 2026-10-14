@@ -37,3 +37,25 @@
     margin-left: auto;
     padding-left: 15px;
 }
+
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar-initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #64748b;
+  color: white;
+  font-weight: 600;
+}
