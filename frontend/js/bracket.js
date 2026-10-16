@@ -28,7 +28,6 @@ function makeMatchup(showVote = true) {
   matchup.className = "matchup";
   matchup.innerHTML = `
     <div class="slot">TBD</div>
-    <div class="slot">TBD</div>
     ${voteButton}`;
   return matchup;
 }
