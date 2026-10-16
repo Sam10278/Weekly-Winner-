@@ -54,11 +54,13 @@ function makeRound(roundNumber, totalRounds, size) {
   round.append(label);
 
   for (let i = 0; i < perSide; i++) {
-  if (isFinal) {
-    round.append(makeMatchup(false));  // the final: no Vote button
-  } else {
-    round.append(makeMatchup(true));   // every other round: Vote button
+    if (isFinal) {
+      round.append(makeMatchup(false));  // the final: no Vote button
+    } else {
+      round.append(makeMatchup(true));   // every other round: Vote button
+    }
   }
+  return round;
 }
 
 export function renderBracket(container, size = 8) {
