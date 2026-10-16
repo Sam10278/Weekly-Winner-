@@ -53,8 +53,12 @@ function makeRound(roundNumber, totalRounds, size) {
   label.textContent = roundName(matchCount);
   round.append(label);
 
-  for (let i = 0; i < perSide; i++) round.append(makeMatchup());
-  return round;
+  for (let i = 0; i < perSide; i++) {
+  if (isFinal) {
+    round.append(makeMatchup(false));  // the final: no Vote button
+  } else {
+    round.append(makeMatchup(true));   // every other round: Vote button
+  }
 }
 
 export function renderBracket(container, size = 8) {
