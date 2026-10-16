@@ -13,7 +13,7 @@
   --match-w: 150px;  /* width of one matchup box */
   --slot-h: 32px;    /* height of one team slot */
   --vote-h: 28px;    /* height of the Vote button */
-  --cell: 120px;     /* height given to one first-round matchup */
+  --cell: 80px;     /* height given to one first-round matchup */
   --gap: 40px;       /* space between columns (the lines live here) */
   --line: 2px solid #888;
   /* --rows is set by bracket.js: 8 teams = 2, 16 = 4, 32 = 8 */
@@ -134,12 +134,12 @@
 .round-pairs .matchup:nth-of-type(even)::after { bottom: calc(50% - 1px); border-bottom: var(--line); }
 
 /* Semi-final: a straight line to the final */
-.round-semi .matchup::after {
+.round-last .matchup::after {
   content: "";
   position: absolute;
   top: calc(50% - 1px);
   width: var(--gap);
   border-top: var(--line);
 }
-.bracket-left  .round-semi .matchup::after { left:  calc(100% + 1px); }
-.bracket-right .round-semi .matchup::after { right: calc(100% + 1px); }
+.bracket-left  .round-last .matchup::after { left:  calc(100% + 1px); }
+.bracket-right .round-last .matchup::after { right: calc(100% + 1px); }

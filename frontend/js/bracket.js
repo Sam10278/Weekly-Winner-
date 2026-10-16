@@ -1,4 +1,7 @@
 // Builds an empty bracket for 8, 16 or 32 teams.
+// Every box is ONE item with its own Vote button.
+// Two boxes facing each other (1st + 2nd, 3rd + 4th...) are one matchup.
+// The Winner box in the middle has no Vote button.
 // For now the size comes from the address, e.g. index.html?size=16
 // Later it will come from the challenge in Firestore (bracketSize).
 
@@ -11,10 +14,11 @@ function roundName(matchCount) {
   return `Round 1/${matchCount}`;
 }
 
+// One box = one item.
 // innerHTML is fine here because the text is fixed.
 // When we add real item names, set them with textContent instead.
-// showVote = true  -> matchup with a Vote button (default)
-// showVote = false -> no Vote button
+// showVote = true  -> box with a Vote button (default)
+// showVote = false -> no Vote button (used for the winner)
 function makeMatchup(showVote = true) {
   let voteButton = "";
 
@@ -34,18 +38,16 @@ function makeMatchup(showVote = true) {
 
 function makeRound(roundNumber, totalRounds, size) {
   const matchCount = size / 2 ** roundNumber;   // matchups in this round, both sides together
-  const isFinal = roundNumber === totalRounds;
-  const perSide = isFinal ? 1 : matchCount / 2;
+  const perSide = matchCount;                   // one box per item, so boxes on one side = matchups
 
   const round = document.createElement("div");
   round.className = "round";
   round.style.setProperty("--span", 2 ** (roundNumber - 1));
 
   if (roundNumber === 1) round.classList.add("round-first");
-  if (roundNumber <= totalRounds - 2) round.classList.add("round-pairs");
-  if (roundNumber >= 2 && roundNumber <= totalRounds - 1) round.classList.add("round-in");
-  if (roundNumber === totalRounds - 1) round.classList.add("round-semi");
-  if (isFinal) round.classList.add("round-final");
+  if (roundNumber <= totalRounds - 1) round.classList.add("round-pairs");
+  if (roundNumber >= 2) round.classList.add("round-in");
+  if (roundNumber === totalRounds) round.classList.add("round-last");
 
   const label = document.createElement("h3");
   label.className = "round-label";
@@ -53,12 +55,22 @@ function makeRound(roundNumber, totalRounds, size) {
   round.append(label);
 
   for (let i = 0; i < perSide; i++) {
-    if (isFinal) {
-      round.append(makeMatchup(false));  // the final: no Vote button
-    } else {
-      round.append(makeMatchup(true));   // every other round: Vote button
-    }
+    round.append(makeMatchup(true));
   }
+  return round;
+}
+
+// The middle column: one box, no Vote button
+function makeWinner() {
+  const round = document.createElement("div");
+  round.className = "round round-winner";
+
+  const label = document.createElement("h3");
+  label.className = "round-label";
+  label.textContent = "Winner";
+  round.append(label);
+
+  round.append(makeMatchup(false));
   return round;
 }
 
@@ -71,18 +83,18 @@ export function renderBracket(container, size = 8) {
   const right = document.createElement("div");
   right.className = "bracket-half bracket-right";
 
-  for (let r = 1; r < totalRounds; r++) {
+  for (let r = 1; r <= totalRounds; r++) {
     left.append(makeRound(r, totalRounds, size));    // round 1 on the far left
     right.prepend(makeRound(r, totalRounds, size));  // round 1 on the far right
   }
 
   const tree = document.createElement("div");
   tree.className = "bracket-tree";
-  tree.append(left, makeRound(totalRounds, totalRounds, size), right);
+  tree.append(left, makeWinner(), right);
 
   const bracket = document.createElement("div");
   bracket.className = "bracket";
-  bracket.style.setProperty("--rows", size / 4);   // first-round matchups on one side
+  bracket.style.setProperty("--rows", size / 2);   // boxes in round 1 on one side
   bracket.append(tree);
 
   container.replaceChildren(bracket);
