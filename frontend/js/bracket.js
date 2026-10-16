@@ -13,13 +13,23 @@ function roundName(matchCount) {
 
 // innerHTML is fine here because the text is fixed.
 // When we add real item names, set them with textContent instead.
-function makeMatchup() {
+// showVote = true  -> matchup with a Vote button (default)
+// showVote = false -> no Vote button
+function makeMatchup(showVote = true) {
+  let voteButton = "";
+
+  if (showVote) {
+    voteButton = '<button type="button" class="vote-btn" disabled>Vote</button>';
+  } else {
+    voteButton = "";
+  }
+
   const matchup = document.createElement("div");
   matchup.className = "matchup";
   matchup.innerHTML = `
     <div class="slot">TBD</div>
     <div class="slot">TBD</div>
-    <button type="button" class="vote-btn" disabled>Vote</button>`;
+    ${voteButton}`;
   return matchup;
 }
 
