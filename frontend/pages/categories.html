@@ -1,0 +1,163 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Categories | Weekly Winner</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/categories.css" />
+  </head>
+
+  <body>
+    <!-- Existing Navbar -->
+    <nav class="navbar">
+      <a class="navbar-brand" href="/index.html"> Weekly Winner </a>
+
+      <div class="navbar-links">
+        <a href="/index.html">Home</a>
+        <a href="/pages/categories.html">Categories</a>
+        <a href="/pages/start-challenge.html"> Start Challenge </a>
+        <a href="/pages/vote.html">Vote</a>
+        <a href="/pages/past-winners.html"> Past Winners </a>
+      </div>
+
+      <div class="navbar-user">
+        <span id="user-name"></span>
+        <a href="/pages/login.html" id="login-link" hidden>Login</a>
+        <button id="logout-btn" hidden>Logout</button>
+      </div>
+    </nav>
+
+    <!-- Categories and Items Layout -->
+    <main class="categories-layout">
+      <!-- LEFT: Category Sidebar -->
+
+      <aside class="categories-sidebar">
+        <div class="sidebar-header">
+          <h2>Categories</h2>
+          <button id="new-category-btn" type="button">+ New</button>
+        </div>
+
+        <!-- Search existing categories -->
+        <input
+          type="search"
+          id="category-search"
+          class="category-search"
+          placeholder="Search categories..."
+          aria-label="Search existing categories"
+        />
+
+        <!-- Scrollable category list -->
+        <div class="category-list-scroll">
+          <div id="category-list" class="category-list">
+            Loading categories...
+          </div>
+        </div>
+
+        <p class="sidebar-help">
+          Search existing categories before creating a new one.
+        </p>
+      </aside>
+
+      <!-- RIGHT: Category Details -->
+      <section class="category-details">
+        <!-- Selected Category View -->
+        <div id="category-view">
+          <div class="category-header">
+            <div>
+              <h2 id="selected-category-name">Select a category</h2>
+
+              <p id="selected-category-description">
+                Choose a category from the sidebar.
+              </p>
+            </div>
+
+            <span id="selected-category-count"> 0 items </span>
+          </div>
+
+          <hr />
+
+          <!-- Add Item Form -->
+          <section class="add-item-section">
+            <h3>Add Item</h3>
+
+            <form id="add-item-form">
+              <label for="item-name">Item name</label>
+              <input
+                type="text"
+                id="item-name"
+                placeholder="Enter item name"
+                required
+              />
+
+              <label for="item-image"> Image URL (optional) </label>
+              <input
+                type="url"
+                id="item-image"
+                placeholder="https://example.com/image.jpg"
+              />
+
+              <button type="submit" id="add-item-btn">+ Add Item</button>
+            </form>
+
+            <p id="form-message" role="status" aria-live="polite"></p>
+          </section>
+
+          <hr />
+
+          <!-- Existing Items -->
+          <section class="existing-items-section">
+            <div class="items-header">
+              <h3>Existing Items</h3>
+              <span id="items-total">0 total</span>
+            </div>
+
+            <div id="items-list" class="items-list">
+              <p>Select a category to view its items.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- Create Category View -->
+        <div id="new-category-view" hidden>
+          <h2>Create Category</h2>
+
+          <p>Create a new category for weekly competitions.</p>
+
+          <form id="category-form">
+            <label for="category-name"> Category name </label>
+
+            <input
+              type="text"
+              id="category-name"
+              placeholder="Enter category name"
+              required
+            />
+
+            <label for="category-description"> Description (optional) </label>
+
+            <textarea
+              id="category-description"
+              placeholder="Enter a short description"
+            ></textarea>
+
+            <div class="category-form-actions">
+              <button type="submit">+ Create Category</button>
+
+              <button type="button" id="cancel-category-btn">Cancel</button>
+            </div>
+          </form>
+
+          <p id="category-message" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Firebase -->
+    <script type="module" src="/js/app.js"></script>
+    <script type="module" src="/js/categories.js"></script>
+  </body>
+</html>

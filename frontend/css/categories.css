@@ -1,0 +1,479 @@
+
+/* ========================================
+   WEEKLY WINNER - CATEGORIES PAGE
+   ======================================== */
+
+/* Main two-column layout */
+.categories-layout {
+  display: grid;
+  grid-template-columns: 245px minmax(0, 1fr);
+  gap: 28px;
+  max-width: 1150px;
+  margin: 35px auto;
+  padding: 0 20px;
+  align-items: start;
+}
+
+/* ========================================
+   LEFT SIDEBAR
+   ======================================== */
+
+.categories-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding-right: 15px;
+  border-right: 1px solid #ddd;
+}
+
+/* Sidebar heading and New button */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+/* Create category button */
+#new-category-btn {
+  padding: 8px 12px;
+  border: 1px solid #007bff;
+  border-radius: 7px;
+  background: #007bff;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#new-category-btn:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+/* ========================================
+   CATEGORY SEARCH
+   ======================================== */
+
+.category-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  margin: 16px 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  color: #222;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.category-search:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+}
+
+.category-search::placeholder {
+  color: #888;
+}
+
+/* ========================================
+   SCROLLABLE CATEGORY LIST
+   ======================================== */
+
+/* Only the category list scrolls */
+.category-list-scroll {
+  max-height: 400px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #aaa #f2f2f2;
+  overscroll-behavior: contain;
+}
+
+/* Chrome, Edge and Safari scrollbar */
+.category-list-scroll::-webkit-scrollbar {
+  width: 7px;
+}
+
+.category-list-scroll::-webkit-scrollbar-track {
+  background: #f2f2f2;
+  border-radius: 8px;
+}
+
+.category-list-scroll::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 8px;
+}
+
+.category-list-scroll::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Category cards container */
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+  padding-bottom: 6px;
+}
+
+/* Individual category card */
+.category-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 14px;
+  text-align: left;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f5f5f5;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.category-card:hover {
+  background: #f0f6ff;
+  border-color: #007bff;
+}
+
+/* Selected category */
+.category-card.active {
+  background: #e9f2ff;
+  border-color: #007bff;
+}
+
+/* Category name */
+.category-card .category-name {
+  font-size: 15px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Number of items */
+.category-card small {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Accessibility */
+.category-card:focus-visible,
+#new-category-btn:focus-visible {
+  outline: 3px solid rgba(0, 123, 255, 0.35);
+  outline-offset: 2px;
+}
+
+/* Sidebar help text */
+.sidebar-help {
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* ========================================
+   RIGHT CATEGORY DETAILS PANEL
+   ======================================== */
+
+.category-details {
+  min-width: 0;
+}
+
+/* Selected category header */
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.category-header p {
+  color: #666;
+  margin-top: 8px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+/* Selected category item count */
+#selected-category-count {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  background: #f0f4f8;
+  border-radius: 20px;
+  color: #555;
+  font-size: 13px;
+}
+
+/* Section separators */
+.category-details hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 28px 0;
+}
+
+/* ========================================
+   ADD ITEM AND CREATE CATEGORY FORMS
+   ======================================== */
+
+#add-item-form,
+#category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 650px;
+}
+
+/* Form headings */
+.add-item-section h3,
+.existing-items-section h3 {
+  margin-top: 0;
+}
+
+/* Form labels */
+#add-item-form label,
+#category-form label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Form inputs */
+#add-item-form input,
+#category-form input,
+#category-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  background: #fff;
+  color: #222;
+  font: inherit;
+}
+
+#add-item-form input:focus,
+#category-form input:focus,
+#category-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+}
+
+/* Category description */
+#category-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* Primary form buttons */
+#add-item-form button,
+#category-form button[type="submit"] {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border: 1px solid #007bff;
+  border-radius: 7px;
+  background: #007bff;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#add-item-form button:hover,
+#category-form button[type="submit"]:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Disabled buttons */
+#add-item-form button:disabled,
+#category-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Create category action buttons */
+.category-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Cancel button */
+#cancel-category-btn {
+  padding: 10px 18px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  background: #f5f5f5;
+  color: #333;
+  font: inherit;
+  cursor: pointer;
+}
+
+#cancel-category-btn:hover {
+  background: #e8e8e8;
+}
+
+/* Feedback messages */
+#form-message,
+#category-message {
+  min-height: 20px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+/* ========================================
+   EXISTING ITEMS
+   ======================================== */
+
+/* Existing Items header */
+.items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.items-header h3 {
+  margin: 0;
+}
+
+#items-total {
+  color: #666;
+  font-size: 13px;
+}
+
+/* Items list */
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* Individual item card */
+.item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 12px 16px;
+  background: #fff;
+}
+
+/* Item name and image */
+.item-card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Item image */
+.item-thumbnail {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Remove item button */
+.remove-item-btn {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid #dc3545;
+  border-radius: 20px;
+  background: transparent;
+  color: #dc3545;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.remove-item-btn:hover {
+  background: #dc3545;
+  color: #fff;
+}
+
+.remove-item-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   SHOW / HIDE CATEGORY VIEWS
+   ======================================== */
+
+#category-view[hidden],
+#new-category-view[hidden] {
+  display: none !important;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 700px) {
+  .categories-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+
+  .categories-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+
+  .category-list-scroll {
+    max-height: 280px;
+  }
+
+  .category-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .category-header h2 {
+    font-size: 21px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 20px;
+  }
+
+  .item-card {
+    padding: 12px;
+  }
+}
