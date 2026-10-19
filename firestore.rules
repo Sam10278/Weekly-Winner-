@@ -2,33 +2,75 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // anyone can read categories and items
+    // ---------- helpers ----------
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // a string with 1 to max characters
+    function validText(text, max) {
+      return text is string && text.size() > 0 && text.size() <= max;
+    }
+
+    // ---------- categories ----------
     match /categories/{categoryId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasAll(['name', 'createdBy', 'createdAt'])
+        && validText(request.resource.data.name, 50)
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
     }
 
+    // ---------- items ----------
     match /items/{itemId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasAll(['name', 'categoryId', 'addedBy', 'createdAt'])
+        && validText(request.resource.data.name, 60)
+        && request.resource.data.categoryId is string
+        && exists(/databases/$(database)/documents/categories/$(request.resource.data.categoryId))
+        && request.resource.data.addedBy == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && (!('imageUrl' in request.resource.data) || request.resource.data.imageUrl is string);
+      allow update, delete: if false;
     }
 
-    // only logged in users can vote
-    match /votes/{voteId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // only logged in users can create challenges
+    // ---------- challenges ----------
     match /challenges/{challengeId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasAll(['categoryId', 'bracketSize', 'status', 'createdBy', 'createdAt', 'roundEndsAt'])
+        && request.resource.data.categoryId is string
+        && exists(/databases/$(database)/documents/categories/$(request.resource.data.categoryId))
+        && request.resource.data.bracketSize in [8, 16, 32]
+        && request.resource.data.status == 'open'
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.roundEndsAt is timestamp;
+      allow update, delete: if false;
     }
 
-    // matchups are read only for users
+    // ---------- matchups ----------
     match /matchups/{matchupId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasAll(['challengeId', 'round', 'position', 'itemA', 'itemB', 'votesA', 'votesB', 'winnerId'])
+        && request.resource.data.challengeId is string
+        && request.resource.data.round is int
+        && request.resource.data.position is int
+        && request.resource.data.votesA == 0
+        && request.resource.data.votesB == 0
+        && request.resource.data.winnerId == null;
+      allow update, delete: if false;
+    }
+
+    // ---------- votes ----------
+    match /votes/{voteId} {
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow write: if false;
     }
 
   }

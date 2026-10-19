@@ -33,6 +33,16 @@ Keep entries short and specific.
 -->
 
 
+
+## [PR: #10] [2026-10-19]
+### Added
+- User profile in the navbar: a round photo and the name, shown when logged in
+
+### Changed
+- auth.js: now shows the profile and the Logout button when logged in, and the Login link when logged out
+- navbar.css: some styles the profile photo, the name, and the Logout button
+
+
 ## [PR: #9] [2026-10-19]
 
 ### Added
