@@ -446,25 +446,9 @@ Check that:
 - `?size=10` falls back to 8.
 - The Console tab shows no red errors.
 
----
 
-## 7. Commit and pull request
 
-```
-git add .
-git commit -m "Build bracket for 8, 16 and 32 teams"
-git fetch origin
-git rebase origin/main
-git push -u origin week2/bracket-sizes
-```
-
-If you already pushed this branch and then rebased, use `git push --force-with-lease` instead.
-
-Then open the pull request with base `main`.
-
----
-
-## 8. What changes later
+## What changes later
 
 - The size will come from the challenge in Firestore (`bracketSize`), not from `?size=`.
 - The bracket page will read `?challenge=ID` from the address and load that challenge.
@@ -476,10 +460,3 @@ Then open the pull request with base `main`.
 
 ---
 
-## What I Learned
-
-- (write your own notes here)
-
-## Contribution
-
-Developer: (your name) (2026-10-19)
