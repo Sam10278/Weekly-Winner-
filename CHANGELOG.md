@@ -32,7 +32,16 @@ Example:
 Keep entries short and specific.
 -->
 
-## [2026-10-14]
+
+## [PR: #9] [2026-10-19]
+
+### Added
+- bracket.js builds the bracket for 8, 16 or 32 teams (size from ?size= for now)
+
+### Changed
+- Bracket boxes hold one item each, with a Vote button per item and a Winner box in the middle
+- bracket.css, index.html and bracket.html use the generated bracket
+
 
 ## [PR: #7] [2026-10-12]
 
