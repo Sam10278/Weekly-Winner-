@@ -1,0 +1,145 @@
+/* Bracket for 8, 16 or 32 teams. bracket.js builds the HTML. */
+
+.bracket-section {
+  padding: 24px 20px;
+}
+
+.bracket-heading {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+.bracket {
+  --match-w: 150px;  /* width of one matchup box */
+  --slot-h: 32px;    /* height of one team slot */
+  --vote-h: 28px;    /* height of the Vote button */
+  --cell: 80px;     /* height given to one first-round matchup */
+  --gap: 40px;       /* space between columns (the lines live here) */
+  --line: 2px solid #888;
+  /* --rows is set by bracket.js: 8 teams = 2, 16 = 4, 32 = 8 */
+
+  padding: 44px 20px 24px;
+  background: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.bracket *,
+.bracket *::before,
+.bracket *::after {
+  box-sizing: border-box;
+}
+
+.bracket-tree {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  width: max-content;
+  margin: 0 auto;
+}
+
+.bracket-half {
+  display: flex;
+  gap: var(--gap);
+}
+
+/* One round = one column. space-around centers each matchup in its own cell. */
+.round {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: calc(var(--cell) * var(--rows, 2));
+}
+
+.round-label {
+  position: absolute;
+  top: -28px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #000;
+}
+
+.matchup {
+  position: relative;
+  width: var(--match-w);
+  background: #fff;
+  border: 1px solid #999;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  height: var(--slot-h);
+  padding: 0 10px;
+  font-size: 13px;
+  color: #000;
+  border-bottom: 1px solid #ddd;
+}
+
+.vote-btn {
+  display: block;
+  width: 100%;
+  height: var(--vote-h);
+  border: 0;
+  background: #fff;
+  color: #c0392b;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.vote-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+/* Later rounds look faded */
+.round:not(.round-first) .matchup {
+  border-style: dashed;
+}
+
+.round:not(.round-first) .slot {
+  color: #666;
+}
+
+/* ---- Connecting lines ---- */
+
+/* Short line coming in from the previous round */
+.round-in .matchup::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  width: calc(var(--gap) / 2);
+  border-top: var(--line);
+}
+.bracket-left  .round-in .matchup::before { right: calc(100% + 1px); }
+.bracket-right .round-in .matchup::before { left:  calc(100% + 1px); }
+
+/* Rounds that pair up into the next round: a line out, then a vertical line */
+.round-pairs .matchup::after {
+  content: "";
+  position: absolute;
+  width: calc(var(--gap) / 2);
+  height: calc(var(--cell) * var(--span, 1) / 2 + 1px);
+}
+.bracket-left  .round-pairs .matchup::after { left:  calc(100% + 1px); border-right: var(--line); }
+.bracket-right .round-pairs .matchup::after { right: calc(100% + 1px); border-left:  var(--line); }
+.round-pairs .matchup:nth-of-type(odd)::after  { top:    calc(50% - 1px); border-top:    var(--line); }
+.round-pairs .matchup:nth-of-type(even)::after { bottom: calc(50% - 1px); border-bottom: var(--line); }
+
+/* Semi-final: a straight line to the final */
+.round-last .matchup::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  width: var(--gap);
+  border-top: var(--line);
+}
+.bracket-left  .round-last .matchup::after { left:  calc(100% + 1px); }
+.bracket-right .round-last .matchup::after { right: calc(100% + 1px); }
