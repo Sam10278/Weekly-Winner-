@@ -30,7 +30,27 @@ const logoutBtn = document.getElementById("logout-btn");
 
 if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
+const userProfile = document.getElementById("user-profile");
+const userAvatar = document.getElementById("user-avatar");
+const userName = document.getElementById("user-name");
+
 onAuthStateChanged(auth, (user) => {
-  if (loginLink) loginLink.style.display = user ? "none" : "inline";
-  if (logoutBtn) logoutBtn.style.display = user ? "inline" : "none";
+  if (loginLink) loginLink.hidden = !!user;
+  if (logoutBtn) logoutBtn.hidden = !user;
+  if (userProfile) userProfile.hidden = !user;
+
+  if (user) {
+    userName.textContent = user.displayName || user.email || "";
+
+    userAvatar.replaceChildren();
+    if (user.photoURL) {
+      const img = document.createElement("img");
+      img.src = user.photoURL;
+      img.alt = "";
+      img.referrerPolicy = "no-referrer";   // Google photos can fail without this
+      userAvatar.append(img);
+    } else {
+      userAvatar.textContent = (user.displayName || "?").charAt(0).toUpperCase();
+    }
+  }
 });
