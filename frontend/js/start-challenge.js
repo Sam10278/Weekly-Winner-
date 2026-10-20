@@ -287,7 +287,7 @@ challengeForm.addEventListener("submit", async (event) => {
         message.textContent = "Challenge created successfully!";
 
         window.location.href =
-            `/pages/bracket.html?challenge=${encodeURIComponent(challengeId)}`;
+            `/index.html?challenge=${encodeURIComponent(challengeId)}`;
 
     } catch (error) {
         console.error("Error starting challenge:", error);
