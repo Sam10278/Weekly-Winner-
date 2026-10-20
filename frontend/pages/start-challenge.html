@@ -40,7 +40,7 @@
     </nav>
 
     <!-- Main Page Content -->
-    <main class="container mt-4">
+    <main class="start-challenge">
 
         <h1>Start a Bracket Challenge</h1>
 
@@ -51,16 +51,16 @@
         <form id="challenge-form">
 
             <!-- Category Selection -->
-            <h3>Choose a Category</h3>
+            <h3><label for="category-select">Choose a Category</label></h3>
 
             <select id="category-select" required>
                 <option value="">Select a category</option>
             </select>
 
             <!-- Bracket Size Selection -->
-            <h3>Bracket Size</h3>
+            <h3 id="size-heading">Bracket Size</h3>
 
-            <div class="bracket-sizes">
+            <div class="bracket-sizes" role="radiogroup" aria-labelledby="size-heading">
 
                 <label>
                     <input
@@ -98,7 +98,7 @@
             </p>
 
             <!-- Error or Success Message -->
-            <p id="challenge-message" aria-live="polite"></p>
+            <p id="challenge-message" role="status" aria-live="polite"></p>
 
             <!-- Start Challenge Button -->
             <button type="submit" id="start-btn">
@@ -109,14 +109,11 @@
 
     </main>
 
-    <!-- Firebase Configuration -->
-    <script type="module" src="/js/app.js"></script>
-
-    <!-- Authentication -->
+    <!-- Scripts -->
     <script type="module" src="/js/auth.js"></script>
-
-    <!-- Start Challenge -->
     <script type="module" src="/js/start-challenge.js"></script>
+
+</body>
 
 </body>
 </html>
