@@ -1,4 +1,3 @@
-
 import { db, auth } from "./app.js";
 
 import {
@@ -36,11 +35,14 @@ onAuthStateChanged(auth, (user) => {
 });
 
 async function loadCategories() {
+    message.textContent = "Loading categories...";
+
     try {
         const snapshot = await getDocs(collection(db, "categories"));
 
         if (snapshot.empty) {
-            message.textContent = "No categories yet";
+            message.textContent =
+                "No categories yet. Create one on the Categories page.";
             return;
         }
 
@@ -53,14 +55,20 @@ async function loadCategories() {
 
         categories.forEach((category) => {
             const option = document.createElement("option");
+
             option.value = category.id;
             option.textContent = category.name;
+
             categorySelect.appendChild(option);
         });
 
+        message.textContent = "";
+
     } catch (error) {
         console.error("Error loading categories:", error);
-        message.textContent = "Failed to load categories.";
+
+        message.textContent =
+            `Failed to load categories (${error.code || "unknown error"}).`;
     }
 }
 
@@ -171,8 +179,8 @@ async function saveChallenge(categoryId, size, selectedItems, userId) {
             let itemB = null;
 
             if (round === 1) {
-               itemA = itemInfo(selectedItems[position * 2]);
-               itemB = itemInfo(selectedItems[position * 2 + 1]);
+                itemA = itemInfo(selectedItems[position * 2]);
+                itemB = itemInfo(selectedItems[position * 2 + 1]);
             }
 
             // Later rounds stay empty until winners advance
@@ -241,7 +249,9 @@ challengeForm.addEventListener("submit", async (event) => {
     startBtn.disabled = true;
     startBtn.textContent = "Starting...";
     message.textContent = "Checking challenge requirements...";
+
     let created = false;
+
     try {
         const itemsQuery = query(
             collection(db, "items"),
@@ -263,7 +273,6 @@ challengeForm.addEventListener("submit", async (event) => {
 
         const selectedItems = shuffleItems(items).slice(0, size);
 
-
         message.textContent = "Saving challenge...";
 
         const challengeId = await saveChallenge(
@@ -272,6 +281,7 @@ challengeForm.addEventListener("submit", async (event) => {
             selectedItems,
             loggedInUser.uid
         );
+
         created = true;
 
         message.textContent = "Challenge created successfully!";
@@ -285,11 +295,13 @@ challengeForm.addEventListener("submit", async (event) => {
         message.textContent =
             "Failed to start challenge. Please try again.";
 
-    } } finally {
-            if (!created) {
-                startBtn.disabled = false;
-                startBtn.textContent = "Start Challenge";
-            }
+    } finally {
+        // After a successful save we are leaving the page, so keep the button off
+        if (!created) {
+            startBtn.disabled = false;
+            startBtn.textContent = "Start Challenge";
+        }
+    }
 });
 
 categorySelect.addEventListener("change", updateItemCount);
