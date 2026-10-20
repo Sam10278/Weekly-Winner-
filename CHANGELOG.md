@@ -39,7 +39,7 @@ Keep entries short and specific.
 - categories.js reads categories and items from Firestore and saves new ones
 
 ### Changed
-- Navbar: "Add Category" and "Add Items" replaced by one "Categories" link, and all links use /pages/ paths
+- Navbar: "Add Category" and "Add Items" replaced by one "Add Category & Items" link
 
 
 ## [PR: #10] [2026-10-19]
