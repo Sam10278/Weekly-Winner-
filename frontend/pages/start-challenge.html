@@ -1,0 +1,118 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Start Challenge - Weekly Winner</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/start-challenge.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="/index.html">
+            Weekly Winner
+        </a>
+
+        <div class="navbar-links">
+        <a href="/index.html">Home</a>
+        <a href="/pages/categories.html">Categories</a>
+        <a href="/pages/start-challenge.html">Start Challenge</a>
+        <a href="/pages/vote.html">Vote</a>
+        <a href="/pages/past-winners.html">Past Winners</a>
+        </div>
+
+        <div class="navbar-user">
+        <div id="user-profile" class="navbar-profile" hidden>
+            <span id="user-avatar"></span>
+            <span id="user-name"></span>
+        </div>
+        <a href="/pages/login.html" id="login-link" hidden>Login</a>
+        <button id="logout-btn" hidden>Logout</button>
+</div>
+    </nav>
+
+    <!-- Main Page Content -->
+    <main class="start-challenge">
+
+        <h1>Start a Bracket Challenge</h1>
+
+        <p>
+            Choose a category and bracket size to get started.
+        </p>
+
+        <form id="challenge-form">
+
+            <!-- Category Selection -->
+            <h3><label for="category-select">Choose a Category</label></h3>
+
+            <select id="category-select" required>
+                <option value="">Select a category</option>
+            </select>
+
+            <!-- Bracket Size Selection -->
+            <h3 id="size-heading">Bracket Size</h3>
+
+            <div class="bracket-sizes" role="radiogroup" aria-labelledby="size-heading">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="bracket-size"
+                        value="8"
+                        checked
+                    >
+                    8 Teams
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="bracket-size"
+                        value="16"
+                    >
+                    16 Teams
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="bracket-size"
+                        value="32"
+                    >
+                    32 Teams
+                </label>
+
+            </div>
+
+            <!-- Available Items Message -->
+            <p id="challenge-preview" aria-live="polite">
+                Select a category to see available items.
+            </p>
+
+            <!-- Error or Success Message -->
+            <p id="challenge-message" role="status" aria-live="polite"></p>
+
+            <!-- Start Challenge Button -->
+            <button type="submit" id="start-btn">
+                Start Challenge
+            </button>
+
+        </form>
+
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/start-challenge.js"></script>
+
+
+</body>
+</html>

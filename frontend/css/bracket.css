@@ -143,3 +143,43 @@
 }
 .bracket-left  .round-last .matchup::after { left:  calc(100% + 1px); }
 .bracket-right .round-last .matchup::after { right: calc(100% + 1px); }
+
+/* the line of text above the bracket */
+#bracket-info {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #000;
+}
+
+/* item picture, name and vote count inside a box */
+.slot-image {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.slot-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slot-votes {
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+/* decided matchups */
+.matchup.is-winner .slot-name {
+  font-weight: 700;
+}
+
+.matchup.is-loser .slot {
+  color: #767676;
+  text-decoration: line-through;
+}

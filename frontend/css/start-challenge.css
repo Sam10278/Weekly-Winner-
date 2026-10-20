@@ -1,0 +1,90 @@
+
+/* Start Challenge Page */
+
+.container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.container > p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+#challenge-form {
+    background: white;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+#challenge-form h3 {
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+#category-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.bracket-sizes {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.bracket-sizes label {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.bracket-sizes label:hover {
+    background: #f0f0f0;
+}
+
+#challenge-preview {
+    padding: 25px;
+    background: #f8f8f8;
+    border: 1px dashed #bbb;
+    border-radius: 6px;
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+#start-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#start-btn:hover {
+    background: #1d4ed8;
+}
+
+#challenge-message {
+    margin: 15px 0;
+}
+
+
+

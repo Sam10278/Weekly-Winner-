@@ -32,6 +32,11 @@ Example:
 Keep entries short and specific.
 -->
 
+## [PR: #12] [2026-10-20]
+### Added
+- Start Challenge page: choose a category and a bracket size (8, 16 or 32), pick items at random, and save the challenge with all its matchups
+### Changed
+- Update the bracket.js according to start-challenge entries
 
 ## [PR: #11] [2026-10-19]
 ### Added
