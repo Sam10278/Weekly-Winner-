@@ -32,6 +32,7 @@ Example:
 Keep entries short and specific.
 -->
 
+## [PR: #12] [2026-10-20]
 
 ## [PR: #11] [2026-10-19]
 ### Added
