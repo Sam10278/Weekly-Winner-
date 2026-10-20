@@ -226,7 +226,7 @@ challengeForm.addEventListener("submit", async (event) => {
     startBtn.disabled = true;
     startBtn.textContent = "Starting...";
     message.textContent = "Checking challenge requirements...";
-
+    let created = false;
     try {
         const itemsQuery = query(
             collection(db, "items"),
@@ -258,6 +258,7 @@ challengeForm.addEventListener("submit", async (event) => {
             selectedItems,
             loggedInUser.uid
         );
+        created = true;
 
         message.textContent = "Challenge created successfully!";
 
@@ -270,10 +271,11 @@ challengeForm.addEventListener("submit", async (event) => {
         message.textContent =
             "Failed to start challenge. Please try again.";
 
-    } finally {
-        startBtn.disabled = false;
-        startBtn.textContent = "Start Challenge";
-    }
+    } } finally {
+            if (!created) {
+                startBtn.disabled = false;
+                startBtn.textContent = "Start Challenge";
+            }
 });
 
 categorySelect.addEventListener("change", updateItemCount);
