@@ -44,12 +44,17 @@ async function loadCategories() {
             return;
         }
 
-        snapshot.forEach((category) => {
+        const categories = snapshot.docs
+            .map((category) => ({
+                id: category.id,
+                name: category.data().name || "(no name)"
+            }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+        categories.forEach((category) => {
             const option = document.createElement("option");
-
             option.value = category.id;
-            option.textContent = category.data().name;
-
+            option.textContent = category.name;
             categorySelect.appendChild(option);
         });
 
@@ -123,6 +128,16 @@ function shuffleItems(items) {
     return shuffled;
 }
 
+// Save the name and picture with the item, so the bracket can show them
+// without more reads, and a removed item does not break a running bracket.
+function itemInfo(item) {
+    return {
+        id: item.id,
+        name: item.name || "",
+        imageUrl: item.imageUrl || ""
+    };
+}
+
 async function saveChallenge(categoryId, size, selectedItems, userId) {
 
     const challengeRef = doc(collection(db, "challenges"));
@@ -156,8 +171,8 @@ async function saveChallenge(categoryId, size, selectedItems, userId) {
             let itemB = null;
 
             if (round === 1) {
-                itemA = selectedItems[position * 2].id;
-                itemB = selectedItems[position * 2 + 1].id;
+               itemA = itemInfo(selectedItems[position * 2]);
+               itemB = itemInfo(selectedItems[position * 2 + 1]);
             }
 
             // Later rounds stay empty until winners advance
@@ -248,7 +263,6 @@ challengeForm.addEventListener("submit", async (event) => {
 
         const selectedItems = shuffleItems(items).slice(0, size);
 
-        console.log("Selected items:", selectedItems);
 
         message.textContent = "Saving challenge...";
 
