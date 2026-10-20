@@ -12,10 +12,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
-// ========================================
 // HTML ELEMENTS
-// ========================================
-
 const categoryList = document.getElementById("category-list");
 const categorySearch = document.getElementById("category-search");
 
@@ -47,9 +44,7 @@ const itemMessage = document.getElementById("form-message");
 const itemsList = document.getElementById("items-list");
 const itemsTotal = document.getElementById("items-total");
 
-// ========================================
 // APPLICATION STATE
-// ========================================
 
 let currentUser = null;
 let authReady = false;
@@ -59,18 +54,16 @@ let selectedCategoryId = null;
 let categories = [];
 let items = [];
 
-// ========================================
+
 // AUTHENTICATION
-// ========================================
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
   authReady = true;
 });
 
-// ========================================
+
 // HELPER FUNCTIONS
-// ========================================
 
 // Display success or error messages
 function showMessage(element, text, isError = false) {
@@ -108,10 +101,8 @@ function getCategoryItems(categoryId) {
   );
 }
 
-// ========================================
-// CATEGORY SEARCH
-// ========================================
 
+// CATEGORY SEARCH
 // Filter sidebar categories as the user types
 if (categorySearch) {
   categorySearch.addEventListener("input", () => {
@@ -119,9 +110,9 @@ if (categorySearch) {
   });
 }
 
-// ========================================
+
 // RENDER SIDEBAR CATEGORIES
-// ========================================
+
 
 function renderCategories() {
   categoryList.innerHTML = "";
@@ -173,9 +164,8 @@ function renderCategories() {
   });
 }
 
-// ========================================
 // RENDER ITEMS
-// ========================================
+
 
 function renderItems() {
   itemsList.innerHTML = "";
@@ -218,9 +208,8 @@ function renderItems() {
   });
 }
 
-// ========================================
+
 // SELECT CATEGORY
-// ========================================
 
 function selectCategory(categoryId) {
   const category = categories.find(
@@ -244,10 +233,7 @@ function selectCategory(categoryId) {
   renderItems();
 }
 
-// ========================================
 // LOAD DATA FROM FIRESTORE
-// ========================================
-
 async function loadData() {
   try {
     const [categorySnapshot, itemSnapshot] = await Promise.all([
@@ -305,9 +291,7 @@ async function loadData() {
   }
 }
 
-// ========================================
 // CREATE CATEGORY VIEW
-// ========================================
 
 newCategoryBtn.addEventListener("click", () => {
   showNewCategoryView();
@@ -318,13 +302,9 @@ cancelCategoryBtn.addEventListener("click", () => {
   showCategoryView();
 });
 
-// ========================================
 // CREATE CATEGORY
-// ========================================
 
-// ========================================
 // CREATE CATEGORY
-// ========================================
 
 categoryForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -420,10 +400,7 @@ categoryForm.addEventListener("submit", async (event) => {
   }
 });
 
-// ========================================
 // ADD ITEM
-// ========================================
-
 itemForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -503,8 +480,7 @@ itemForm.addEventListener("submit", async (event) => {
   }
 });
 
-// ========================================
 // INITIAL LOAD
-// ========================================
+  
 
 loadData();

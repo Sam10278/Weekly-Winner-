@@ -33,6 +33,14 @@ Keep entries short and specific.
 -->
 
 
+## [PR: #11] [2026-10-19]
+### Added
+- Categories page: one page to browse and search categories, create a category, and add items to a category
+- categories.js reads categories and items from Firestore and saves new ones
+
+### Changed
+- Navbar: "Add Category" and "Add Items" replaced by one "Categories" link, and all links use /pages/ paths
+
 
 ## [PR: #10] [2026-10-19]
 ### Added
