@@ -5,8 +5,6 @@ import {
   collection,
   getDocs,
   addDoc,
-  deleteDoc,
-  doc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
@@ -87,7 +85,7 @@ function formatItemCount(count) {
 
 // Normalize category names for duplicate checking
 function normalizeCategoryName(name) {
-  return name.trim().replace(/\s+/g, " ").toLowerCase();
+  return (name || "").trim().replace(/\s+/g, " ").toLowerCase();
 }
 
 // Show selected category
@@ -184,11 +182,8 @@ function renderItems() {
 
   const categoryItems = getCategoryItems(selectedCategoryId);
 
-  selectedCategoryCount.textContent =
-    formatItemCount(categoryItems.length);
-
-  itemsTotal.textContent =
-    `${categoryItems.length} total`;
+  selectedCategoryCount.textContent = formatItemCount(categoryItems.length);
+  itemsTotal.textContent = `${categoryItems.length} total`;
 
   if (categoryItems.length === 0) {
     itemsList.textContent = "No items in this category yet.";
@@ -216,57 +211,9 @@ function renderItems() {
 
     const name = document.createElement("span");
     name.textContent = item.name;
-
     content.appendChild(name);
 
-    // Remove item button
-    const removeBtn = document.createElement("button");
-
-    removeBtn.type = "button";
-    removeBtn.className = "remove-item-btn";
-    removeBtn.textContent = "Remove";
-
-    removeBtn.addEventListener("click", async () => {
-      if (!authReady || !currentUser) {
-        showMessage(
-          itemMessage,
-          "Please log in first.",
-          true
-        );
-        return;
-      }
-
-      const confirmed = window.confirm(
-        `Remove "${item.name}" from this category?`
-      );
-
-      if (!confirmed) return;
-
-      removeBtn.disabled = true;
-
-      try {
-        await deleteDoc(doc(db, "items", item.id));
-
-        showMessage(
-          itemMessage,
-          "Item removed successfully!"
-        );
-
-        await loadData();
-      } catch (error) {
-        console.error(error);
-
-        showMessage(
-          itemMessage,
-          "Failed to remove item. Check your permissions.",
-          true
-        );
-
-        removeBtn.disabled = false;
-      }
-    });
-
-    row.append(content, removeBtn);
+    row.append(content);
     itemsList.appendChild(row);
   });
 }
@@ -319,9 +266,7 @@ async function loadData() {
     }));
 
     // Sort categories alphabetically
-    categories.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    categories.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
     renderCategories();
 
@@ -377,6 +322,10 @@ cancelCategoryBtn.addEventListener("click", () => {
 // CREATE CATEGORY
 // ========================================
 
+// ========================================
+// CREATE CATEGORY
+// ========================================
+
 categoryForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -384,43 +333,36 @@ categoryForm.addEventListener("submit", async (event) => {
   const description = categoryDescription.value.trim();
 
   if (!name) {
-    showMessage(
-      categoryMessage,
-      "Enter a category name.",
-      true
-    );
+    showMessage(categoryMessage, "Enter a category name.", true);
+    return;
+  }
+
+  if (name.length > 50) {
+    showMessage(categoryMessage, "The name can have at most 50 characters.", true);
+    return;
+  }
+
+  if (description.length > 200) {
+    showMessage(categoryMessage, "The description can have at most 200 characters.", true);
     return;
   }
 
   if (!authReady) {
-    showMessage(
-      categoryMessage,
-      "Checking login status. Please try again.",
-      true
-    );
+    showMessage(categoryMessage, "Checking login status. Please try again.", true);
     return;
   }
 
   if (!currentUser) {
-    showMessage(
-      categoryMessage,
-      "Please log in first.",
-      true
-    );
+    showMessage(categoryMessage, "Please log in first.", true);
     return;
   }
 
-  const submitBtn = categoryForm.querySelector(
-    'button[type="submit"]'
-  );
-
+  const submitBtn = categoryForm.querySelector('button[type="submit"]');
   submitBtn.disabled = true;
 
   try {
     // Refresh categories before checking duplicates
-    const snapshot = await getDocs(
-      collection(db, "categories")
-    );
+    const snapshot = await getDocs(collection(db, "categories"));
 
     const latestCategories = snapshot.docs.map((document) => ({
       id: document.id,
@@ -431,8 +373,7 @@ categoryForm.addEventListener("submit", async (event) => {
 
     // Check for existing category name
     const duplicate = latestCategories.find(
-      (category) =>
-        normalizeCategoryName(category.name) === normalizedName
+      (category) => normalizeCategoryName(category.name) === normalizedName
     );
 
     if (duplicate) {
@@ -441,20 +382,16 @@ categoryForm.addEventListener("submit", async (event) => {
         `The category "${duplicate.name}" already exists. Please choose another name.`,
         true
       );
-
       return;
     }
 
     // Save category to Firestore
-    const result = await addDoc(
-      collection(db, "categories"),
-      {
-        name,
-        description,
-        createdBy: currentUser.uid,
-        createdAt: serverTimestamp()
-      }
-    );
+    const result = await addDoc(collection(db, "categories"), {
+      name,
+      description,
+      createdBy: currentUser.uid,
+      createdAt: serverTimestamp()
+    });
 
     categoryForm.reset();
 
@@ -463,21 +400,21 @@ categoryForm.addEventListener("submit", async (event) => {
       categorySearch.value = "";
     }
 
-    await loadData();
+    // Update the page from memory, no need to read everything again
+    categories.push({
+      id: result.id,
+      name,
+      description,
+      createdBy: currentUser.uid
+    });
+    categories.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+
     selectCategory(result.id);
 
-    showMessage(
-      itemMessage,
-      "Category created successfully!"
-    );
+    showMessage(itemMessage, "Category created successfully!");
   } catch (error) {
     console.error(error);
-
-    showMessage(
-      categoryMessage,
-      "Failed to create category. Please try again.",
-      true
-    );
+    showMessage(categoryMessage, "Failed to create category. Please try again.", true);
   } finally {
     submitBtn.disabled = false;
   }
@@ -494,75 +431,73 @@ itemForm.addEventListener("submit", async (event) => {
   const imageUrl = itemImage.value.trim();
 
   if (!selectedCategoryId) {
-    showMessage(
-      itemMessage,
-      "Select a category first.",
-      true
-    );
+    showMessage(itemMessage, "Select a category first.", true);
     return;
   }
 
   if (!name) {
-    showMessage(
-      itemMessage,
-      "Enter an item name.",
-      true
-    );
+    showMessage(itemMessage, "Enter an item name.", true);
+    return;
+  }
+
+  if (name.length > 60) {
+    showMessage(itemMessage, "The name can have at most 60 characters.", true);
+    return;
+  }
+
+  if (imageUrl && !imageUrl.startsWith("https://")) {
+    showMessage(itemMessage, "The image link must start with https://", true);
+    return;
+  }
+
+  if (imageUrl.length > 500) {
+    showMessage(itemMessage, "The image link is too long.", true);
     return;
   }
 
   if (!authReady) {
-    showMessage(
-      itemMessage,
-      "Checking login status. Please try again.",
-      true
-    );
+    showMessage(itemMessage, "Checking login status. Please try again.", true);
     return;
   }
 
   if (!currentUser) {
-    showMessage(
-      itemMessage,
-      "Please log in first.",
-      true
-    );
+    showMessage(itemMessage, "Please log in first.", true);
     return;
   }
 
-  const submitBtn = itemForm.querySelector(
-    'button[type="submit"]'
-  );
-
+  const submitBtn = itemForm.querySelector('button[type="submit"]');
   submitBtn.disabled = true;
 
   try {
-    await addDoc(
-      collection(db, "items"),
-      {
-        name,
-        categoryId: selectedCategoryId,
-        addedBy: currentUser.uid,
-        createdAt: serverTimestamp(),
-        imageUrl
-      }
-    );
+    const newItem = {
+      name,
+      categoryId: selectedCategoryId,
+      addedBy: currentUser.uid,
+      createdAt: serverTimestamp()
+    };
+
+    // never save an empty imageUrl
+    if (imageUrl) newItem.imageUrl = imageUrl;
+
+    const ref = await addDoc(collection(db, "items"), newItem);
+
+    // Update the page from memory, no need to read everything again
+    items.push({
+      id: ref.id,
+      name,
+      categoryId: selectedCategoryId,
+      addedBy: currentUser.uid,
+      imageUrl
+    });
 
     itemForm.reset();
+    renderCategories();
+    renderItems();
 
-    await loadData();
-
-    showMessage(
-      itemMessage,
-      "Item added successfully!"
-    );
+    showMessage(itemMessage, "Item added successfully!");
   } catch (error) {
     console.error(error);
-
-    showMessage(
-      itemMessage,
-      "Failed to add item. Please try again.",
-      true
-    );
+    showMessage(itemMessage, "Failed to add item. Please try again.", true);
   } finally {
     submitBtn.disabled = false;
   }
