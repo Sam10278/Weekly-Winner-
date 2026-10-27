@@ -20,7 +20,10 @@ service cloud.firestore {
         && request.resource.data.keys().hasAll(['name', 'createdBy', 'createdAt'])
         && validText(request.resource.data.name, 50)
         && request.resource.data.createdBy == request.auth.uid
-        && request.resource.data.createdAt == request.time;
+                && request.resource.data.createdAt == request.time
+        && (!('description' in request.resource.data)
+            || (request.resource.data.description is string
+                && request.resource.data.description.size() <= 200));
       allow update, delete: if false;
     }
 
@@ -34,7 +37,10 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/categories/$(request.resource.data.categoryId))
         && request.resource.data.addedBy == request.auth.uid
         && request.resource.data.createdAt == request.time
-        && (!('imageUrl' in request.resource.data) || request.resource.data.imageUrl is string);
+                && (!('imageUrl' in request.resource.data)
+            || (request.resource.data.imageUrl is string
+                && request.resource.data.imageUrl.matches('https://.*')
+                && request.resource.data.imageUrl.size() <= 500));
       allow update, delete: if false;
     }
 
