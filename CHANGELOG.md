@@ -31,6 +31,11 @@ Example:
 
 Keep entries short and specific.
 -->
+## [PR: #14] [2026-10-27]
+- ### Changed
+- Firestore rules: check the category description length, and require https:// for item image links
+- Updayte Readme file
+- Update firbase.json file 
 
 ## [PR: #12] [2026-10-20]
 ### Added
