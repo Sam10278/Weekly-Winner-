@@ -77,11 +77,33 @@ git push -u origin name-of-my-new-branch
 ```
 Then: Go to GitHub → select your branch → Open/Compare & pull request → create the Pull Request.
 
+## Rebase and Merge Conflicts
+Rebase your branch if you see it is behind main (it says whether it is behind main or not - somewhere in the PR, or just heck if there is new commits to main that when you branch out you did not have it as part of your branch), rebase is basically updating your branch with the latest changes to main
+after rebase when conflicts occur (after the rebase this is common) : keep changes for both your changes and main changes and juts delete the extra stuff like:
+```bash
+<<<<<<< HEAD
+changes from main
+=======
+your changes
+>>>>>>> your commit message
+```
+Keep both sets of changes: the ones from main and your own. Then delete the extra marker lines ``` ```bash
+
+(<<<<<<<, =======, >>>>>>>).
+```
+
+Then run:
+```bash
+git add .
+git rebase --continue
+```
+
 ## ⚠️ Things to Remember
 
 1. Always make sure you are on the correct branch before committing
 2. Never push directly to main; always work on a branch and open a Pull Request
 3. Update the CHANGELOG with what you have changed, added and fixed 
+4. Rebase your branch!
 
 
     
