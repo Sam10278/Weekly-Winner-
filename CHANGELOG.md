@@ -31,6 +31,10 @@ Example:
 
 Keep entries short and specific.
 -->
+## [PR: #13] [2026-10-29]
+### Fixed
+- Updated the navbar label on the Start Challenge page from "Categories" to "Add Category & Item" to match the Home page and other pages.
+
 ## [PR: #14] [2026-10-27]
 - ### Changed
 - Firestore rules: check the category description length, and require https:// for item image links
