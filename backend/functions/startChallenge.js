@@ -62,5 +62,88 @@ function buildMatchups(challengeId, size, items) {
 
   return matchups;
 }
+// Pick a size and a category.
+//  - try a random size first (8 or 16)
+//  - a category is "unused" if closed is not true
+//  - it needs at least `size` items to start a challenge for it
+//  - if no category fits(does not have enough items for the size picked), try the other size
+// Returns { size, category, items } or null if nothing fits.
+async function pickCategory(db) {
+  const sizes = shuffle([8, 16]);
 
-module.exports = { shuffle, chicagoDate, buildMatchups };
+  // get the current state of categories and their otems
+  const categorySnap = await db.collection("categories").get();
+  // find the categories that are not closed/used before
+  const unused = categorySnap.docs.filter((doc) => doc.data().closed !== true);
+  // if all categories have been siued before return null 
+  if (unused.length === 0) {
+    return null;
+  }
+
+  // Read each unused category's items one time.
+  const itemsByCategory = new Map();
+  for (const doc of unused) {
+    const itemSnap = await db.collection("items").where("categoryId", "==", doc.id).get();
+    itemsByCategory.set(doc.id, itemSnap.docs);
+  }
+
+  for (const size of sizes) {
+    const fits = [];
+
+    for (const doc of unused) {
+        // get number of items in this unsed catgory
+      const itemCount = itemsByCategory.get(doc.id).length;
+      // check if ot has enough items for the challenge sized picked
+      if (itemCount >= size) {
+        fits.push(doc);
+      }
+    }
+
+    if (fits.length > 0) {
+        // pick category at random
+        const shuffledFits = shuffle(fits);
+        const chosen = shuffledFits[0];
+        // get its items
+        const chosenItems = [];
+        const itemDocs = itemsByCategory.get(chosen.id);
+        // get each items info like name imageurl 
+        for (const itemDoc of itemDocs) {
+          const data = itemDoc.data();
+        
+          let name = "";
+          if (data.name) {
+            name = data.name;
+          }
+      
+          let imageUrl = "";
+          if (data.imageUrl) {
+            imageUrl = data.imageUrl;
+          }
+      
+          chosenItems.push({
+            id: itemDoc.id,
+            name: name,
+            imageUrl: imageUrl
+        });
+        }
+
+      let categoryName = "";
+      if (chosen.data().name) {
+        categoryName = chosen.data().name;
+      }
+      // now shuffl items 
+      const shuffledItems = shuffle(chosenItems);
+      // then pick the first size (8 or 16) for the challenge
+      const pickedItems = shuffledItems.slice(0, size);
+      
+      return {
+        size: size,
+        category: { id: chosen.id, name: categoryName },
+        items: pickedItems
+      };
+    }
+  }
+
+  return null;
+}
+module.exports = { shuffle, chicagoDate, buildMatchups, pickCategory };
