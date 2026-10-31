@@ -1,4 +1,6 @@
-// Helpers for the weekly auto-start.  no Firebase in here.
+// Helpers for the weekly auto-start. 
+
+const { FieldValue, Timestamp } = require("firebase-admin/firestore");
 
 // Mix a list in a fair way (Fisher-Yates). Returns a new list.
 function shuffle(list) {
@@ -146,4 +148,47 @@ async function pickCategory(db) {
 
   return null;
 }
-module.exports = { shuffle, chicagoDate, buildMatchups, pickCategory };
+
+// Save one challenge, all its matchups, and mark the category as used.
+// Everything goes in ONE batch: all of it is saved, or none of it.
+//   db:          the Firestore database (we pass it in)
+//   picked:      { size, category: { id, name }, items } from pickCategory
+//   challengeId: the id for this challenge, (the id for it is the date created like "2026-11-02")
+async function saveChallenge(db, picked, challengeId) {
+  const size = picked.size;
+
+  const challengeRef = db.collection("challenges").doc(challengeId);
+  const categoryRef = db.collection("categories").doc(picked.category.id);
+
+  // 24 hours from now, by the server clock
+  const roundEndsAt = Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000);
+
+  const batch = db.batch();
+  // batch represents The challenge started as a whole
+  batch.create(challengeRef, {
+    categoryId: picked.category.id,
+    categoryName: picked.category.name,
+    bracketSize: size,
+    status: "open",
+    currentRound: 1,
+    roundEndsAt: roundEndsAt,
+    createdBy: "system",
+    createdAt: FieldValue.serverTimestamp()
+  });
+
+  const matchups = buildMatchups(challengeId, size, picked.items);
+
+  for (const matchup of matchups) {
+    const matchupRef = db.collection("matchups").doc();
+    batch.create(matchupRef, matchup);
+  }
+
+  batch.update(categoryRef, {
+    closed: true,
+    usedInChallengeId: challengeId
+  });
+
+  await batch.commit();
+}
+
+module.exports = { shuffle, chicagoDate, buildMatchups, pickCategory, saveChallenge };
