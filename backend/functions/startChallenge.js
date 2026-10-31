@@ -180,6 +180,10 @@ async function saveChallenge(db, picked, challengeId) {
 
   for (const matchup of matchups) {
     const matchupRef = db.collection("matchups").doc();
+    // batch.create(...) fails if the document already exists. 
+    // The challenge id is the date. If the function runs twice on the same day, 
+    // the second run fails, and nothing is saved.
+    // It stops a double run from making two challenges.
     batch.create(matchupRef, matchup);
   }
 
@@ -187,7 +191,7 @@ async function saveChallenge(db, picked, challengeId) {
     closed: true,
     usedInChallengeId: challengeId
   });
-
+  // db.batch() collects writes, and batch.commit() sends them together.
   await batch.commit();
 }
 
