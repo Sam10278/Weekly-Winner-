@@ -1,25 +1,82 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Weekly Winner</title>
-  <link rel="stylesheet" href="/css/login.css">
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Weekly Winner</title>
+
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <main class="login-container">
-    <h1>Welcome to Weekly Winner!</h1>
-    <p>Log in to participate in the websites activities </p>
 
-    <button id="google-login-btn">Sign in with Google</button>
-    <p id="login-error" role="alert"></p>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="/index.html">Weekly Winner</a>
 
-  </main>
+        <div class="navbar-links">
+            <a href="/index.html">Home</a>
+            <a href="/pages/categories.html">Categories</a>
+            <a href="/pages/start-challenge.html">Start Challenge</a>
+            <a href="/pages/vote.html">Vote</a>
+            <a href="/pages/past-winners.html">Past Winners</a>
+        </div>
 
-  <script type="module">
-    import { login } from "/js/auth.js";
-    document.getElementById("google-login-btn").addEventListener("click", login);
-  </script>
+<div class="navbar-user">
+
+    <a href="/pages/login.html" id="login-link" hidden>
+        Login
+    </a>
+
+    <div id="user-profile" class="navbar-profile" hidden>
+
+        <button
+            id="profile-button"
+            class="profile-button"
+            type="button"
+            aria-label="Open profile menu"
+            aria-expanded="false"
+            aria-controls="profile-dropdown"
+        >
+            <span id="user-avatar"></span>
+        </button>
+
+        <div id="profile-dropdown" class="profile-dropdown" hidden>
+            <span id="user-name"></span>
+
+            <button id="logout-btn" type="button">
+                Logout
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+            <a href="/pages/login.html" id="login-link" hidden>Login</a>
+            <button id="logout-btn" type="button" hidden>Logout</button>
+        </div>
+    </nav>
+
+    <!-- Login -->
+    <main class="login-container">
+        <h1>Welcome to Weekly Winner!</h1>
+        <p>Log in to participate in the website's activities.</p>
+
+        <button id="google-login-btn" type="button">
+            Sign in with Google
+        </button>
+
+        <p id="login-error" role="alert"></p>
+    </main>
+
+    <script type="module">
+        import { login } from "/js/auth.js";
+
+        document.getElementById("google-login-btn")
+            .addEventListener("click", login);
+    </script>
 </body>
 </html>

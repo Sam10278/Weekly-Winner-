@@ -1,10 +1,12 @@
 
+/* Navbar */
+
 .navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 20px;
     padding: 10px 20px;
-    background-color: white;
+    background: white;
     border-bottom: 1px solid #ddd;
 }
 
@@ -12,135 +14,162 @@
     font-weight: bold;
     color: green;
     text-decoration: none;
-    margin-right: 50px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .navbar-links {
     display: flex;
-    gap: 12px;
     align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
 }
 
 .navbar-links a {
-    text-decoration: none;
-    color: black;
-    padding: 6px 12px;
+    padding: 6px 10px;
     border: 1px solid #ccc;
-    background-color: white;
+    background: white;
+    color: black;
+    text-decoration: none;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .navbar-links a:hover {
-    background-color: #f2f2f2;
+    background: #f2f2f2;
 }
+
+/* Login and profile */
 
 .navbar-user {
     margin-left: auto;
-    padding-left: 15px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
-.navbar-profile {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.navbar-user a {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    color: black;
+    text-decoration: none;
 }
 
-.navbar-profile[hidden] {
+.navbar-user a[hidden],
+.navbar-profile[hidden],
+.profile-dropdown[hidden] {
     display: none;
 }
 
-/* Profile picture or initial */
-#user-avatar {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    overflow: hidden;
+.navbar-profile {
+    position: relative;
+}
+
+.profile-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #64748b;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+#user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #64748b;
     color: white;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 #user-avatar img {
-    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-#user-name {
-    font-size: 14px;
+.profile-button:hover {
+    outline: 2px solid #ddd;
 }
 
-.navbar-user a,
-#logout-btn {
-    text-decoration: none;
-    color: black;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    background-color: white;
+.profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    z-index: 1000;
+    width: 190px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+#user-name {
+    display: block;
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
     font-size: 14px;
+    font-weight: bold;
+}
+
+#logout-btn {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
     cursor: pointer;
 }
 
-.navbar-user a[hidden],
-#logout-btn[hidden] {
-    display: none;
+#logout-btn:hover {
+    background: #f2f2f2;
 }
 
-.navbar-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+/* Mobile */
 
-.navbar-initial {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #64748b;
-    color: white;
-    font-weight: 600;
-}
-
-/* Mobile navbar */
 @media (max-width: 768px) {
     .navbar {
+        display: flex;
         flex-wrap: wrap;
+        justify-content: space-between;
         gap: 10px;
         padding: 12px;
     }
 
-    .navbar-brand {
-        margin-right: 0;
-    }
-
     .navbar-links {
         order: 3;
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 8px;
+        flex: 0 0 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 6px;
+        overflow-x: auto;
+        min-width: 0;
+        white-space: nowrap;
+        scrollbar-width: none;
+    }
+
+    .navbar-links::-webkit-scrollbar {
+        display: none;
     }
 
     .navbar-links a {
-        padding: 6px 10px;
-        font-size: 13px;
+        flex-shrink: 0;
+        padding: 6px 8px;
+        font-size: 11px;
     }
 
     .navbar-user {
-        padding-left: 0;
         margin-left: auto;
-    }
-
-    #user-name {
-        font-size: 12px;
     }
 }
