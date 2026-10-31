@@ -85,11 +85,13 @@ function createChallengeCard(id, challenge, categoryName) {
 
   const finished = challenge.status === "finished";
 
+  const roundEnded =
+    challenge.roundEndsAt?.toMillis?.() <= Date.now();
+
   addText(
     card,
     "p",
-    finished ? "Finished" : "Voting now",
-    "challenge-status"
+    finished ? "Finished" : roundEnded ? "Round ended" : "Voting now",    "challenge-status"
   );
 
   if (finished) {

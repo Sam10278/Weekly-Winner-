@@ -1,6 +1,6 @@
 # Weekly-Winner-
 
-We Will Win Weekly
+Every Week a Winner
 
 ## What is Weekly Winner?
 
@@ -19,7 +19,7 @@ Build a public website where a community can create bracket challenges and decid
 - Let users start a bracket challenge and choose its size (32, 16, 8, ...)
 - Pick the bracket items randomly from the category's pool
 - Show an error if the category does not have enough items
-- Let users vote in each matchup (3 votes per minute per user)
+- Let each logged-in user vote up to 3 times per minute in matchups.
 - Show live vote counts and a countdown timer for each round
 - Close each round after 1 day and move the winner forward automatically
 - Show past winners and completed challenges
@@ -107,3 +107,26 @@ git rebase --continue
 
 
     
+## How Weekly Winner Works
+
+### Starting a Challenge
+
+A new challenge is planned to start automatically every Monday at 9:00 AM (Central Time).
+
+The system selects a category that has enough items and has not been used in another challenge. It then randomly selects the items and creates a tournament bracket.
+
+Each challenge can have 8 or 16 items, depending on what is available.
+
+### Voting
+
+Users must log in before voting.
+
+Each logged-in user can vote up to 3 times per minute. They choose their favorite item in a matchup, and the vote counts update live.
+
+When a round ends, the item with the most votes moves to the next round.
+
+The challenge continues until one item becomes the winner.
+
+### Past Winners
+
+Finished challenges appear on the Past Winners page. Users can see the category, winner, bracket size, finish date, and the completed bracket.
