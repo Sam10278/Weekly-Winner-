@@ -1,10 +1,8 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
+const logger = require("firebase-functions/logger");
+const { initializeApp } = require("firebase-admin/app");
 
-// initialize Firebase Admin
-admin.initializeApp();
+// Start the Admin SDK ONE time, here, before anything else uses it.
+// Calling initializeApp() a second time crashes with “The default Firebase app already exists”.
+initializeApp();
 
-// test function - just to make sure everything works
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  response.send("Weekly Winner backend is running!");
-});
