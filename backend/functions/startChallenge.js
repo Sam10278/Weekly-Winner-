@@ -14,7 +14,8 @@ function shuffle(list) {
 
 // Date of the challenge when it starts, like "2026-11-02". It will be the challenge id.
 function chicagoDate(now = new Date()) {
-  return now.toLocaleDateString("en-US", {
+    // en CA it is used becuase en US prints dates with / which is not allowed on firestore
+  return now.toLocaleDateString("en-CA", {
     timeZone: "America/Chicago",
     // show data year and month all in numbers
     year: "numeric",
