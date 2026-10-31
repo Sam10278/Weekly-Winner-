@@ -31,6 +31,10 @@ Example:
 
 Keep entries short and specific.
 -->
+## [PR: #15] [2026-10-30]
+### Added
+- Cloud Functions set up (firebase.json, Node 22, v2 style, Admin SDK start)
+
 ## [PR: #13] [2026-10-29]
 ### Fixed
 - Updated the navbar label on the Start Challenge page from "Categories" to "Add Category & Item" to match the Home page and other pages.
