@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Winners - Weekly Winner</title>
+
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/past-winners.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a class="navbar-brand" href="/index.html">Weekly Winner</a>
+
+        <div class="navbar-links">
+            <a href="/index.html">Home</a>
+            <a href="/pages/categories.html">Categories</a>
+            <a href="/pages/vote.html">Vote</a>
+            <a href="/pages/past-winners.html">Past Winners</a>
+        </div>
+
+        <div class="navbar-user">
+            <div id="user-profile" class="navbar-profile" hidden>
+                <span id="user-avatar"></span>
+                <span id="user-name"></span>
+            </div>
+
+            <a href="/pages/login.html" id="login-link" hidden>Login</a>
+            <button id="logout-btn" hidden>Logout</button>
+        </div>
+    </nav>
+
+    <main class="past-winners-section">
+        <h1>Past Winners</h1>
+        <p>Check out the winners from previous challenges.</p>
+
+        <div id="past-winners-list">
+            <p>Loading past winners...</p>
+        </div>
+    </main>
+
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/past-winners.js"></script>
+</body>
+</html>
