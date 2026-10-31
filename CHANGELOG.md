@@ -31,6 +31,14 @@ Example:
 
 Keep entries short and specific.
 -->
+## [PR: #20] [2026-10-31]
+### Added
+- Add startChallenge.js
+### Changed
+- Uodated index.js accordignly 
+- Updated the ReadMe file to make sense for develop branch
+
+
 ## [PR: #15] [2026-10-30]
 ### Added
 - Cloud Functions set up (firebase.json, Node 22, v2 style, Admin SDK start)
