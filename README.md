@@ -43,67 +43,165 @@ Build a public website where a community can create bracket challenges and decid
 
 
 
+## Important Notes
 
-
-
-## Important Notes:
-
-Your three best friends among Git commands are:
+Your three most important Git commands are:
 
 ```bash
 git add .
-```
-
-```bash
 git commit -m "your message"
-```
-
-```bash
 git push
 ```
-## 🔀 Work on Your Branch: PULL REQUEST
 
-After pulling all the updates from the repo to your local repo,
-create a new branch from the the `main` branch (locally):
+Always check your current branch:
 
 ```bash
-git checkout main
-git pull
+git branch
+```
+
+## 🔀 Work on Your Branch: Pull Request
+
+
+- `main` → Stable, production-ready code.
+- `develop` → Team development branch where completed features are merged.
+
+### Step 1: Update Your Local Develop Branch
+
+Before starting new work, get the latest changes from `develop`:
+
+```bash
+git checkout develop
+git pull origin develop
+```
+
+### Step 2: Create Your Feature Branch
+
+Always create your new branch from `develop`, NOT `main`:
+
+```bash
+git checkout develop
 git checkout -b name-of-my-new-branch
 ```
-Then push the new branch created to the remore(github) repo:
+
+### Step 3: Make Changes and Commit
+
+After finishing your changes:
+
+```bash
+git add .
+git commit -m "Describe your changes"
+```
+
+### Step 4: Push Your Branch to GitHub
+
 ```bash
 git push -u origin name-of-my-new-branch
 ```
-Then: Go to GitHub → select your branch → Open/Compare & pull request → create the Pull Request.
 
-## Rebase and Merge Conflicts
-Rebase your branch if you see it is behind main (it says whether it is behind main or not - somewhere in the PR, or just heck if there is new commits to main that when you branch out you did not have it as part of your branch), rebase is basically updating your branch with the latest changes to main
-after rebase when conflicts occur (after the rebase this is common) : keep changes for both your changes and main changes and juts delete the extra stuff like:
+### Step 5: Create a Pull Request
+
+Go to GitHub → Select your branch → Compare & pull request.
+
+Make sure:
+
+- Base branch: `develop`
+- Compare branch: `name-of-my-new-branch`
+
+Create the Pull Request.
+
+After review and approval, merge your feature branch into `develop`.
+
+**Do NOT merge feature branches directly into `main`.**
+
+---
+
+## 🔄 Rebase and Merge Conflicts
+
+If your feature branch is behind `develop`, rebase it to get the latest changes.
+
+### Step 1: Fetch Latest Updates
+
 ```bash
+git fetch origin
+```
+
+### Step 2: Switch to Your Feature Branch
+
+```bash
+git checkout name-of-my-new-branch
+```
+
+### Step 3: Rebase Onto Develop
+
+```bash
+git rebase origin/develop
+```
+
+Rebase updates your feature branch with the latest changes from `develop`.
+
+### Resolving Merge Conflicts
+
+If conflicts occur, Git may show something like:
+
+```text
 <<<<<<< HEAD
-changes from main
+changes from develop
 =======
 your changes
->>>>>>> your commit message
-```
-Keep both sets of changes: the ones from main and your own. Then delete the extra marker lines ``` ```bash
-
-(<<<<<<<, =======, >>>>>>>).
+>>>>>>> commit-id
 ```
 
-Then run:
+Review both versions carefully.
+
+- Keep both changes if they work together.
+- Otherwise, decide which code to keep or modify.
+- Delete the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
+
+**Important:** Do not automatically keep both versions. Make sure the final code works correctly.
+
+After resolving the conflicts:
+
 ```bash
 git add .
 git rebase --continue
 ```
 
+Repeat until the rebase is complete.
+
+Then test your code and update your remote feature branch:
+
+```bash
+git push --force-with-lease
+```
+
+**Note:** Only use `--force-with-lease` on your own feature branch after rebasing. Never force-push to `develop` or `main`.
+
+
 ## ⚠️ Things to Remember
 
-1. Always make sure you are on the correct branch before committing
-2. Never push directly to main; always work on a branch and open a Pull Request
-3. Update the CHANGELOG with what you have changed, added and fixed 
-4. Rebase your branch!
+1. Always check that you are on the correct branch before committing.
+2. Never push directly to `main` or `develop`.
+3. Always create feature branches from the latest `develop`.
+4. Update the `CHANGELOG` with what you changed, added, or fixed.
+5. Rebase your feature branch onto `develop` when it falls behind.
+6. Resolve merge conflicts carefully and test your code.
+7. Always create Pull Requests targeting `develop`.
+
+---
+
+## 🌿 Branch Workflow
+
+```text
+main
+  ↑
+develop
+  ↑
+  ├── feature
+  ├── feature
+  └── feature
+```
+
+
 
 
     
