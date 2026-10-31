@@ -39,7 +39,7 @@ onAuthStateChanged(auth, (user) => {
   if (logoutBtn) logoutBtn.hidden = !user;
   if (userProfile) userProfile.hidden = !user;
 
-  if (user) {
+  if (user && userName && userAvatar) {
     userName.textContent = user.displayName || user.email || "";
 
     userAvatar.replaceChildren();
