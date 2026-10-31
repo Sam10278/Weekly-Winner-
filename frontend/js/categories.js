@@ -244,7 +244,8 @@ async function loadData() {
     categories = categorySnapshot.docs.map((snapshot) => ({
       id: snapshot.id,
       ...snapshot.data()
-    }));
+    }))
+    .filter((category) => category.closed !== true);
 
     items = itemSnapshot.docs.map((snapshot) => ({
       id: snapshot.id,
