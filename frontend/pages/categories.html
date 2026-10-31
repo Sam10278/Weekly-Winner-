@@ -18,14 +18,45 @@
 
       <div class="navbar-links">
         <a href="/index.html">Home</a>
-        <a href="/pages/categories.html">Add Category & Item</a>
-        <a href="/pages/start-challenge.html"> Start Challenge </a>
+        <a href="/pages/categories.html">Categories</a>
+        <a href="/pages/start-challenge.html">Start Challenge</a>
         <a href="/pages/vote.html">Vote</a>
         <a href="/pages/past-winners.html"> Past Winners </a>
       </div>
 
-      <div class="navbar-user">
-        <span id="user-name"></span>
+
+<div class="navbar-user">
+
+    <a href="/pages/login.html" id="login-link" hidden>
+        Login
+    </a>
+
+    <div id="user-profile" class="navbar-profile" hidden>
+
+        <button
+            id="profile-button"
+            class="profile-button"
+            type="button"
+            aria-label="Open profile menu"
+            aria-expanded="false"
+            aria-controls="profile-dropdown"
+        >
+            <span id="user-avatar"></span>
+        </button>
+
+        <div id="profile-dropdown" class="profile-dropdown" hidden>
+            <span id="user-name"></span>
+
+            <button id="logout-btn" type="button">
+                Logout
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+
         <a href="/pages/login.html" id="login-link" hidden>Login</a>
         <button id="logout-btn" hidden>Logout</button>
       </div>
@@ -159,5 +190,6 @@
     <!-- Firebase -->
     <script type="module" src="/js/app.js"></script>
     <script type="module" src="/js/categories.js"></script>
+    <script type="module" src="/js/auth.js"></script>
   </body>
 </html>

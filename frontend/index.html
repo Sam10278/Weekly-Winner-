@@ -9,9 +9,10 @@
      <link rel="stylesheet" href="/css/navbar.css">
      <link rel="stylesheet" href="/css/style.css">
      <link rel="stylesheet" href="/css/bracket.css">
+     <link rel="stylesheet" href="/css/challenge-list.css">
   </head>
   <body>
-  
+
   <!-- Navbar -->
   <nav class="navbar">
     <a class="navbar-brand" href="index.html">Weekly Winner</a>
@@ -19,22 +20,46 @@
     <div class="navbar-links">
 
     <a href="/index.html">Home</a>
-    <a href="/pages/categories.html">Add Category & Item</a>
+    <a href="/pages/categories.html">Categories</a>
     <a href="/pages/start-challenge.html">Start Challenge</a>
     <a href="/pages/vote.html">Vote</a>
     <a href="/pages/past-winners.html">Past Winners</a>
 
     </div>
 
-    <div class="navbar-user">
-        <div id="user-profile" class="navbar-profile" hidden>
+
+<div class="navbar-user">
+
+    <a href="/pages/login.html" id="login-link" hidden>
+        Login
+    </a>
+
+    <div id="user-profile" class="navbar-profile" hidden>
+
+        <button
+            id="profile-button"
+            class="profile-button"
+            type="button"
+            aria-label="Open profile menu"
+            aria-expanded="false"
+            aria-controls="profile-dropdown"
+        >
             <span id="user-avatar"></span>
+        </button>
+
+        <div id="profile-dropdown" class="profile-dropdown" hidden>
             <span id="user-name"></span>
+
+            <button id="logout-btn" type="button">
+                Logout
+            </button>
         </div>
 
-        <a href="/pages/login.html" id="login-link" hidden>Login</a>
-        <button id="logout-btn" hidden>Logout</button>
     </div>
+</div>
+
+
+
     </nav>
 
     <!-- PAGE CONTENT LIKE BRACKET GOES HERE-->
@@ -42,8 +67,17 @@
       <h2 class="bracket-heading">Current Bracket</h2>
         <div id="bracket-root"></div>
     </section>
-  
+
+    <!-- Challenge List -->
+    <section class="challenge-list-section">
+      <h2>Recent Challenges</h2>
+      <div id="challenge-list">
+        <p>Loading challenges...</p>
+      </div>
+    </section>
+
     <script type="module" src="/js/auth.js"></script>
     <script type="module" src="/js/bracket.js"></script>
+    <script type="module" src="/js/challenge-list.js"></script>
 </body>
 </html>
