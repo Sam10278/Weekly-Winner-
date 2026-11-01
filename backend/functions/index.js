@@ -70,11 +70,12 @@ exports.closeRounds = onSchedule(
         if (outcome === "finished") {
           logger.info("Challenge finished", { challengeId: doc.id });
         }
-      } catch (error) {
+      }  catch (error) {
         // One broken challenge must not stop the others.
         logger.error("Could not close the round", {
           challengeId: doc.id,
-          message: error.message
+          reason: error.message,
+          code: error.code
         });
       }
     }

@@ -234,21 +234,25 @@ async function closeRound(db, challengeId) {
           for (const nextDoc of nextSnap.docs) {
             const nextData = nextDoc.data();
 
-          if (nextData.position === slot.position) {
-            nextRef = nextDoc.ref;
+            if (nextData.position === slot.position) {
+              nextRef = nextDoc.ref;
+            }
           }
+          // the search loop ENDS here, after looking at every matchup
 
           // Safety check: the matchup must exist. If not, stop and save nothing.
           if (nextRef === null) {
-            throw new Error("Next-round matchup not found for position " + slot.position);
+            throw new Error("Next-round matchup not found: round " + slot.round + ", position " + slot.position);
           }
+
+          // Put the winner into the right slot of that matchup.
           if (slot.slotField === "itemA") {
             transaction.update(nextRef, { itemA: entry.winnerItem });
           } else {
             transaction.update(nextRef, { itemB: entry.winnerItem });
           }
-          }
         }
+        // the winners loop ENDS here
 
         // move the challenge to the next round and set its new end time.
         const oneDay = 24 * 60 * 60 * 1000;
@@ -260,7 +264,7 @@ async function closeRound(db, challengeId) {
           currentRound: round + 1,
           roundEndsAt: Timestamp.fromMillis(newEndTime)
         });
-        return "advanced"
+        return "advanced";
     });
     return outcome;
 }
