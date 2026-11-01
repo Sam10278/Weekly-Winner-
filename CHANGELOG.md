@@ -31,11 +31,20 @@ Example:
 
 Keep entries short and specific.
 -->
+
+
+## [PR: #22] [2026-11-01]
+### Added
+- Add rounds.js
+### Changed
+- Updated index.js accordignly
+
+
 ## [PR: #20] [2026-10-31]
 ### Added
 - Add startChallenge.js
 ### Changed
-- Uodated index.js accordignly 
+- Updated index.js accordignly 
 - Updated the ReadMe file to make sense for develop branch
 
 
