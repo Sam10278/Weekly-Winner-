@@ -1,4 +1,5 @@
 const { onSchedule } = require("firebase-functions/v2/scheduler");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
@@ -45,6 +46,7 @@ exports.startChallenge = onSchedule(
   }
 );
 
+
 // Every 5 minutes: check to see if there is anything to update or
 // close rounds whose time is over and move the winners forward.
 exports.closeRounds = onSchedule(
@@ -81,3 +83,7 @@ exports.closeRounds = onSchedule(
     }
   }
 );
+
+// Export the castVote function from its own file
+exports.castVote = require("./castVote").castVote;
+
