@@ -1,8 +1,18 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {
+  getAuth,
+  connectAuthEmulator
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import {
+  getFirestore,
+  connectFirestoreEmulator
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
+import {
+  getFunctions,
+  connectFunctionsEmulator
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-functions.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCezCaH1q6L_SYuTpG9wHZSy_aKLSVuFpE",
@@ -17,5 +27,18 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export const functions = getFunctions(app, "us-central1");
+
+// Connect to local emulators only when running locally.
+if (
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === "localhost"
+) {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
+  connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+
+  console.log("Connected to local Firebase emulators");
+}
 
 
