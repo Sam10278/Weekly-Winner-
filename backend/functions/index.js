@@ -9,6 +9,7 @@ initializeApp();
 
 // Our helper file goes BELOW initializeApp(). It never calls initializeApp itself.
 const { pickCategory, saveChallenge, chicagoDate } = require("./startChallenge");
+const { closeRound } = require("./rounds");
 
 // Every Monday at 9:00 AM Chicago time: start a new challenge.
 exports.startChallenge = onSchedule(
@@ -41,5 +42,41 @@ exports.startChallenge = onSchedule(
       category: picked.category.name,
       size: picked.size
     });
+  }
+);
+
+// Every 5 minutes: check to see if there is anything to update or
+// close rounds whose time is over and move the winners forward.
+exports.closeRounds = onSchedule(
+  { schedule: "*/15 * * * *", timeoutSeconds: 120 },
+  async () => {
+    const db = getFirestore();
+
+    // Get every challenge that is still open.
+    const openSnap = await db.collection("challenges").where("status", "==", "open").get();
+
+    for (const doc of openSnap.docs) {
+      try {
+        // closeRound does nothing if the round is not over yet
+        const outcome = await closeRound(db, doc.id);
+
+        // "advanced" means the round ended, 
+        // and the challenge goes on. 
+        // "finished" means the final ended, and the challenge is over.
+        if (outcome === "advanced") {
+          logger.info("Round closed, next round started", { challengeId: doc.id });
+        }
+
+        if (outcome === "finished") {
+          logger.info("Challenge finished", { challengeId: doc.id });
+        }
+      } catch (error) {
+        // One broken challenge must not stop the others.
+        logger.error("Could not close the round", {
+          challengeId: doc.id,
+          message: error.message
+        });
+      }
+    }
   }
 );
