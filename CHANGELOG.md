@@ -31,6 +31,7 @@ Example:
 
 Keep entries short and specific.
 -->
+
 ## [PR: #23] [2026-11-01]
 
 ### Added
@@ -49,6 +50,9 @@ Keep entries short and specific.
 
 ## [PR: #21] [2026-11-03]
 
+## [PR: #21] [2026-11-01]
+
+
 ### Added
 - Added frontend integration with the secure `castVote` Firebase callable Cloud Function.
 - Added client-side voting requests that send the matchup ID and selected side (A or B) to the backend.
@@ -61,6 +65,7 @@ Keep entries short and specific.
 ### Fixed
 - Improved handling of rejected voting requests, including unauthenticated users, duplicate votes, invalid inputs, and closed challenges.
 
+<<<<<<< HEAD
 ## [PR: #19] [2026-11-02]
 ### Added
 - Add past-winner.html
@@ -82,6 +87,7 @@ Keep entries short and specific.
 ### Changed
 - Updated index.js accordignly 
 - Updated the ReadMe file to make sense for develop branch
+
 
 ## [PR: #15] [2026-10-30]
 ### Added
