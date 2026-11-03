@@ -15,14 +15,14 @@ Build a public website where a community can create bracket challenges and decid
 ### Objective
 
 - Let users sign in with Google
-- Let users add categories and add items to a category
-- Let users start a bracket challenge and choose its size (32, 16, 8, ...)
+- Let logged-in users add categories, and add items to a category
+- Start a new bracket challenge automatically every Monday at 9:00 AM (8 or 16 items, picked at random)
+- Pick a category that has not been used and has enough items, then hide it so nobody adds items while its challenge runs
 - Pick the bracket items randomly from the category's pool
-- Show an error if the category does not have enough items
-- Let each logged-in user vote up to 3 times per minute in matchups.
-- Show live vote counts and a countdown timer for each round
-- Close each round after 1 day and move the winner forward automatically
-- Show past winners and completed challenges
+- Let each logged-in user vote once in each matchup of the active round
+- Show vote counts only after the user has voted in that matchup, with live updates and a countdown timer for each round
+- Close each round after 24 hours, pick the winner by votes, and move the winner forward automatically
+- Show the winner and past winners of completed challenges
 - Work on phones, tablets, and computers
 - Run on Google Cloud within the free tier
 
