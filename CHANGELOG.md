@@ -33,6 +33,15 @@ Keep entries short and specific.
 -->
 
 
+## [PR: #19] [2026-11-02]
+### Added
+- Add past-winner.html
+- Add challenge-list.js
+- Add past-winner.js
+## Changed
+- login html pge with a drop down feature
+- 
+
 ## [PR: #22] [2026-11-01]
 ### Added
 - Add rounds.js
