@@ -80,14 +80,3 @@ I fixed the voting rule wording to say that each logged-in user can vote up to 3
 
 I also added an explanation of how weekly challenges are planned to start automatically, how voting works, and where finished challenges appear.
 
-## 7. Testing
-
-I checked the homepage, Categories, Past Winners, Login, and Start Challenge layouts using Chrome's mobile device view.
-
-I also checked that the profile dropdown opens on the homepage.
-
-The Past Winners Firestore query works after creating the index, but the winner cards still need testing with a finished challenge.
-
-The automatic challenge scheduling and voting functions depend on the backend work being completed.
-
-All my changes are on the `Mehedi-complete` branch. The final Pull Request will go into `develop`.
