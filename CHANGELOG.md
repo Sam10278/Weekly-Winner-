@@ -32,6 +32,7 @@ Example:
 Keep entries short and specific.
 -->
 
+
 ## [PR: #23] [2026-11-01]
 
 ### Added
@@ -49,6 +50,30 @@ Keep entries short and specific.
 - Prevented unauthenticated, invalid, duplicate, and closed-challenge votes from being accepted.
 
 ## [PR: #21] [2026-11-03]
+
+### November 3, 2026 — Secure Voting Feature
+
+**Contributor:** Sujit
+
+**Added**
+- Implemented the Vote page with dynamically loaded matchups from Firestore.
+- Added voting buttons for both participants in each matchup.
+- Created the `castVote` Firebase Cloud Function for secure vote submission.
+- Added authentication requirements for voting.
+- Implemented Firestore transactions for atomic vote recording and vote-count updates.
+- Added user-specific vote records to prevent duplicate voting.
+
+**Updated**
+- Updated Firebase configuration to support the Functions emulator.
+- Integrated the frontend voting page with the backend Cloud Function.
+- Updated `.gitignore` to exclude local emulator data.
+
+**Tested**
+- Successfully submitted a vote through the Firebase Emulator Suite.
+- Verified that Firestore vote counts updated correctly.
+- Confirmed duplicate voting was rejected.
+- Verified that voting buttons became disabled after voting.
+
 
 ## [PR: #21] [2026-11-01]
 
