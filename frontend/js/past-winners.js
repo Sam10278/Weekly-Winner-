@@ -8,7 +8,8 @@ import {
     doc,
     query,
     where,
-    orderBy
+    orderBy,
+    limit
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 const winnersList = document.getElementById("past-winners-list");
@@ -102,7 +103,8 @@ async function loadPastWinners() {
         const winnersQuery = query(
             collection(db, "challenges"),
             where("status", "==", "finished"),
-            orderBy("finishedAt", "desc")
+            orderBy("finishedAt", "desc"),
+            limit(50)
         );
 
         const snapshot = await getDocs(winnersQuery);
@@ -121,10 +123,15 @@ async function loadPastWinners() {
             const challenge = challengeDoc.data();
 
             try {
-                const [categoryName, winner] = await Promise.all([
-                    getCategoryName(challenge),
-                    getWinner(challengeDoc.id, challenge.bracketSize)
-                ]);
+                const categoryName = await getCategoryName(challenge);
+
+                // The rounds function saves the winner on the challenge. Use it first.
+                let winner = challenge.winner || null;
+
+                // Old challenges may not have it. Then look in the matchups.
+                if (winner === null) {
+                    winner = await getWinner(challengeDoc.id, challenge.bracketSize);
+                }
 
                 winnersList.appendChild(
                     makeWinnerCard(

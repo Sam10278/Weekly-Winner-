@@ -91,7 +91,8 @@ function createChallengeCard(id, challenge, categoryName) {
   addText(
     card,
     "p",
-    finished ? "Finished" : roundEnded ? "Round ended" : "Voting now",    "challenge-status"
+    finished ? "Finished" : roundEnded ? "Round ended" : "Voting now",    
+    "challenge-status"
   );
 
   if (finished) {

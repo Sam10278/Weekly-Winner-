@@ -5,7 +5,7 @@
 
 I updated the navbar so users can move between the different pages of Weekly Winner.
 
-The navbar has Home, Categories, Start Challenge, Vote, and Past Winners.
+The navbar has Home, Add categories and Items,  Vote, and Past Winners.
 
 I also updated the Google login profile. Before logging in, users see a Login button. After logging in, they see their Google profile picture.
 
