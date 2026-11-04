@@ -31,6 +31,15 @@ Example:
 
 Keep entries short and specific.
 -->
+
+## [PR: #24] [2026-11-03]
+### Added
+- Vote page: one card for each matchup of the active round, with Vote buttons
+- Vote buttons turn on only when the user can vote (logged in, round open, not voted yet)
+- Your votes are remembered live, so voted matchups stay locked after a refresh
+- Vote page styles (vote.css)
+
+
 ## [PR: #23] [2026-11-01]
 
 ### Added
@@ -47,7 +56,8 @@ Keep entries short and specific.
 ### Fixed
 - Prevented unauthenticated, invalid, duplicate, and closed-challenge votes from being accepted.
 
-## [PR: #21] [2026-11-03]
+## [PR: #21] [2026-11-01]
+
 
 ### Added
 - Added frontend integration with the secure `castVote` Firebase callable Cloud Function.
@@ -61,6 +71,7 @@ Keep entries short and specific.
 ### Fixed
 - Improved handling of rejected voting requests, including unauthenticated users, duplicate votes, invalid inputs, and closed challenges.
 
+<<<<<<< HEAD
 ## [PR: #19] [2026-11-02]
 ### Added
 - Add past-winner.html
@@ -82,6 +93,7 @@ Keep entries short and specific.
 ### Changed
 - Updated index.js accordignly 
 - Updated the ReadMe file to make sense for develop branch
+
 
 ## [PR: #15] [2026-10-30]
 ### Added

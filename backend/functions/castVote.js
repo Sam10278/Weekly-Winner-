@@ -68,12 +68,10 @@ exports.castVote = onCall(async (request) => {
     const challenge = challengeSnap.data();
 
     // ---------- CHECKS ----------
-    // the challenge must be open
     if (challenge.status !== "open") {
       throw new HttpsError("failed-precondition", "This challenge is not open for voting.");
     }
 
-    // the round must still be running
     if (!challenge.roundEndsAt || typeof challenge.roundEndsAt.toMillis !== "function") {
       throw new HttpsError("failed-precondition", "This challenge has no end time.");
     }
@@ -82,22 +80,18 @@ exports.castVote = onCall(async (request) => {
       throw new HttpsError("failed-precondition", "Voting for this round has ended.");
     }
 
-    // the matchup must be in the active round
     if (matchup.round !== challenge.currentRound) {
       throw new HttpsError("failed-precondition", "This matchup is not in the active round.");
     }
 
-    // both items must be there
     if (!matchup.itemA || !matchup.itemB) {
       throw new HttpsError("failed-precondition", "This matchup is not ready for voting.");
     }
 
-    // it must not be decided already
     if (matchup.winnerId) {
       throw new HttpsError("failed-precondition", "This matchup has already been decided.");
     }
 
-    // one vote only
     if (voteSnap.exists) {
       throw new HttpsError("already-exists", "You have already voted in this matchup.");
     }
@@ -111,7 +105,6 @@ exports.castVote = onCall(async (request) => {
       timeField = "lastVoteAtA";
     }
 
-    // 1. save the vote (same fields as the data contract)
     transaction.create(voteRef, {
       userId: uid,
       matchupId: matchupId,
@@ -121,7 +114,6 @@ exports.castVote = onCall(async (request) => {
       createdAt: FieldValue.serverTimestamp()
     });
 
-    // 2. add 1 to the count and save the time of this vote
     const change = {};
     change[countField] = FieldValue.increment(1);
     change[timeField] = FieldValue.serverTimestamp();

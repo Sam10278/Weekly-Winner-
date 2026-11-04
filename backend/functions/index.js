@@ -7,6 +7,7 @@ const { getFirestore } = require("firebase-admin/firestore");
 // Calling initializeApp() a second time crashes with “The default Firebase app already exists”.
 initializeApp();
 
+
 // Our helper file goes BELOW initializeApp(). It never calls initializeApp itself.
 const { pickCategory, saveChallenge, chicagoDate } = require("./startChallenge");
 const { closeRound } = require("./rounds");
