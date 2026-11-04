@@ -162,11 +162,18 @@
 }
 
 .slot-name {
-  flex: 1;
+  display: block;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.slot-name-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
 }
 
 .slot-votes {
@@ -182,4 +189,21 @@
 .matchup.is-loser .slot {
   color: #767676;
   text-decoration: line-through;
+}
+/* Highlight the competitor the user voted for. */
+.matchup.my-vote {
+  background-color: rgba(34, 197, 94, 0.12);
+  border: 2px solid #22c55e;
+  border-radius: 8px;
+}
+
+/* Highlight the selected competitor's slot. */
+.matchup.my-vote .slot {
+  background-color: rgba(34, 197, 94, 0.08);
+}
+
+/* Make the selected competitor's name green. */
+.matchup.my-vote .slot-name {
+  color: #22c55e;
+  font-weight: bold;
 }
