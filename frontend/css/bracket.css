@@ -208,3 +208,15 @@
   font-weight: bold;
   margin-left: 8px;
 }
+
+/* the line under the bracket */
+#vote-message {
+  min-height: 22px;
+  margin: 10px 0 0;
+  font-size: 14px;
+}
+
+/* the "?" shown while counts are hidden */
+.slot-votes[title] {
+  cursor: help;
+}

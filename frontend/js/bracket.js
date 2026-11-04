@@ -136,23 +136,30 @@ function makeBox(contender, showVote, matchup, side, state = getVoteState(), isS
     name.textContent = "TBD";
   }
   slot.append(name);
-  // If the user just voted for this item, display a label beside their choice
-  if (state.hasVoted && state.mySide === side) {
+
+  // "Your vote" label on the side the user picked
+  if (contender && state.hasVoted && state.mySide === side) {
     box.classList.add("my-vote");
-    // Create a label to identify the user's selected item
+
     const voteLabel = document.createElement("span");
     voteLabel.className = "your-vote";
-
     voteLabel.textContent = "Your vote";
-
-    // Add the label to the competitor's slot.
     slot.append(voteLabel);
   }
 
+  // The count: shown only after you voted, or when the matchup is decided.
+  // Otherwise show "?".
   if (contender && contender.votes !== undefined) {
     const votes = document.createElement("span");
     votes.className = "slot-votes";
-    votes.textContent = contender.votes;
+
+    if (state.canSeeCounts) {
+      votes.textContent = contender.votes;
+    } else {
+      votes.textContent = "?";
+      votes.title = "Vote to see the count";
+    }
+
     slot.append(votes);
   }
 
@@ -165,6 +172,7 @@ function makeBox(contender, showVote, matchup, side, state = getVoteState(), isS
     box.classList.add("is-loser");
   }
 
+  // Vote button: only for real items inside a real matchup
   if (showVote && contender && matchup) {
     const voteBtn = document.createElement("button");
     voteBtn.type = "button";
@@ -172,9 +180,8 @@ function makeBox(contender, showVote, matchup, side, state = getVoteState(), isS
     voteBtn.textContent = "Vote";
     voteBtn.dataset.matchupId = matchup.id;
     voteBtn.dataset.side = side;
-    // Disable the button if:
-        //getVoteState() says voting is not allowed, OR
-        //A vote for this matchup is currently being saved.
+
+    // off if voting is not allowed, or this matchup is saving right now
     voteBtn.disabled = state.disabled || isSaving;
     voteBtn.title = state.reason || "";
 
@@ -219,7 +226,7 @@ function makeRound(roundNumber, totalRounds, size, side, matchupMap, getMatchupS
     const isSaving = matchup
     ? savingIds.has(matchup.id)
     : false;
-    round.append(makeBox(getContender(matchup, spot.slotName), true, matchup, spot.slotName, getMatchupState, savingIds));
+    round.append(makeBox(getContender(matchup, spot.slotName), true, matchup, spot.slotName, state, isSaving));
   }
 
   return round;
@@ -510,7 +517,6 @@ root.addEventListener("click", async (event) => {
     // submitVote() returns an object with an "ok" property.
     // If ok is true, the backend accepted the vote.
     if (result.ok) {
-      myVotes[matchupId] = side;
       showVoteMessage(result.message || "Vote saved.");
     } else {
       // If the backend rejects the request, display its message.
