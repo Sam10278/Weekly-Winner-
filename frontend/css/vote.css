@@ -1,0 +1,157 @@
+/* Vote page. Colors match the bracket: gray, white, black, red for Vote. */
+
+.vote-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+/* ---------- header ---------- */
+
+.vote-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.vote-header h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+}
+
+#challenge-info {
+  margin: 0;
+  color: #444;
+  font-size: 15px;
+}
+
+#round-countdown {
+  margin: 8px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---------- message line ---------- */
+
+#vote-message {
+  min-height: 24px;
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* ---------- the cards ---------- */
+
+.matchups-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 16px;
+}
+
+.vote-card {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.vote-vs {
+  font-size: 14px;
+  font-weight: 700;
+  color: #666;
+}
+
+/* ---------- one side of a card ---------- */
+
+.vote-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #999;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.vote-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #ddd;
+}
+
+.vote-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- the Vote button ---------- */
+
+.vote-button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c0392b;
+  border-radius: 6px;
+  background: #c0392b;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vote-button:hover:not(:disabled) {
+  background: #a93226;
+}
+
+.vote-button:disabled {
+  border-color: #ccc;
+  background: #eee;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* ---------- empty and winner ---------- */
+
+.vote-empty {
+  text-align: center;
+  color: #555;
+}
+
+#winner-container {
+  margin-top: 24px;
+  padding: 20px;
+  text-align: center;
+  background: #fff;
+  border: 2px solid #c0392b;
+  border-radius: 10px;
+}
+
+/* ---------- phone ---------- */
+
+@media (max-width: 600px) {
+  .vote-page {
+    padding: 16px 12px 32px;
+  }
+
+  .matchups-container {
+    grid-template-columns: 1fr;
+  }
+
+  .vote-card {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .vote-vs {
+    text-align: center;
+  }
+}

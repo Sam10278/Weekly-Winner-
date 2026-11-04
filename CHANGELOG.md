@@ -31,6 +31,74 @@ Example:
 
 Keep entries short and specific.
 -->
+
+## [PR: #24] [2026-11-03]
+### Added
+- Vote page: one card for each matchup of the active round, with Vote buttons
+- Vote buttons turn on only when the user can vote (logged in, round open, not voted yet)
+- Your votes are remembered live, so voted matchups stay locked after a refresh
+- Vote page styles (vote.css)
+
+
+## [PR: #23] [2026-11-01]
+
+### Added
+- Added `castVote.js` as a secure Firebase callable Cloud Function.
+- Added authentication and input validation before accepting votes.
+- Added Firestore transactions to record votes and update vote counts atomically.
+- Added duplicate-vote prevention using one vote document per user per matchup.
+- Added local Firebase emulator configuration for Auth, Firestore, Functions, and Hosting.
+
+### Changed
+- Updated `backend/functions/index.js` to export the `castVote` function.
+- Updated `frontend/js/app.js` to initialize Firebase Functions and connect to local emulators during development.
+
+### Fixed
+- Prevented unauthenticated, invalid, duplicate, and closed-challenge votes from being accepted.
+
+## [PR: #21] [2026-11-01]
+
+
+### Added
+- Added frontend integration with the secure `castVote` Firebase callable Cloud Function.
+- Added client-side voting requests that send the matchup ID and selected side (A or B) to the backend.
+- Added handling for successful votes and Firebase Functions errors.
+
+### Changed
+- Updated the voting workflow to use server-side validation instead of relying on the frontend for vote security.
+- Integrated frontend voting functionality with Firebase Authentication and Cloud Functions.
+
+### Fixed
+- Improved handling of rejected voting requests, including unauthenticated users, duplicate votes, invalid inputs, and closed challenges.
+
+<<<<<<< HEAD
+## [PR: #19] [2026-11-02]
+### Added
+- Add past-winner.html
+- Add challenge-list.js
+- Add past-winner.js
+## Changed
+- login html pge with a drop down feature
+- 
+
+## [PR: #22] [2026-11-01]
+### Added
+- Add rounds.js
+### Changed
+- Updated index.js accordignly
+
+## [PR: #20] [2026-10-31]
+### Added
+- Add startChallenge.js
+### Changed
+- Updated index.js accordignly 
+- Updated the ReadMe file to make sense for develop branch
+
+
+## [PR: #15] [2026-10-30]
+### Added
+- Cloud Functions set up (firebase.json, Node 22, v2 style, Admin SDK start)
+
 ## [PR: #13] [2026-10-29]
 ### Fixed
 - Updated the navbar label on the Start Challenge page from "Categories" to "Add Category & Item" to match the Home page and other pages.
