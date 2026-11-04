@@ -34,17 +34,10 @@ Keep entries short and specific.
 
 ## [PR: #24] [2026-11-03]
 ### Added
-- Implemented the Vote page with dynamically loaded matchups from Firestore.
-- Added voting buttons for both participants in each matchup.
-- Created the `castVote` Firebase Cloud Function for secure vote submission.
-- Added authentication requirements for voting.
-- Implemented Firestore transactions for atomic vote recording and vote-count updates.
-- Added user-specific vote records to prevent duplicate voting.
-
-### Updated
-- Updated Firebase configuration to support the Functions emulator.
-- Integrated the frontend voting page with the backend Cloud Function.
-- Updated `.gitignore` to exclude local emulator data.
+- Vote page: one card for each matchup of the active round, with Vote buttons
+- Vote buttons turn on only when the user can vote (logged in, round open, not voted yet)
+- Your votes are remembered live, so voted matchups stay locked after a refresh
+- Vote page styles (vote.css)
 
 
 ## [PR: #23] [2026-11-01]
