@@ -32,6 +32,10 @@ Example:
 Keep entries short and specific.
 -->
 
+## [PR: #26] [2026-11-04]
+### Added
+- Added vote ability to bracket from the home page
+
 ## [PR: #24] [2026-11-03]
 ### Added
 - Vote page: one card for each matchup of the active round, with Vote buttons
