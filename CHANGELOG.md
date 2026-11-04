@@ -32,7 +32,19 @@ Example:
 Keep entries short and specific.
 -->
 
+## [PR: #21] [2026-11-01]
 
+### Added
+- Added frontend integration with the secure `castVote` Firebase callable Cloud Function.
+- Added client-side voting requests that send the matchup ID and selected side (A or B) to the backend.
+- Added handling for successful votes and Firebase Functions errors.
+
+### Changed
+- Updated the voting workflow to use server-side validation instead of relying on the frontend for vote security.
+- Integrated frontend voting functionality with Firebase Authentication and Cloud Functions.
+
+### Fixed
+- Improved handling of rejected voting requests, including unauthenticated users, duplicate votes, invalid inputs, and closed challenges.
 
 ## [PR: #19] [2026-11-02]
 ### Added
@@ -56,22 +68,6 @@ Keep entries short and specific.
 ### Changed
 - Updated index.js accordignly 
 - Updated the ReadMe file to make sense for develop branch
-
-
-## [PR: #21] [2026-11-01]
-
-### Added
-- Added frontend integration with the secure `castVote` Firebase callable Cloud Function.
-- Added client-side voting requests that send the matchup ID and selected side (A or B) to the backend.
-- Added handling for successful votes and Firebase Functions errors.
-
-### Changed
-- Updated the voting workflow to use server-side validation instead of relying on the frontend for vote security.
-- Integrated frontend voting functionality with Firebase Authentication and Cloud Functions.
-
-### Fixed
-- Improved handling of rejected voting requests, including unauthenticated users, duplicate votes, invalid inputs, and closed challenges.
-
 
 ## [PR: #15] [2026-10-30]
 ### Added
