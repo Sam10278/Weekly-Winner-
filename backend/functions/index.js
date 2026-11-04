@@ -7,7 +7,7 @@ const { getFirestore } = require("firebase-admin/firestore");
 // Calling initializeApp() a second time crashes with “The default Firebase app already exists”.
 initializeApp();
 
-<<<<<<< HEAD
+
 // Our helper file goes BELOW initializeApp(). It never calls initializeApp itself.
 const { pickCategory, saveChallenge, chicagoDate } = require("./startChallenge");
 const { closeRound } = require("./rounds");
@@ -86,6 +86,3 @@ exports.closeRounds = onSchedule(
 // Export the castVote function from its own file
 exports.castVote = require("./castVote").castVote;
 
-=======
-exports.castVote = require("./castVote").castVote;
->>>>>>> d2b1ead (feat: implement secure voting with Firebase Cloud Functions)
