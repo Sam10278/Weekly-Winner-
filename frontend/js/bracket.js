@@ -135,18 +135,15 @@ function makeBox(contender, showVote, matchup, side, state = getVoteState(), isS
   } else {
     name.textContent = "TBD";
   }
-  slot.append(name);
+  const nameArea = document.createElement("div");
+  nameArea.className = "slot-name-area";
+
+  nameArea.append(name);
+  slot.append(nameArea);
+
   // If the user just voted for this item, display a label beside their choice
   if (state.hasVoted && state.mySide === side) {
     box.classList.add("my-vote");
-    // Create a label to identify the user's selected item
-    const voteLabel = document.createElement("span");
-    voteLabel.className = "your-vote";
-
-    voteLabel.textContent = "Your vote";
-
-    // Add the label to the competitor's slot.
-    slot.append(voteLabel);
   }
 
   if (contender && contender.votes !== undefined) {
@@ -219,7 +216,7 @@ function makeRound(roundNumber, totalRounds, size, side, matchupMap, getMatchupS
     const isSaving = matchup
     ? savingIds.has(matchup.id)
     : false;
-    round.append(makeBox(getContender(matchup, spot.slotName), true, matchup, spot.slotName, getMatchupState, savingIds));
+    round.append(makeBox(getContender(matchup, spot.slotName), true, matchup, spot.slotName, state, isSaving));
   }
 
   return round;
@@ -405,6 +402,7 @@ function watchChallenge(root, info, challengeId) {
     }
     info.textContent = parts.join(" · ");
   }
+
   function getMatchupVoteState(matchup) {
   if (!matchup || !challenge) {
     return getVoteState();

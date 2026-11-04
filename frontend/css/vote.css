@@ -118,6 +118,15 @@
   color: #777;
   cursor: not-allowed;
 }
+  /* Highlight the user's selected item */
+  .vote-side.my-vote {
+    background-color: rgba(34, 197, 94, 0.08);
+    border: 2px solid #22c55e;
+  }
+
+  .vote-side.my-vote .vote-name {
+    color: #15803d;
+  }
 
 /* ---------- empty and winner ---------- */
 
