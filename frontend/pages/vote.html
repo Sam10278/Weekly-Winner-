@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Weekly Winner</title>
+    <title>Vote | Weekly Winner</title>
 
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/navbar.css">
@@ -14,54 +14,64 @@
 
 <body>
     <nav class="navbar">
-        <a class="navbar-brand" href="/index.html">Weekly   Winner</a>
+        <a class="navbar-brand" href="/index.html">Weekly Winner</a>
 
         <div class="navbar-links">
-          <a href="/index.html">Home</a>
-          <a href="/pages/categories.html">Add Category & Item</a>
-          <a href="/pages/start-challenge.html">Start Challenge</a>
-          <a href="/pages/vote.html">Vote</a>
-          <a href="/pages/past-winners.html">Past Winners</a>
+            <a href="/index.html">Home</a>
+            <a href="/pages/categories.html">Categories</a>
+            <a href="/pages/vote.html">Vote</a>
+            <a href="/pages/past-winners.html">Past Winners</a>
         </div>
 
         <div class="navbar-user">
+            <a href="/pages/login.html" id="login-link" hidden>
+                Login
+            </a>
+
             <div id="user-profile" class="navbar-profile" hidden>
-                <div id="user-avatar"></div>
-                <span id="user-name"></span>
+                <button
+                    id="profile-button"
+                    class="profile-button"
+                    type="button"
+                    aria-label="Open profile menu"
+                    aria-expanded="false"
+                    aria-controls="profile-dropdown"
+                >
+                    <span id="user-avatar"></span>
+                </button>
+
+                <div id="profile-dropdown" class="profile-dropdown" hidden>
+                    <span id="user-name"></span>
+
+                    <button id="logout-btn" type="button">
+                        Logout
+                    </button>
+                </div>
             </div>
-            <a href="/pages/login.html" id="login-link" hidden>Login</a>
-            <button id="logout-btn" hidden>Logout</button>
         </div>
     </nav>
 
-    <!-- Main page content -->
-    <main class="container mt-4">
-
+    <main>
         <section class="vote-page">
-    <header class="vote-header">
-        <h1 id="challenge-title">Weekly Winner Voting</h1>
-        <p id="challenge-info">Loading challenge...</p>
-        <p id="round-countdown"></p>
-    </header>
+            <header class="vote-header">
+                <h1 id="challenge-title">Vote</h1>
+                <p id="challenge-info">Loading challenge...</p>
+                <p id="round-countdown"></p>
+            </header>
 
-    <div id="vote-message" role="status"></div>
+            <div id="vote-message" role="status" aria-live="polite"></div>
 
-    <section id="matchups-container" class="matchups-container">
-        <!-- Matchup cards will be displayed here -->
-    </section>
+            <section id="matchups-container" class="matchups-container">
+                <!-- Matchup cards will be displayed here -->
+            </section>
 
-    <section id="winner-container" hidden>
-        <!-- Final winner will be displayed here -->
-    </section>
-</section>
-
+            <section id="winner-container" hidden>
+                <!-- The winner is shown here when the challenge is finished -->
+            </section>
+        </section>
     </main>
 
-
-    <!-- Firebase Configuration -->
-    <script type="module" src="/js/app.js"></script>
     <script type="module" src="/js/auth.js"></script>
     <script type="module" src="/js/vote-page.js"></script>
-
 </body>
 </html>
