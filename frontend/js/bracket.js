@@ -9,7 +9,16 @@
 //   itemA and itemB are { id, name, imageUrl }, or null (null = TBD).
 //   winnerId is the id of the winning item, or null.
 
-import { db } from "./app.js";
+import { auth, db } from "./app.js";
+
+import { onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+import {
+  submitVote,
+  watchMyVotes,
+  getVoteState
+} from "./vote.js";
 
 import {
   doc,
@@ -103,7 +112,7 @@ function findSlot(matchCount, side, i) {
 //   contender: { name, imageUrl, votes, isWinner, isLoser }, or null for TBD
 //   showVote:  true -> box with a Vote button, false -> no button (the winner box)
 // Names are typed by users, so they go in with textContent, never innerHTML.
-function makeBox(contender, showVote) {
+function makeBox(contender, showVote, matchup, side, state = getVoteState(), isSaving = false) {
   const box = document.createElement("div");
   box.className = "matchup";
 
@@ -128,10 +137,29 @@ function makeBox(contender, showVote) {
   }
   slot.append(name);
 
+  // "Your vote" label on the side the user picked
+  if (contender && state.hasVoted && state.mySide === side) {
+    box.classList.add("my-vote");
+
+    const voteLabel = document.createElement("span");
+    voteLabel.className = "your-vote";
+    voteLabel.textContent = "Your vote";
+    slot.append(voteLabel);
+  }
+
+  // The count: shown only after you voted, or when the matchup is decided.
+  // Otherwise show "?".
   if (contender && contender.votes !== undefined) {
     const votes = document.createElement("span");
     votes.className = "slot-votes";
-    votes.textContent = contender.votes;
+
+    if (state.canSeeCounts) {
+      votes.textContent = contender.votes;
+    } else {
+      votes.textContent = "?";
+      votes.title = "Vote to see the count";
+    }
+
     slot.append(votes);
   }
 
@@ -144,19 +172,26 @@ function makeBox(contender, showVote) {
     box.classList.add("is-loser");
   }
 
-  if (showVote) {
+  // Vote button: only for real items inside a real matchup
+  if (showVote && contender && matchup) {
     const voteBtn = document.createElement("button");
     voteBtn.type = "button";
     voteBtn.className = "vote-btn";
     voteBtn.textContent = "Vote";
-    voteBtn.disabled = true;   // voting comes later, with a Cloud Function
+    voteBtn.dataset.matchupId = matchup.id;
+    voteBtn.dataset.side = side;
+
+    // off if voting is not allowed, or this matchup is saving right now
+    voteBtn.disabled = state.disabled || isSaving;
+    voteBtn.title = state.reason || "";
+
     box.append(voteBtn);
   }
 
   return box;
 }
 
-function makeRound(roundNumber, totalRounds, size, side, matchupMap) {
+function makeRound(roundNumber, totalRounds, size, side, matchupMap, getMatchupState, savingIds) {
   const matchCount = size / 2 ** roundNumber;   // matchups in this round, both sides together
   const perSide = matchCount;                   // one box per item, so boxes on one side = matchups
 
@@ -185,8 +220,13 @@ function makeRound(roundNumber, totalRounds, size, side, matchupMap) {
   for (let i = 0; i < perSide; i++) {
     const spot = findSlot(matchCount, side, i);
     const matchup = matchupMap.get(`${roundNumber}-${spot.position}`);
-
-    round.append(makeBox(getContender(matchup, spot.slotName), true));
+    const state = getMatchupState
+    ? getMatchupState(matchup)
+    : getVoteState();
+    const isSaving = matchup
+    ? savingIds.has(matchup.id)
+    : false;
+    round.append(makeBox(getContender(matchup, spot.slotName), true, matchup, spot.slotName, state, isSaving));
   }
 
   return round;
@@ -226,7 +266,7 @@ function makeWinner(totalRounds, matchupMap) {
   return round;
 }
 
-export function renderBracket(container, size = 8, matchups = []) {
+export function renderBracket(container, size = 8, matchups = [], myVotes = {}, getMatchupState = null, savingIds = new Set()) {
   if (!ALLOWED_SIZES.includes(size)) {
     size = 8;
   }
@@ -251,8 +291,8 @@ export function renderBracket(container, size = 8, matchups = []) {
   right.className = "bracket-half bracket-right";
 
   for (let r = 1; r <= totalRounds; r++) {
-    left.append(makeRound(r, totalRounds, size, "left", matchupMap));     // round 1 on the far left
-    right.prepend(makeRound(r, totalRounds, size, "right", matchupMap));  // round 1 on the far right
+    left.append(makeRound(r, totalRounds, size, "left", matchupMap, getMatchupState, savingIds));     // round 1 on the far left
+    right.prepend(makeRound(r, totalRounds, size, "right", matchupMap, getMatchupState, savingIds));  // round 1 on the far right
   }
 
   const tree = document.createElement("div");
@@ -325,6 +365,11 @@ function watchChallenge(root, info, challengeId) {
   let matchupsReady = false;
   let categoryName = "";
   let categoryRequested = false;
+  let currentUser = auth.currentUser;
+  let myVotes = {};
+  let stopWatchingVotes = null;
+
+  const savingIds = new Set();
 
   // the line of text above the bracket
   function updateInfo() {
@@ -367,14 +412,163 @@ function watchChallenge(root, info, challengeId) {
     }
     info.textContent = parts.join(" · ");
   }
+  function getMatchupVoteState(matchup) {
+  if (!matchup || !challenge) {
+    return getVoteState();
+  }
+  const mySide = myVotes[matchup.id] || null;
+  const hasVoted = mySide !== null;
+  const isDecided = Boolean(matchup.winnerId);
+  const isOpen = challenge.status === "open";
+  const isCurrentRound = matchup.round === challenge.currentRound;
+  const hasTimeRemaining = challenge.roundEndsAt?.toMillis?.() > Date.now();
+  const hasBothItems = Boolean(matchup.itemA && matchup.itemB);
+
+  return getVoteState({
+    isLoggedIn: currentUser !== null,
+    hasVoted: hasVoted,
+    mySide: mySide,
+    isDecided: isDecided,
+    isOpen: isOpen,
+    isCurrentRound: isCurrentRound,
+    hasTimeRemaining: hasTimeRemaining,
+    hasBothItems: hasBothItems
+  });
+}
 
   function redraw() {
     if (!challenge || !matchupsReady) {
       return;
     }
-    renderBracket(root, challenge.bracketSize, matchups);
+    renderBracket(root, challenge.bracketSize, matchups, myVotes, getMatchupVoteState, savingIds);
     updateInfo();
   }
+
+  function showVoteMessage(message, isError = false) {
+    //Find the existing message element in bracket.html.
+    const messageElement = document.getElementById("vote-message");
+    if (!messageElement) {
+      return;
+    }
+    // Display the message returned by the voting function.
+    messageElement.textContent = message;
+
+    // Use red text for errors and green text for success.
+    messageElement.style.color = isError ? "#c0392b" : "#15803d";
+  }
+
+// Listen for clicks anywhere inside the bracket container.
+//attach the listener to root instead of individual buttons because renderBracket() replaces the buttons during redraws.
+root.addEventListener("click", async (event) => {
+
+  //Find the closest Vote button to the clicked element.
+  //If the user clicked something other than a Vote button, closest() will return null.
+  const button = event.target.closest(".vote-btn");
+  if (!button) {
+    return;
+  }
+
+  //Read the matchup ID and selected side from the button.
+  const matchupId = button.dataset.matchupId;
+  const side = button.dataset.side;
+
+  //Check that the button contains valid voting information.
+  if (!matchupId || (side !== "A" && side !== "B")) {
+    showVoteMessage("Invalid matchup or voting side.", true);
+    return;
+  }
+
+  //Find the current matchup object from our Firestore data.
+  const matchup = matchups.find((m) => m.id === matchupId);
+
+  //Stop if the match no longer exists.
+  if (!matchup) {
+    showVoteMessage("This match is no longer available.", true);
+    return;
+  }
+
+  const state = getMatchupVoteState(matchup);
+
+  //Prevent voting if the user is not eligible.
+  if (!state.canVote) {
+    showVoteMessage(state.reason || "Voting is unavailable.", true);
+    return;
+  }
+
+  //Prevent another request for the same matchup while the first request is still processing.
+  if (savingIds.has(matchupId)) {
+    return;
+  }
+
+  //Mark this matchup as currently saving.
+  savingIds.add(matchupId);
+
+  //Redraw immediately so both Vote buttons become disabled
+  redraw();
+
+  // Inform the user that their vote is being submitted.
+  showVoteMessage("Submitting your vote...");
+
+  try {
+
+    //Call the existing submitVote() helper from vote.js.
+    const result = await submitVote(matchupId, side);
+
+    // submitVote() returns an object with an "ok" property.
+    // If ok is true, the backend accepted the vote.
+    if (result.ok) {
+      showVoteMessage(result.message || "Vote saved.");
+    } else {
+      // If the backend rejects the request, display its message.
+      showVoteMessage(
+        result.message || "Unable to save your vote.",
+        true
+      );
+    }
+
+  } catch (error) {
+
+    //Handle unexpected errors not already handled by vote.js.
+    console.error("Unexpected voting error:", error);
+
+    showVoteMessage(
+      "Something went wrong while submitting your vote.",
+      true
+    );
+
+  } finally {
+
+    //This block runs whether the request succeeds or fails.
+    //Remove the matchup from the saving set.
+    savingIds.delete(matchupId);
+
+    // Redraw the bracket with the updated saving state.
+    // The watchMyVotes() listener should update myVotes when Firestore reports the user's saved vote.
+    redraw();
+  }
+});
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+
+    //Stop listening to the previous user's votes
+    if (stopWatchingVotes) {
+      stopWatchingVotes();
+      stopWatchingVotes = null;
+    }
+
+    //Clear votes from the previous user
+    myVotes = {};
+    redraw();
+
+    if (user) {
+      // Start listening to the current user's votes
+      stopWatchingVotes = watchMyVotes(user.uid, (votes) => {
+        myVotes = votes;
+        redraw();
+      });
+    }
+  });
 
   onSnapshot(
     doc(db, "challenges", challengeId),
