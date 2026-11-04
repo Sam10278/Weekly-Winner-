@@ -183,3 +183,28 @@
   color: #767676;
   text-decoration: line-through;
 }
+/* Highlight the competitor the user voted for. */
+.matchup.my-vote {
+  background-color: rgba(34, 197, 94, 0.12);
+  border: 2px solid #22c55e;
+  border-radius: 8px;
+}
+
+/* Highlight the selected competitor's slot. */
+.matchup.my-vote .slot {
+  background-color: rgba(34, 197, 94, 0.08);
+}
+
+/* Make the selected competitor's name green. */
+.matchup.my-vote .slot-name {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+/* Style the "Your vote" label. */
+.your-vote {
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 8px;
+}
