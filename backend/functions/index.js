@@ -45,8 +45,8 @@ exports.startChallenge = onSchedule(
   }
 );
 
-// Every 5 minutes: check to see if there is anything to update or
-// close rounds whose time is over and move the winners forward.
+
+// Every 15 minutes: close rounds whose time is over and move the winners forward.
 exports.closeRounds = onSchedule(
   { schedule: "*/15 * * * *", timeoutSeconds: 120 },
   async () => {
@@ -81,3 +81,7 @@ exports.closeRounds = onSchedule(
     }
   }
 );
+
+// Export the castVote function from its own file
+exports.castVote = require("./castVote").castVote;
+

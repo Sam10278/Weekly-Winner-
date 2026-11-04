@@ -31,6 +31,21 @@ Example:
 
 Keep entries short and specific.
 -->
+## [PR: #23] [2026-11-01]
+
+### Added
+- Added `castVote.js` as a secure Firebase callable Cloud Function.
+- Added authentication and input validation before accepting votes.
+- Added Firestore transactions to record votes and update vote counts atomically.
+- Added duplicate-vote prevention using one vote document per user per matchup.
+- Added local Firebase emulator configuration for Auth, Firestore, Functions, and Hosting.
+
+### Changed
+- Updated `backend/functions/index.js` to export the `castVote` function.
+- Updated `frontend/js/app.js` to initialize Firebase Functions and connect to local emulators during development.
+
+### Fixed
+- Prevented unauthenticated, invalid, duplicate, and closed-challenge votes from being accepted.
 
 ## [PR: #21] [2026-11-03]
 
@@ -60,7 +75,6 @@ Keep entries short and specific.
 - Add rounds.js
 ### Changed
 - Updated index.js accordignly
-
 
 ## [PR: #20] [2026-10-31]
 ### Added
