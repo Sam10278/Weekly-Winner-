@@ -67,6 +67,3 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
-
-# Local Firebase emulator data
-emulator-data/
