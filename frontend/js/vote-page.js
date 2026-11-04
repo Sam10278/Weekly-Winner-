@@ -1,157 +1,124 @@
+// vote-page.js - the Vote page: one card for each matchup of the active round.
 
 import { db } from "./app.js";
-import { submitVote } from "./vote.js";
 
 import {
-  collection,
   doc,
-  getDoc,
-  getDocs,
+  collection,
   query,
+  where,
   orderBy,
   limit,
-  where
+  getDocs,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
-const challengeTitle = document.getElementById("challenge-title");
-const challengeInfo = document.getElementById("challenge-info");
-const voteMessage = document.getElementById("vote-message");
-const matchupsContainer = document.getElementById("matchups-container");
+// These are used in the next steps. Importing them now checks that vote.js loads.
+import {
+  submitVote,
+  watchMyVotes,
+  canSeeCounts,
+  getVoteCounts,
+  formatVotes,
+  getVoteState
+} from "./vote.js";
 
-// Find the challenge specified in the URL, or the newest challenge.
-async function loadChallenge() {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const challengeId = params.get("challenge");
+const titleLine = document.getElementById("challenge-title");
+const infoLine = document.getElementById("challenge-info");
+const countdownLine = document.getElementById("round-countdown");
+const messageLine = document.getElementById("vote-message");
+const cardsBox = document.getElementById("matchups-container");
+const winnerBox = document.getElementById("winner-container");
 
-    let challengeDoc;
+// What the page remembers
+let challengeId = null;
+let challenge = null;
+let matchups = [];
 
-    if (challengeId) {
-      challengeDoc = await getDoc(doc(db, "challenges", challengeId));
-    } else {
-      // Prefer an open challenge.
-      const openQuery = query(
-        collection(db, "challenges"),
-        where("status", "==", "open")
-      );
 
-      const openSnapshot = await getDocs(openQuery);
+// Which challenge? The address can say ?challenge=ID. If not, take the newest one.
+async function findChallengeId() {
+  const params = new URLSearchParams(location.search);
+  const fromAddress = params.get("challenge");
 
-      if (!openSnapshot.empty) {
-        // IDs are dates in YYYY-MM-DD format.
-        challengeDoc = openSnapshot.docs.sort(
-          (a, b) => b.id.localeCompare(a.id)
-        )[0];
-      } else {
-        const recentQuery = query(
-          collection(db, "challenges"),
-          orderBy("createdAt", "desc"),
-          limit(1)
-        );
-
-        const recentSnapshot = await getDocs(recentQuery);
-        challengeDoc = recentSnapshot.docs[0];
-      }
-    }
-
-    if (!challengeDoc || !challengeDoc.exists()) {
-      challengeInfo.textContent = "No active challenge";
-      voteMessage.textContent = "Next challenge starts Monday 9:00 AM";
-      return;
-    }
-
-    const challenge = challengeDoc.data();
-
-    challengeTitle.textContent =
-      challenge.categoryName || "Weekly Winner";
-
-    const currentRound = challenge.currentRound ?? 1;
-
-challengeInfo.textContent =
-  `Round ${currentRound} â€¢ Status: ${challenge.status}`;
-
-console.log("Challenge ID:", challengeDoc.id);
-console.log("Challenge data:", challenge);
-
-await loadMatchups(challengeDoc.id, currentRound);
-
-  } catch (error) {
-    console.error("Error loading challenge:", error);
-    voteMessage.textContent = "Unable to load the challenge.";
+  if (fromAddress) {
+    return fromAddress;
   }
-}
 
-// Load matchups belonging to the active round.
-async function loadMatchups(challengeId, round) {
-  const matchupsQuery = query(
-    collection(db, "matchups"),
-    where("challengeId", "==", challengeId),
-    where("round", "==", round)
+  const newest = query(
+    collection(db, "challenges"),
+    orderBy("createdAt", "desc"),
+    limit(1)
   );
 
-  const snapshot = await getDocs(matchupsQuery);
+  const snap = await getDocs(newest);
 
-  matchupsContainer.replaceChildren();
+  if (snap.empty) {
+    return null;
+  }
 
-  if (snapshot.empty) {
-    voteMessage.textContent = "No matchups found for this round.";
+  return snap.docs[0].id;
+}
+
+
+// Step 2 only logs what it received. Step 3 draws the cards.
+function render() {
+  console.log("challenge:", challenge);
+  console.log("matchups:", matchups.length);
+}
+
+
+async function start() {
+  try {
+    challengeId = await findChallengeId();
+  } catch (error) {
+    console.error("Could not find a challenge:", error);
+    infoLine.textContent = "Could not load the challenge.";
     return;
   }
 
-  snapshot.forEach((matchupDoc) => {
-    const matchup = matchupDoc.data();
+  if (challengeId === null) {
+    infoLine.textContent = "No challenge yet. The next challenge starts Monday 9:00 AM.";
+    return;
+  }
 
-    const card = document.createElement("article");
-    card.className = "matchup-card";
-
-    const heading = document.createElement("h2");
-    heading.textContent = `Matchup ${matchup.position + 1}`;
-
-    const itemA = document.createElement("p");
-    itemA.textContent = matchup.itemA?.name || "Item A";
-
-    const versus = document.createElement("p");
-    versus.textContent = "VS";
-
-    const itemB = document.createElement("p");
-    itemB.textContent = matchup.itemB?.name || "Item B";
-
-    const voteAButton = document.createElement("button");
-    voteAButton.textContent = "Vote for " + (matchup.itemA?.name || "Item A");
-
-    const voteBButton = document.createElement("button");
-    voteBButton.textContent = "Vote for " + (matchup.itemB?.name || "Item B");
-
-    async function handleVote(side) {
-      voteAButton.disabled = true;
-      voteBButton.disabled = true;
-
-      try {
-        await submitVote(matchupDoc.id, side);
-        alert("Vote submitted successfully!");
-      } catch (error) {
-        alert(error.message);
-      } finally {
-        voteAButton.disabled = false;
-        voteBButton.disabled = false;
+  // Listen to the challenge. This runs again every time it changes.
+  onSnapshot(
+    doc(db, "challenges", challengeId),
+    (snap) => {
+      if (!snap.exists()) {
+        infoLine.textContent = "This challenge was not found.";
+        return;
       }
+
+      challenge = snap.data();
+      render();
+    },
+    (error) => {
+      console.error("Could not load the challenge:", error);
+      infoLine.textContent = "Could not load the challenge.";
     }
+  );
 
-    voteAButton.addEventListener("click", () => handleVote("A"));
-    voteBButton.addEventListener("click", () => handleVote("B"));
+  // Listen to all matchups of this challenge.
+  onSnapshot(
+    query(collection(db, "matchups"), where("challengeId", "==", challengeId)),
+    (snap) => {
+      matchups = [];
 
-    card.append(
-        heading,
-        itemA,
-        voteAButton,
-        versus,
-        itemB,
-        voteBButton
-    );
-    matchupsContainer.appendChild(card);
-  });
+      for (const matchupDoc of snap.docs) {
+        const data = matchupDoc.data();
+        data.id = matchupDoc.id;
+        matchups.push(data);
+      }
 
-  console.log("Matchups loaded:", snapshot.size);
+      render();
+    },
+    (error) => {
+      console.error("Could not load the matchups:", error);
+      infoLine.textContent = "Could not load the matchups.";
+    }
+  );
 }
 
-loadChallenge();
+start();
