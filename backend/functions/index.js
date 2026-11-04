@@ -1,5 +1,4 @@
 const { onSchedule } = require("firebase-functions/v2/scheduler");
-
 const logger = require("firebase-functions/logger");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
