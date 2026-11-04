@@ -177,11 +177,18 @@
 }
 
 .slot-name {
-  flex: 1;
+  display: block;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.slot-name-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
 }
 
 .slot-votes {
@@ -214,6 +221,7 @@
 .matchup.my-vote .slot-name {
   color: var(--highlight-color);
   font-weight: bold;
+<<<<<<< HEAD
 }
 
 /* the line under the bracket */
@@ -226,4 +234,6 @@
 /* the "?" shown while counts are hidden */
 .slot-votes[title] {
   cursor: help;
+=======
+>>>>>>> 5fdc849 (Updated voting page, user can now see their vote)
 }

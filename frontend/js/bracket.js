@@ -135,10 +135,16 @@ function makeBox(contender, showVote, matchup, side, state = getVoteState(), isS
   } else {
     name.textContent = "TBD";
   }
-  slot.append(name);
 
-  // "Your vote" label on the side the user picked
-  if (contender && state.hasVoted && state.mySide === side) {
+  const nameArea = document.createElement("div");
+  nameArea.className = "slot-name-area";
+
+  nameArea.append(name);
+  slot.append(nameArea);
+
+  // If the user just voted for this item, display a label beside their choice
+  if (state.hasVoted && state.mySide === side) {
+
     box.classList.add("my-vote");
   }
 
@@ -407,6 +413,7 @@ function watchChallenge(root, info, challengeId) {
     }
     info.textContent = parts.join(" · ");
   }
+
   function getMatchupVoteState(matchup) {
   if (!matchup || !challenge) {
     return getVoteState();
