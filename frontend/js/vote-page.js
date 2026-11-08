@@ -123,6 +123,11 @@ function makeSide(matchup, side) {
     mySide = myVotes[matchup.id];
   }
 
+  // Highlight the option the user voted for
+  if (voted && mySide === side) {
+    box.classList.add("my-vote");
+  }
+  
   let decided = false;
   if (matchup.winnerId) {
     decided = true;

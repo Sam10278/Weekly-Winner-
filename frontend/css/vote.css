@@ -119,6 +119,17 @@
   cursor: not-allowed;
 }
 
+/* Highlight the option the user voted for */
+.vote-side.my-vote {
+  background-color: rgba(34, 197, 94, 0.12);
+  border: 2px solid #22c55e;
+}
+
+.vote-side.my-vote .vote-name {
+  color: #22c55e;
+  font-weight: bold;
+}
+
 /* ---------- empty and winner ---------- */
 
 .vote-empty {
