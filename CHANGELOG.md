@@ -32,6 +32,11 @@ Example:
 Keep entries short and specific.
 -->
 
+## [PR: #29] [2026-11-08]
+### Changed
+- The side you voted for turns green and says "Your vote"
+- Vote page styles (vote.css) 
+
 ## [PR: #26] [2026-11-04]
 ### Added
 - Added vote ability to bracket from the home page
