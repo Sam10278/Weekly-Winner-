@@ -32,6 +32,9 @@ Example:
 Keep entries short and specific.
 -->
 
+## [PR: #30] [2026-11-08]
+- Updated main for Retrospective 2
+
 ## [PR: #29] [2026-11-08]
 ### Changed
 - The side you voted for turns green and says "Your vote"
