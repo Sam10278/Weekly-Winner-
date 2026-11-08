@@ -94,6 +94,21 @@
   font-weight: 600;
 }
 
+.vote-btn:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Visual feedback when hovering */
+.vote-btn:not(:disabled):hover {
+  background-color: #fce8e6;
+  color: #a93226;
+}
+
+/* Visual feedback when pressing */
+.vote-btn:not(:disabled):active {
+  background-color: #f5b7b1;
+}
+
 .vote-btn:disabled {
   cursor: not-allowed;
   opacity: 0.75;
@@ -199,14 +214,6 @@
 .matchup.my-vote .slot-name {
   color: #22c55e;
   font-weight: bold;
-}
-
-/* Style the "Your vote" label. */
-.your-vote {
-  color: #22c55e;
-  font-size: 12px;
-  font-weight: bold;
-  margin-left: 8px;
 }
 
 /* the line under the bracket */

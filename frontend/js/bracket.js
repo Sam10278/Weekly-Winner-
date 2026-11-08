@@ -140,11 +140,6 @@ function makeBox(contender, showVote, matchup, side, state = getVoteState(), isS
   // "Your vote" label on the side the user picked
   if (contender && state.hasVoted && state.mySide === side) {
     box.classList.add("my-vote");
-
-    const voteLabel = document.createElement("span");
-    voteLabel.className = "your-vote";
-    voteLabel.textContent = "Your vote";
-    slot.append(voteLabel);
   }
 
   // The count: shown only after you voted, or when the matchup is decided.
