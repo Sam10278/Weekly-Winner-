@@ -126,6 +126,7 @@ function makeSide(matchup, side) {
   // Highlight the option the user voted for
   if (voted && mySide === side) {
     box.classList.add("my-vote");
+    addText(box, "p", "Your vote", "your-vote")
   }
   
   let decided = false;
@@ -192,7 +193,7 @@ function showMessage(text, isError) {
     messageLine.style.color = "#15803d";
   }
 }
-//  only logs what it received. Step 3 draws the cards.
+
 // Draw the page from what we know.
 function render() {
   if (challenge === null) {
