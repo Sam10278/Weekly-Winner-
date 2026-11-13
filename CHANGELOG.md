@@ -32,6 +32,18 @@ Example:
 Keep entries short and specific.
 -->
 
+## [PR: #31] [2026-11-13]
+### Added
+- Category Vote page: vote for as many open categories (8+ items) as you like, with live totals
+- "Category Vote" link in the navbar on every page
+- `toggleCategoryVote` Cloud Function: adds or removes a category vote
+- `categoryVotes` Firestore rules: logged-in users can read, only the function can write
+
+### Changed
+- Auto-start now picks the category with the most votes (random among ties), then chooses a size it can fill
+- Category votes reset to zero every time a new challenge starts
+
+
 ## [PR: #29] [2026-11-08]
 ### Changed
 - The side you voted for turns green and says "Your vote"
