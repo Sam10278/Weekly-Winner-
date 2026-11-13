@@ -85,4 +85,5 @@ exports.closeRounds = onSchedule(
 
 // Export the castVote function from its own file
 exports.castVote = require("./castVote").castVote;
-
+// export the 
+exports.toggleCategoryVote = require("./categoryVote").toggleCategoryVote;
