@@ -79,5 +79,11 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ---------- categoryVotes ----------
+    match /categoryVotes/{voteId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
   }
 }
