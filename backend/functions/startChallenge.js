@@ -217,4 +217,28 @@ async function saveChallenge(db, picked, challengeId) {
   await batch.commit();
 }
 
-module.exports = { shuffle, chicagoDate, buildMatchups, pickCategory, saveChallenge };
+// Delete every document in categoryVotes, in batches of up to 500.
+async function clearCategoryVotes(db) {
+  let deleted = 0;
+
+  while (true) {
+    const snap = await db.collection("categoryVotes").limit(500).get();
+
+    if (snap.empty) {
+      break;
+    }
+
+    const batch = db.batch();
+
+    for (const doc of snap.docs) {
+      batch.delete(doc.ref);
+    }
+
+    await batch.commit();
+    deleted = deleted + snap.size;
+  }
+
+  return deleted;
+}
+
+module.exports = { shuffle, chicagoDate, buildMatchups, pickCategory, saveChallenge, clearCategoryVotes };

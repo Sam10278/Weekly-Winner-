@@ -9,7 +9,7 @@ initializeApp();
 
 
 // Our helper file goes BELOW initializeApp(). It never calls initializeApp itself.
-const { pickCategory, saveChallenge, chicagoDate } = require("./startChallenge");
+const { pickCategory, saveChallenge, chicagoDate, clearCategoryVotes } = require("./startChallenge");
 const { closeRound } = require("./rounds");
 
 // Every Monday at 9:00 AM Chicago time: start a new challenge.
@@ -36,6 +36,15 @@ exports.startChallenge = onSchedule(
         message: error.message
       });
       throw error;
+    }
+
+    // New week: start the category votes from zero.
+    // A failure here must not undo the challenge, so we only log it.
+    try {
+      const deleted = await clearCategoryVotes(db);
+      logger.info("Category votes cleared", { deleted: deleted });
+    } catch (error) {
+      logger.error("Could not clear category votes", { reason: error.message });
     }
 
     logger.info("Challenge started", {
