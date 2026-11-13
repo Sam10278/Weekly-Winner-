@@ -1,0 +1,123 @@
+/* Category Vote page. Same look as the Vote page: gray, white, red button. */
+
+.category-vote-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+.category-vote-page h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.category-vote-page > p {
+  color: #444;
+  line-height: 1.5;
+}
+
+#category-vote-message {
+  min-height: 24px;
+  margin: 12px 0;
+  font-size: 15px;
+}
+
+/* ---------- the cards ---------- */
+
+#category-vote-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #999;
+  border-radius: 10px;
+}
+
+.category-card-name {
+  margin: 0;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.category-card-items,
+.category-card-total {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.category-card-total {
+  font-weight: 600;
+  color: #000;
+}
+
+/* ---------- the Vote button ---------- */
+
+.category-vote-button {
+  margin-top: auto;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c0392b;
+  border-radius: 6px;
+  background: #c0392b;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.category-vote-button:hover:not(:disabled) {
+  background: #a93226;
+}
+
+.category-vote-button:disabled {
+  border-color: #ccc;
+  background: #eee;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* ---------- a category you voted for ---------- */
+
+.category-card.my-vote {
+  background: rgba(34, 197, 94, 0.12);
+  border: 2px solid #15803d;
+}
+
+.category-card.my-vote .category-card-name {
+  color: #15803d;
+}
+
+.category-card.my-vote .category-vote-button {
+  background: #fff;
+  color: #15803d;
+  border-color: #15803d;
+}
+
+/* ---------- empty ---------- */
+
+.category-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #555;
+}
+
+/* ---------- phone ---------- */
+
+@media (max-width: 600px) {
+  .category-vote-page {
+    padding: 16px 12px 32px;
+  }
+
+  #category-vote-list {
+    grid-template-columns: 1fr;
+  }
+}
