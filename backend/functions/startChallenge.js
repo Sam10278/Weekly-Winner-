@@ -64,90 +64,112 @@ function buildMatchups(challengeId, size, items) {
 
   return matchups;
 }
-// Pick a size and a category.
-//  - try a random size first (8 or 16)
-//  - a category is "unused" if closed is not true
-//  - it needs at least `size` items to start a challenge for it
-//  - if no category fits(does not have enough items for the size picked), try the other size
+// Pick a category and a size.
+//  1. keep categories that are not closed and have at least 8 items
+//  2. count the votes of each one (from categoryVotes)
+//  3. keep the ones with the most votes, then pick one at random
+//  4. choose a size it can fill: 8, or 16 if it has 16+ items (random between the two)
 // Returns { size, category, items } or null if nothing fits.
 async function pickCategory(db) {
-  const sizes = shuffle([8, 16]);
-
-  // get the current state of categories and their otems
   const categorySnap = await db.collection("categories").get();
-  // find the categories that are not closed/used before
-  const unused = categorySnap.docs.filter((doc) => doc.data().closed !== true);
-  // if all categories have been siued before return null 
-  if (unused.length === 0) {
+
+  // 1. open categories with at least 8 items
+  const candidates = [];
+
+  for (const doc of categorySnap.docs) {
+    if (doc.data().closed === true) {
+      continue;
+    }
+
+    const itemSnap = await db.collection("items").where("categoryId", "==", doc.id).get();
+
+    if (itemSnap.size >= 8) {
+      candidates.push({ doc: doc, itemDocs: itemSnap.docs });
+    }
+  }
+
+  if (candidates.length === 0) {
     return null;
   }
 
-  // Read each unused category's items one time.
-  const itemsByCategory = new Map();
-  for (const doc of unused) {
-    const itemSnap = await db.collection("items").where("categoryId", "==", doc.id).get();
-    itemsByCategory.set(doc.id, itemSnap.docs);
+  // 2. count votes for each category
+  const voteSnap = await db.collection("categoryVotes").get();
+  const voteCounts = {};
+
+  for (const voteDoc of voteSnap.docs) {
+    const id = voteDoc.data().categoryId;
+
+    if (!voteCounts[id]) {
+      voteCounts[id] = 0;
+    }
+    voteCounts[id] = voteCounts[id] + 1;
   }
 
-  for (const size of sizes) {
-    const fits = [];
+  // 3. find the highest vote count among the candidates
+  let highest = 0;
 
-    for (const doc of unused) {
-        // get number of items in this unsed catgory
-      const itemCount = itemsByCategory.get(doc.id).length;
-      // check if ot has enough items for the challenge sized picked
-      if (itemCount >= size) {
-        fits.push(doc);
-      }
+  for (const candidate of candidates) {
+    let votes = 0;
+    if (voteCounts[candidate.doc.id]) {
+      votes = voteCounts[candidate.doc.id];
     }
+    candidate.votes = votes;
 
-    if (fits.length > 0) {
-        // pick category at random
-        const shuffledFits = shuffle(fits);
-        const chosen = shuffledFits[0];
-        // get its items
-        const chosenItems = [];
-        const itemDocs = itemsByCategory.get(chosen.id);
-        // get each items info like name imageurl 
-        for (const itemDoc of itemDocs) {
-          const data = itemDoc.data();
-        
-          let name = "";
-          if (data.name) {
-            name = data.name;
-          }
-      
-          let imageUrl = "";
-          if (data.imageUrl) {
-            imageUrl = data.imageUrl;
-          }
-      
-          chosenItems.push({
-            id: itemDoc.id,
-            name: name,
-            imageUrl: imageUrl
-        });
-        }
-
-      let categoryName = "";
-      if (chosen.data().name) {
-        categoryName = chosen.data().name;
-      }
-      // now shuffl items 
-      const shuffledItems = shuffle(chosenItems);
-      // then pick the first size (8 or 16) for the challenge
-      const pickedItems = shuffledItems.slice(0, size);
-      
-      return {
-        size: size,
-        category: { id: chosen.id, name: categoryName },
-        items: pickedItems
-      };
+    if (votes > highest) {
+      highest = votes;
     }
   }
 
-  return null;
+  // keep only the ones with that count (a tie keeps several)
+  const top = [];
+
+  for (const candidate of candidates) {
+    if (candidate.votes === highest) {
+      top.push(candidate);
+    }
+  }
+
+  // random pick among the top ones
+  const chosen = shuffle(top)[0];
+
+  // 4. choose a size this category can fill
+  let size = 8;
+
+  if (chosen.itemDocs.length >= 16) {
+    const sizes = shuffle([8, 16]);
+    size = sizes[0];
+  }
+
+  const items = [];
+
+  for (const itemDoc of chosen.itemDocs) {
+    const data = itemDoc.data();
+
+    let name = "";
+    if (data.name) {
+      name = data.name;
+    }
+
+    let imageUrl = "";
+    if (data.imageUrl) {
+      imageUrl = data.imageUrl;
+    }
+
+    items.push({ id: itemDoc.id, name: name, imageUrl: imageUrl });
+  }
+
+  let categoryName = "";
+  if (chosen.doc.data().name) {
+    categoryName = chosen.doc.data().name;
+  }
+
+  return {
+    size: size,
+    category: { id: chosen.doc.id, name: categoryName },
+    items: shuffle(items).slice(0, size)
+  };
 }
+
 
 // Save one challenge, all its matchups, and mark the category as used.
 // Everything goes in ONE batch: all of it is saved, or none of it.
