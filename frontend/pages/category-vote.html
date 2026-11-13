@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vote for a Category | Weekly Winner</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/category-vote.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="/index.html">Weekly Winner</a>
+
+        <div class="navbar-links">
+            <a href="/index.html">Home</a>
+            <a href="/pages/categories.html">Categories</a>
+            <a href="/pages/category-vote.html">Category Vote</a>
+            <a href="/pages/vote.html">Vote</a>
+            <a href="/pages/past-winners.html">Past Winners</a>
+        </div>
+
+        <div class="navbar-user">
+            <a href="/pages/login.html" id="login-link" hidden>Login</a>
+
+            <div id="user-profile" class="navbar-profile" hidden>
+                <button
+                    id="profile-button"
+                    class="profile-button"
+                    type="button"
+                    aria-label="Open profile menu"
+                    aria-expanded="false"
+                    aria-controls="profile-dropdown"
+                >
+                    <span id="user-avatar"></span>
+                </button>
+
+                <div id="profile-dropdown" class="profile-dropdown" hidden>
+                    <span id="user-name"></span>
+                    <button id="logout-btn" type="button">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="category-vote-page">
+        <h1>Vote for the next category</h1>
+        <p>
+            Pick as many categories as you like. On Monday at 9:00 AM the category
+            with the most votes becomes the new challenge. Votes reset every week.
+        </p>
+
+        <p id="category-vote-message" role="status" aria-live="polite"></p>
+
+        <div id="category-vote-list">
+            <p>Loading categories...</p>
+        </div>
+    </main>
+
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/category-vote.js"></script>
+</body>
+</html>
