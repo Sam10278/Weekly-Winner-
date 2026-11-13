@@ -168,6 +168,79 @@ function makeSide(matchup, side) {
   return box;
 }
 
+// Display vote results only when the user is allowed to see them.
+function makeResults(matchup) {
+  const resultsBox = document.createElement("div");
+  resultsBox.className = "vote-results";
+
+  const hasVoted = Boolean(myVotes[matchup.id]);
+  const isDecided = Boolean(matchup.winnerId);
+
+  // Hide results until the user votes or the matchup is decided.
+  if (!canSeeCounts(hasVoted, isDecided)) {
+    const message = currentUser
+      ? "Vote to see the results"
+      : "Log in and vote to see the results";
+
+    addText(resultsBox, "p", message, "vote-results-hidden");
+    return resultsBox;
+  }
+
+  const counts = getVoteCounts(matchup);
+
+  // Side A results
+  const sideA = document.createElement("div");
+  sideA.className = "vote-result-side";
+
+  addText(
+    sideA,
+    "p",
+    `${formatVotes(counts.votesA)} (${counts.percentA}%)`,
+    "vote-result-label"
+  );
+
+  const barA = document.createElement("div");
+  barA.className = "vote-result-bar";
+
+  const fillA = document.createElement("div");
+  fillA.className = "vote-result-fill";
+  fillA.style.width = `${counts.percentA}%`;
+
+  barA.appendChild(fillA);
+  sideA.appendChild(barA);
+
+  // Side B results
+  const sideB = document.createElement("div");
+  sideB.className = "vote-result-side";
+
+  addText(
+    sideB,
+    "p",
+    `${formatVotes(counts.votesB)} (${counts.percentB}%)`,
+    "vote-result-label"
+  );
+
+  const barB = document.createElement("div");
+  barB.className = "vote-result-bar";
+
+  const fillB = document.createElement("div");
+  fillB.className = "vote-result-fill";
+  fillB.style.width = `${counts.percentB}%`;
+
+  barB.appendChild(fillB);
+  sideB.appendChild(barB);
+
+  resultsBox.append(sideA, sideB);
+
+  addText(
+    resultsBox,
+    "p",
+    `Total: ${formatVotes(counts.total)}`,
+    "vote-result-total"
+  );
+
+  return resultsBox;
+}
 
 // Make one card for one matchup.
 function makeCard(matchup) {
@@ -182,6 +255,10 @@ function makeCard(matchup) {
   const sideB = makeSide(matchup, "B");
 
   card.append(sideA, versus, sideB);
+
+  // Display results or the hidden-results message.
+  card.appendChild(makeResults(matchup));
+  
   return card;
 }
 function showMessage(text, isError) {
@@ -194,11 +271,46 @@ function showMessage(text, isError) {
   }
 }
 
+// Update the countdown for the current voting round.
+function updateCountdown() {
+  if (!challenge || !challenge.roundEndsAt) {
+    countdownLine.textContent = "";
+    return;
+  }
+
+  const endTime = challenge.roundEndsAt.toMillis();
+  const remaining = Math.max(0, endTime - Date.now());
+
+  if (remaining === 0) {
+  countdownLine.textContent = "Voting has ended.";
+
+  // Disable voting buttons immediately when the round expires.
+  cardsBox.querySelectorAll(".vote-button").forEach((button) => {
+    button.disabled = true;
+    button.title = "Voting for this round has ended.";
+  });
+
+  return;
+  }
+
+  const totalSeconds = Math.floor(remaining / 1000);
+
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  countdownLine.textContent =
+    `Time remaining: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
 // Draw the page from what we know.
 function render() {
   if (challenge === null) {
     return;
   }
+
+  updateCountdown();
 
   // the header
   let categoryName = "Challenge";
@@ -341,3 +453,6 @@ async function start() {
 }
 
 start();
+
+// Refresh the countdown every second.
+setInterval(updateCountdown, 1000);
