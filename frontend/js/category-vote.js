@@ -1,4 +1,5 @@
 // category-vote.js - vote for the next category (separate from bracket voting).
+// Click Vote to vote. Click "Remove my vote" to take the vote back.
 
 import { auth, db, functions } from "./app.js";
 
@@ -119,7 +120,7 @@ function makeCard(category) {
   button.dataset.categoryId = category.id;
 
   if (voted) {
-    button.textContent = "Voted (click to undo)";
+    button.textContent = "Remove my vote";
   } else {
     button.textContent = "Vote";
   }
@@ -211,7 +212,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-// One click handler for all the Vote buttons.
+// One click handler for all the buttons (Vote and Remove my vote).
 listBox.addEventListener("click", async (event) => {
   const button = event.target.closest(".category-vote-button");
 
@@ -234,8 +235,11 @@ listBox.addEventListener("click", async (event) => {
     const result = await toggle({ categoryId: categoryId });
 
     if (result.data.voted) {
-      showMessage("Vote saved.", false);
+      // update the card right away, without waiting for the listener
+      myVotes[categoryId] = true;
+      showMessage("Vote saved. Click the button again to remove it.", false);
     } else {
+      delete myVotes[categoryId];
       showMessage("Vote removed.", false);
     }
   } catch (error) {

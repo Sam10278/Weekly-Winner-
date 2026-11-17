@@ -1,11 +1,10 @@
 // vote-page.js - the Vote page: one card for each matchup of the active round.
-import { auth } from "./app.js";
+
+import { auth, db } from "./app.js";
 
 import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-
-import { db } from "./app.js";
 
 import {
   doc,
@@ -18,9 +17,9 @@ import {
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
-// These are used in the next steps. Importing them now checks that vote.js loads.
 import {
   submitVote,
+  removeMyVote,
   watchMyVotes,
   canSeeCounts,
   getVoteCounts,
@@ -33,7 +32,6 @@ const infoLine = document.getElementById("challenge-info");
 const countdownLine = document.getElementById("round-countdown");
 const messageLine = document.getElementById("vote-message");
 const cardsBox = document.getElementById("matchups-container");
-const winnerBox = document.getElementById("winner-container");
 
 // What the page remembers
 let challengeId = null;
@@ -68,6 +66,8 @@ async function findChallengeId() {
 
   return snap.docs[0].id;
 }
+
+
 // Make one piece of text with a class.
 function addText(parent, tag, text, className) {
   const element = document.createElement(tag);
@@ -82,8 +82,7 @@ function addText(parent, tag, text, className) {
 }
 
 
-// Make one side of a card: the picture, the name, and a Vote button.
-// Make one side of a card: the picture, the name, and a Vote button.
+// Make one side of a card: the picture, the name, and a Vote / Remove button.
 function makeSide(matchup, side) {
   let item = matchup.itemB;
   if (side === "A") {
@@ -126,9 +125,9 @@ function makeSide(matchup, side) {
   // Highlight the option the user voted for
   if (voted && mySide === side) {
     box.classList.add("my-vote");
-    addText(box, "p", "Your vote", "your-vote")
+    addText(box, "p", "Your vote", "your-vote");
   }
-  
+
   let decided = false;
   if (matchup.winnerId) {
     decided = true;
@@ -155,9 +154,19 @@ function makeSide(matchup, side) {
   button.className = "vote-button";
   button.dataset.matchupId = matchup.id;
   button.dataset.side = side;
-  button.textContent = "Vote";
-  button.disabled = state.disabled;
-  button.title = state.reason || "";
+
+  if (voted && mySide === side && state.canRemove) {
+    // my side: the button takes the vote back
+    button.textContent = "Remove my vote";
+    button.dataset.action = "remove";
+    button.disabled = false;
+    button.title = "";
+  } else {
+    button.textContent = "Vote";
+    button.dataset.action = "vote";
+    button.disabled = state.disabled;
+    button.title = state.reason || "";
+  }
 
   // a matchup that is saving right now stays off
   if (savingMatchups[matchup.id]) {
@@ -167,6 +176,7 @@ function makeSide(matchup, side) {
   box.appendChild(button);
   return box;
 }
+
 
 // Display vote results only when the user is allowed to see them.
 function makeResults(matchup) {
@@ -178,9 +188,10 @@ function makeResults(matchup) {
 
   // Hide results until the user votes or the matchup is decided.
   if (!canSeeCounts(hasVoted, isDecided)) {
-    const message = currentUser
-      ? "Vote to see the results"
-      : "Log in and vote to see the results";
+    let message = "Log in and vote to see the results";
+    if (currentUser) {
+      message = "Vote to see the results";
+    }
 
     addText(resultsBox, "p", message, "vote-results-hidden");
     return resultsBox;
@@ -195,7 +206,7 @@ function makeResults(matchup) {
   addText(
     sideA,
     "p",
-    `${formatVotes(counts.votesA)} (${counts.percentA}%)`,
+    formatVotes(counts.votesA) + " (" + counts.percentA + "%)",
     "vote-result-label"
   );
 
@@ -204,7 +215,7 @@ function makeResults(matchup) {
 
   const fillA = document.createElement("div");
   fillA.className = "vote-result-fill";
-  fillA.style.width = `${counts.percentA}%`;
+  fillA.style.width = counts.percentA + "%";
 
   barA.appendChild(fillA);
   sideA.appendChild(barA);
@@ -216,7 +227,7 @@ function makeResults(matchup) {
   addText(
     sideB,
     "p",
-    `${formatVotes(counts.votesB)} (${counts.percentB}%)`,
+    formatVotes(counts.votesB) + " (" + counts.percentB + "%)",
     "vote-result-label"
   );
 
@@ -225,7 +236,7 @@ function makeResults(matchup) {
 
   const fillB = document.createElement("div");
   fillB.className = "vote-result-fill";
-  fillB.style.width = `${counts.percentB}%`;
+  fillB.style.width = counts.percentB + "%";
 
   barB.appendChild(fillB);
   sideB.appendChild(barB);
@@ -235,12 +246,13 @@ function makeResults(matchup) {
   addText(
     resultsBox,
     "p",
-    `Total: ${formatVotes(counts.total)}`,
+    "Total: " + formatVotes(counts.total),
     "vote-result-total"
   );
 
   return resultsBox;
 }
+
 
 // Make one card for one matchup.
 function makeCard(matchup) {
@@ -258,9 +270,11 @@ function makeCard(matchup) {
 
   // Display results or the hidden-results message.
   card.appendChild(makeResults(matchup));
-  
+
   return card;
 }
+
+
 function showMessage(text, isError) {
   messageLine.textContent = text;
 
@@ -270,6 +284,7 @@ function showMessage(text, isError) {
     messageLine.style.color = "#15803d";
   }
 }
+
 
 // Update the countdown for the current voting round.
 function updateCountdown() {
@@ -282,15 +297,8 @@ function updateCountdown() {
   const remaining = Math.max(0, endTime - Date.now());
 
   if (remaining === 0) {
-  countdownLine.textContent = "Voting has ended.";
-
-  // Disable voting buttons immediately when the round expires.
-  cardsBox.querySelectorAll(".vote-button").forEach((button) => {
-    button.disabled = true;
-    button.title = "Voting for this round has ended.";
-  });
-
-  return;
+    countdownLine.textContent = "Voting has ended.";
+    return;
   }
 
   const totalSeconds = Math.floor(remaining / 1000);
@@ -301,8 +309,9 @@ function updateCountdown() {
   const seconds = totalSeconds % 60;
 
   countdownLine.textContent =
-    `Time remaining: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    "Time remaining: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s";
 }
+
 
 // Draw the page from what we know.
 function render() {
@@ -346,6 +355,7 @@ function render() {
   }
 }
 
+
 // Watch the login. When it changes, watch that user's votes.
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
@@ -367,7 +377,8 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// One click handler for all the Vote buttons.
+
+// One click handler for all the buttons (Vote and Remove my vote).
 cardsBox.addEventListener("click", async (event) => {
   const button = event.target.closest(".vote-button");
 
@@ -377,27 +388,40 @@ cardsBox.addEventListener("click", async (event) => {
 
   const matchupId = button.dataset.matchupId;
   const side = button.dataset.side;
+  const action = button.dataset.action;
 
   if (savingMatchups[matchupId]) {
     return;
   }
 
   savingMatchups[matchupId] = true;
-  showMessage("Saving your vote...", false);
   render();
 
-  const result = await submitVote(matchupId, side);
+  let result = null;
+
+  if (action === "remove") {
+    showMessage("Removing your vote...", false);
+    result = await removeMyVote(matchupId);
+  } else {
+    showMessage("Saving your vote...", false);
+    result = await submitVote(matchupId, side);
+  }
 
   delete savingMatchups[matchupId];
 
   if (result.ok) {
-    showMessage("Vote saved.", false);
+    if (action === "remove") {
+      showMessage("Vote removed. You can vote again.", false);
+    } else {
+      showMessage("Vote saved. You can remove it and vote for the other side.", false);
+    }
   } else {
     showMessage(result.message, true);
   }
 
   render();
 });
+
 
 async function start() {
   try {
