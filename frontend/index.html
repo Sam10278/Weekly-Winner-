@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Weekly Winner</title>
 
-    <!-- Navbar CSS-->
-     <link rel="stylesheet" href="/css/navbar.css">
      <link rel="stylesheet" href="/css/style.css">
+     <link rel="stylesheet" href="/css/navbar.css">
      <link rel="stylesheet" href="/css/bracket.css">
      <link rel="stylesheet" href="/css/challenge-list.css">
   </head>
@@ -24,15 +23,27 @@
     <a href="/pages/vote.html">Vote</a>
     <a href="/pages/past-winners.html">Past Winners</a>
     <a href="/pages/category-vote.html">Vote for Future Bracket topics</a>
-
     </div>
-
 
 <div class="navbar-user">
 
     <a href="/pages/login.html" id="login-link" hidden>
         Login
     </a>
+
+    <!-- Theme Toggle Button -->
+     <button
+            id="theme-toggle"
+            class="theme-switch"
+            type="button"
+            role="switch"
+            aria-checked="false"
+            aria-label="Switch to light mode"
+            title="Switch to light mode"
+        >
+            <span class="theme-switch-icon" aria-hidden="true">☀</span>
+            <span class="theme-switch-knob" aria-hidden="true"></span>
+        </button>
 
     <div id="user-profile" class="navbar-profile" hidden>
 
@@ -49,18 +60,13 @@
 
         <div id="profile-dropdown" class="profile-dropdown" hidden>
             <span id="user-name"></span>
-
             <button id="logout-btn" type="button">
                 Logout
             </button>
         </div>
-
     </div>
 </div>
-
-
-
-    </nav>
+</nav>
 
     <!-- PAGE CONTENT LIKE BRACKET GOES HERE-->
     <section class="bracket-section">
@@ -80,5 +86,6 @@
     <script type="module" src="/js/auth.js"></script>
     <script type="module" src="/js/bracket.js"></script>
     <script type="module" src="/js/challenge-list.js"></script>
+    <script src="/js/theme.js" defer></script>
 </body>
 </html>

@@ -30,6 +30,20 @@
         Login
     </a>
 
+    <!-- Theme Toggle Button -->
+    <button
+        id="theme-toggle"
+        class="theme-switch"
+        type="button"
+        role="switch"
+        aria-checked="false"
+        aria-label="Switch to light mode"
+        title="Switch to light mode"
+    >
+        <span class="theme-switch-icon" aria-hidden="true">☀</span>
+        <span class="theme-switch-knob" aria-hidden="true"></span>
+    </button>
+
     <div id="user-profile" class="navbar-profile" hidden>
 
         <button
@@ -67,5 +81,6 @@
 
     <script type="module" src="/js/auth.js"></script>
     <script type="module" src="/js/past-winners.js"></script>
+    <script src="/js/theme.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Pixel&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap');
+/* Global color variables: Dark Theme */
+:root {
+    --bg-color: #120f30;
+    --surface-color: #1d1744;
+    --surface-hover: #292d52;
+
+    --text-color: #f8f8ff;
+    --secondary-text: #b8b9d4;
+
+    --primary-color: #ffcf45;
+    --accent-color: #ff4d91;
+    --highlight-color: #44e5d1;
+
+    --border-color: #46496e;
+
+    --card-radius: 12px;
+
+    --button-bg: #ff4d91;
+    --button-text: #101124;
+
+    --font-logo: 'Press Start 2P', monospace;
+    --font-title: 'Silkscreen', sans-serif;
+    --font-body: 'Geist Pixel', sans-serif;
+
+}
+
+/* Light theme */
+:root[data-theme="light"] {
+    --bg-color: #f6fcfb;
+    --surface-color: #ffffff;
+    --surface-hover: #eceefa;
+
+    --text-color: #20213b;
+    --secondary-text: #565b75;
+
+    --primary-color: #6b00c8;
+    --accent-color: #44e5d1;
+    --highlight-color: #cc00db
+;
+    --button-bg: #5e00b1;
+    --button-text: #ffffff;
+
+    --border-color: #cfd2e3;
+
+    --font-logo: 'Press Start 2P', monospace;
+    --font-title: 'Silkscreen', sans-serif;
+    --font-body: 'Geist Pixel', sans-serif;
+}
+
+/* Consistent sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Global page styling */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+    font-family: var(--font-body);
+    line-height: 1.5;
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-family: var(--font-title);
+    color: var(--text-color);
+    line-height: 1.3;
+}
+
+/* Default links */
+a {
+    color: var(--highlight-color);
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+/* Keyboard accessibility */
+:focus-visible {
+    outline: 3px solid var(--highlight-color);
+    outline-offset: 3px;
+}
+
+/* Smooth hover effects */
+button,
+a {
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* Reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    button,
+    a {
+        transition: none;
+    }
+}
