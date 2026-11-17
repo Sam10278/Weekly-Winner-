@@ -33,8 +33,14 @@ Keep entries short and specific.
 -->
 
 
+<<<<<<< HEAD
 ## [PR: #30] [2026-11-08]
 - Updated main for Retrospective 2
+=======
+## [PR: #32] [2026-11-17]
+### Added
+- added percentage on vote oage
+>>>>>>> b84e81f (undo vote)
 
 ## [PR: #31] [2026-11-13]
 ### Added
