@@ -32,6 +32,7 @@ Example:
 Keep entries short and specific.
 -->
 
+<<<<<<< Release-11-18-2026
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -66,6 +67,9 @@ Keep entries short and specific.
 - Updated main for Retrospective 2
 
 
+
+## [PR: #30] [2026-11-08]
+- Updated main for Retrospective 2
 
 ## [PR: #29] [2026-11-08]
 ### Changed
@@ -232,4 +236,3 @@ Keep entries short and specific.
 ### Added
 - firestore-rules file
 - lesson on firestore-rules file
-
