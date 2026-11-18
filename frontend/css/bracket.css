@@ -221,7 +221,7 @@
 .matchup.my-vote .slot-name {
   color: var(--highlight-color);
   font-weight: bold;
-<<<<<<< HEAD
+
 }
 
 /* the line under the bracket */
@@ -234,6 +234,5 @@
 /* the "?" shown while counts are hidden */
 .slot-votes[title] {
   cursor: help;
-=======
->>>>>>> 5fdc849 (Updated voting page, user can now see their vote)
+
 }

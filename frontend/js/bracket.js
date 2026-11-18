@@ -137,7 +137,7 @@ function makeBox(contender, showVote, matchup, side, state = getVoteState(), isS
   } else {
     name.textContent = "TBD";
   }
-
+  slot.append(name);
 
   // Green highlight on the side the user picked
   if (contender && state.hasVoted && state.mySide === side) {
@@ -428,59 +428,8 @@ function watchChallenge(root, info, challengeId) {
     }
     info.textContent = parts.join(" · ");
   }
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-  function getMatchupVoteState(matchup) {
-  if (!matchup || !challenge) {
-    return getVoteState();
-  }
-  const mySide = myVotes[matchup.id] || null;
-  const hasVoted = mySide !== null;
-  const isDecided = Boolean(matchup.winnerId);
-  const isOpen = challenge.status === "open";
-  const isCurrentRound = matchup.round === challenge.currentRound;
-  const hasTimeRemaining = challenge.roundEndsAt?.toMillis?.() > Date.now();
-  const hasBothItems = Boolean(matchup.itemA && matchup.itemB);
-=======
->>>>>>> b84e81f (undo vote)
 
-=======
-  
->>>>>>> d53e1f6 (Fix mobile navbar and add hamburger menu)
-  function getMatchupVoteState(matchup) {
-    if (!matchup || !challenge) {
-      return getVoteState();
-    }
-
-    let mySide = null;
-    if (myVotes[matchup.id]) {
-      mySide = myVotes[matchup.id];
-    }
-
-    const hasVoted = mySide !== null;
-    const isDecided = Boolean(matchup.winnerId);
-    const isOpen = challenge.status === "open";
-    const isCurrentRound = matchup.round === challenge.currentRound;
-
-    let hasTimeRemaining = false;
-    if (challenge.roundEndsAt && typeof challenge.roundEndsAt.toMillis === "function") {
-      hasTimeRemaining = challenge.roundEndsAt.toMillis() > Date.now();
-    }
-
-    const hasBothItems = Boolean(matchup.itemA && matchup.itemB);
-
-    return getVoteState({
-      isLoggedIn: currentUser !== null,
-      hasVoted: hasVoted,
-      mySide: mySide,
-      isDecided: isDecided,
-      isOpen: isOpen,
-      isCurrentRound: isCurrentRound,
-      hasTimeRemaining: hasTimeRemaining,
-      hasBothItems: hasBothItems
-    });
-  }
 
   function redraw() {
     if (!challenge || !matchupsReady) {
