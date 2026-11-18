@@ -83,10 +83,38 @@ if (logoutBtn) {
     logoutBtn.addEventListener("click", logout);
 }
 
+// Mobile account menu
+const mobileLogoutBtn = document.getElementById("mobile-logout-btn");
+const mobileUserName = document.getElementById("mobile-user-name");
+
+if (mobileLogoutBtn) {
+    mobileLogoutBtn.addEventListener("click", logout);
+}
+
 // Update navbar when login changes
 onAuthStateChanged(auth, (user) => {
+    // Update mobile account information
+if (mobileUserName) {
+    mobileUserName.textContent = user
+        ? user.displayName || user.email || "User"
+        : "";
+}
     if (loginLink) loginLink.hidden = !!user;
     if (userProfile) userProfile.hidden = !user;
+
+        // Show the mobile menu only when logged in
+    const menuButton = document.querySelector(".navbar-menu-toggle");
+    const navLinks = document.querySelector(".navbar-links");
+
+    if (menuButton) {
+        menuButton.hidden = !user;
+        menuButton.classList.toggle("authenticated", !!user);
+        menuButton.setAttribute("aria-expanded", "false");
+    }
+
+    if (navLinks) {
+        navLinks.classList.remove("menu-open");
+    }
 
     closeProfileMenu();
 

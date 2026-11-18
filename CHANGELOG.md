@@ -32,9 +32,42 @@ Example:
 Keep entries short and specific.
 -->
 
+
+
 ## [PR: #30] [2026-11-08]
 - Updated main for Retrospective 2
 
+## [PR: #32] [2026-11-17]
+### Added
+- added percentage on vote oage
+
+
+## [PR: #34] [2026-11-17]
+### Added
+- added percentage on vote oage
+- added light and dark mode for user customizing 
+- make sure the phone version looks good 
+
+
+
+## [PR: #31] [2026-11-13]
+### Added
+- Category Vote page: vote for as many open categories (8+ items) as you like, with live totals
+- "Category Vote" link in the navbar on every page
+- `toggleCategoryVote` Cloud Function: adds or removes a category vote
+- `categoryVotes` Firestore rules: logged-in users can read, only the function can write
+
+### Changed
+- Auto-start now picks the category with the most votes (random among ties), then chooses a size it can fill
+- Category votes reset to zero every time a new challenge starts
+
+## [PR: #30] [2026-11-08]
+- Updated main for Retrospective 2
+
+
+
+## [PR: #30] [2026-11-08]
+- Updated main for Retrospective 2
 ## [PR: #29] [2026-11-08]
 ### Changed
 - The side you voted for turns green and says "Your vote"
@@ -83,7 +116,6 @@ Keep entries short and specific.
 ### Fixed
 - Improved handling of rejected voting requests, including unauthenticated users, duplicate votes, invalid inputs, and closed challenges.
 
-<<<<<<< HEAD
 ## [PR: #19] [2026-11-02]
 ### Added
 - Add past-winner.html
@@ -200,4 +232,3 @@ Keep entries short and specific.
 ### Added
 - firestore-rules file
 - lesson on firestore-rules file
-
