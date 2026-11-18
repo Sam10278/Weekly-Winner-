@@ -407,6 +407,7 @@ function watchChallenge(root, info, challengeId) {
     }
     info.textContent = parts.join(" · ");
   }
+
   function getMatchupVoteState(matchup) {
   if (!matchup || !challenge) {
     return getVoteState();
