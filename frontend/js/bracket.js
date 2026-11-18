@@ -429,7 +429,41 @@ function watchChallenge(root, info, challengeId) {
     info.textContent = parts.join(" · ");
   }
 
+    function getMatchupVoteState(matchup) {
+    if (!matchup || !challenge) {
+      return getVoteState();
+    }
 
+    let mySide = null;
+    if (myVotes[matchup.id]) {
+      mySide = myVotes[matchup.id];
+    }
+
+    const hasVoted = mySide !== null;
+    const isDecided = Boolean(matchup.winnerId);
+    const isOpen = challenge.status === "open";
+    const isCurrentRound = matchup.round === challenge.currentRound;
+
+    let hasTimeRemaining = false;
+    if (challenge.roundEndsAt && typeof challenge.roundEndsAt.toMillis === "function") {
+      hasTimeRemaining = challenge.roundEndsAt.toMillis() > Date.now();
+    }
+
+    const hasBothItems = Boolean(matchup.itemA && matchup.itemB);
+
+    return getVoteState({
+      isLoggedIn: currentUser !== null,
+      hasVoted: hasVoted,
+      mySide: mySide,
+      isDecided: isDecided,
+      isOpen: isOpen,
+      isCurrentRound: isCurrentRound,
+      hasTimeRemaining: hasTimeRemaining,
+      hasBothItems: hasBothItems
+    });
+  }
+
+  
 
   function redraw() {
     if (!challenge || !matchupsReady) {
