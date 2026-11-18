@@ -33,9 +33,12 @@ Keep entries short and specific.
 -->
 
 
-## [PR: #32] [2026-11-17]
+## [PR: #34] [2026-11-17]
 ### Added
 - added percentage on vote oage
+- added light and dark mode for user customizing 
+- make sure the phone version looks good 
+
 
 ## [PR: #31] [2026-11-13]
 ### Added
