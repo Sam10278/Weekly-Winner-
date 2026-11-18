@@ -62,6 +62,9 @@ Keep entries short and specific.
 - Auto-start now picks the category with the most votes (random among ties), then chooses a size it can fill
 - Category votes reset to zero every time a new challenge starts
 
+## [PR: #30] [2026-11-08]
+- Updated main for Retrospective 2
+
 
 
 ## [PR: #29] [2026-11-08]
