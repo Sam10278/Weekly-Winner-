@@ -32,25 +32,23 @@ Example:
 Keep entries short and specific.
 -->
 
-<<<<<<< Release-11-18-2026
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 ## [PR: #30] [2026-11-08]
 - Updated main for Retrospective 2
-=======
+
 ## [PR: #32] [2026-11-17]
 ### Added
 - added percentage on vote oage
->>>>>>> b84e81f (undo vote)
-=======
+
+
 ## [PR: #34] [2026-11-17]
 ### Added
 - added percentage on vote oage
 - added light and dark mode for user customizing 
 - make sure the phone version looks good 
 
->>>>>>> 048b4e6 (update chnagelog)
+
 
 ## [PR: #31] [2026-11-13]
 ### Added
@@ -70,7 +68,6 @@ Keep entries short and specific.
 
 ## [PR: #30] [2026-11-08]
 - Updated main for Retrospective 2
-
 ## [PR: #29] [2026-11-08]
 ### Changed
 - The side you voted for turns green and says "Your vote"
@@ -119,7 +116,6 @@ Keep entries short and specific.
 ### Fixed
 - Improved handling of rejected voting requests, including unauthenticated users, duplicate votes, invalid inputs, and closed challenges.
 
-<<<<<<< HEAD
 ## [PR: #19] [2026-11-02]
 ### Added
 - Add past-winner.html
