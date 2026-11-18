@@ -269,7 +269,7 @@
     .navbar-links {
         order: 3;
         flex: 0 0 100%;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .navbar-user {
@@ -277,3 +277,96 @@
     }
 }
 
+/* Hamburger button hidden on desktop */
+.navbar-menu-toggle {
+    display: none;
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+    .navbar-menu-toggle {
+        display: block;
+        order: 3;
+        background: transparent;
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 6px 12px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .navbar-links {
+        display: none;
+        order: 4;
+        flex: 0 0 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        overflow: visible;
+    }
+
+    .navbar-links.menu-open {
+        display: flex;
+    }
+
+    .navbar-links a {
+        display: block;
+        white-space: normal;
+        padding: 12px;
+        font-size: 12px;
+        text-align: left;
+    }
+}
+
+.navbar-menu-toggle[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    /* Hide the separate profile button */
+    .navbar-profile {
+        display: none !important;
+    }
+
+    /* Keep the theme switch and menu on the right */
+    .navbar-user {
+        margin-left: auto;
+    }
+
+    .navbar-menu-toggle {
+        order: 3;
+    }
+}
+
+/* Mobile account section */
+.mobile-account {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-account {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 15px 12px;
+        margin-top: 10px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    #mobile-user-name {
+        color: var(--text-color);
+        font-size: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    #mobile-logout-btn {
+        padding: 10px 16px;
+        background: var(--surface-color);
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        border-radius: 6px;
+        cursor: pointer;
+    }
+}

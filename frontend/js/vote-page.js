@@ -126,15 +126,11 @@ function makeSide(matchup, side) {
   // Highlight the item selected by the current user
   if (voted && mySide === side) {
     box.classList.add("my-vote");
-<<<<<<< HEAD
-  }
 
-
-=======
     addText(box, "p", "Your vote", "your-vote");
   }
 
->>>>>>> b84e81f (undo vote)
+
   let decided = false;
   if (matchup.winnerId) {
     decided = true;

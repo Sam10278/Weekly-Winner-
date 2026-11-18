@@ -430,6 +430,7 @@ function watchChallenge(root, info, challengeId) {
   }
 <<<<<<< HEAD
 
+<<<<<<< HEAD
   function getMatchupVoteState(matchup) {
   if (!matchup || !challenge) {
     return getVoteState();
@@ -444,6 +445,9 @@ function watchChallenge(root, info, challengeId) {
 =======
 >>>>>>> b84e81f (undo vote)
 
+=======
+  
+>>>>>>> d53e1f6 (Fix mobile navbar and add hamburger menu)
   function getMatchupVoteState(matchup) {
     if (!matchup || !challenge) {
       return getVoteState();

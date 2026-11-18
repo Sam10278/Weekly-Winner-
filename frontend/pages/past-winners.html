@@ -15,12 +15,28 @@
     <nav class="navbar">
         <a class="navbar-brand" href="/index.html">Weekly Winner</a>
 
-        <div class="navbar-links">
+        <button
+    class="navbar-menu-toggle"
+    type="button"
+    aria-label="Toggle navigation menu"
+    aria-expanded="false"
+    aria-controls="mobile-nav-links"
+>
+    ☰
+</button>
+
+<div class="navbar-links" id="mobile-nav-links">
             <a href="/index.html">Home</a>
             <a href="/pages/categories.html">Add Categories and Items</a>
             <a href="/pages/vote.html">Vote</a>
             <a href="/pages/past-winners.html">Past Winners</a>
             <a href="/pages/category-vote.html">Vote for Future Bracket topics</a>
+            <div class="mobile-account">
+    <span id="mobile-user-name"></span>
+    <button type="button" id="mobile-logout-btn">
+        Logout
+    </button>
+</div>
         </div>
 
 
@@ -82,5 +98,6 @@
     <script type="module" src="/js/auth.js"></script>
     <script type="module" src="/js/past-winners.js"></script>
     <script src="/js/theme.js" defer></script>
+    <script src="/js/mobile-menu.js" defer></script>
 </body>
 </html>
