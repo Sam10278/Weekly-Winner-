@@ -74,6 +74,50 @@ export async function submitVote(matchupId, side) {
 }
 
 
+// Take back my vote in one matchup.
+// It never throws. It always returns { ok, code, message }.
+export async function removeMyVote(matchupId) {
+  if (!auth.currentUser) {
+    return {
+      ok: false,
+      code: "unauthenticated",
+      message: "Please log in first."
+    };
+  }
+
+  if (!matchupId) {
+    return {
+      ok: false,
+      code: "invalid-argument",
+      message: "Invalid matchup."
+    };
+  }
+
+  try {
+    const removeVote = httpsCallable(functions, "removeVote");
+    await removeVote({ matchupId: matchupId });
+
+    return { ok: true, code: "ok", message: "Vote removed." };
+  } catch (error) {
+    let code = "unknown";
+    if (error && error.code) {
+      code = String(error.code).replace("functions/", "");
+    }
+
+    let message = "Could not remove your vote. Please try again.";
+
+    if (code === "failed-precondition") {
+      message = "Voting is closed for this matchup, or you have not voted.";
+    } else if (code === "unauthenticated") {
+      message = "Please log in first.";
+    }
+
+    console.error("removeVote failed:", error);
+    return { ok: false, code: code, message: message };
+  }
+}
+
+
 // Can the user see the vote counts of a matchup?
 // Yes if they voted in it, or if the matchup is already decided.
 export function canSeeCounts(hasVoted, isDecided) {
@@ -138,6 +182,7 @@ export function formatVotes(count) {
 
 // Can the current user vote in this matchup right now?
 //   mySide is "A" or "B" if the user already voted, otherwise null.
+//   canRemove is true while the user can take their vote back.
 export function getVoteState({
   isLoggedIn = false,
   hasVoted = false,
@@ -167,6 +212,7 @@ export function getVoteState({
     disabled: reason !== null,
     hasVoted: hasVoted,
     mySide: mySide,
+    canRemove: hasVoted && !isDecided && isOpen && isCurrentRound && hasTimeRemaining,
     canSeeCounts: canSeeCounts(hasVoted, isDecided),
     reason: reason
   };

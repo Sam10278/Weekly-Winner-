@@ -32,6 +32,11 @@ Example:
 Keep entries short and specific.
 -->
 
+
+## [PR: #32] [2026-11-17]
+### Added
+- added percentage on vote oage
+
 ## [PR: #31] [2026-11-13]
 ### Added
 - Category Vote page: vote for as many open categories (8+ items) as you like, with live totals
