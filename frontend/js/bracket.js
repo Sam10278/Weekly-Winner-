@@ -428,18 +428,7 @@ function watchChallenge(root, info, challengeId) {
     info.textContent = parts.join(" · ");
   }
 
-  function getMatchupVoteState(matchup) {
-  if (!matchup || !challenge) {
-    return getVoteState();
-  }
-  const mySide = myVotes[matchup.id] || null;
-  const hasVoted = mySide !== null;
-  const isDecided = Boolean(matchup.winnerId);
-  const isOpen = challenge.status === "open";
-  const isCurrentRound = matchup.round === challenge.currentRound;
-  const hasTimeRemaining = challenge.roundEndsAt?.toMillis?.() > Date.now();
-  const hasBothItems = Boolean(matchup.itemA && matchup.itemB);
-
+  
   function getMatchupVoteState(matchup) {
     if (!matchup || !challenge) {
       return getVoteState();
