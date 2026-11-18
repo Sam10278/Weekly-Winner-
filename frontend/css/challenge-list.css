@@ -20,16 +20,16 @@
 .challenge-card {
     display: block;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background-color: white;
-    color: #222;
+    background: var(--surface-color);
+    color: var(--text-color);
     text-decoration: none;
 }
 
 .challenge-card:hover {
-    border-color: #007bff;
-    background-color: #f8faff;
+    background: var(--surface-hover);
+    border-color: var(--primary-color);
 }
 
 .challenge-card h3 {
@@ -38,12 +38,12 @@
 
 .challenge-card p {
     margin: 8px 0;
-    color: #555;
+    color: var(--secondary-text);
 }
 
 .challenge-card .challenge-status {
     font-weight: bold;
-    color: #16803c;
+    color: var(--highlight-color);
 }
 
 .challenge-card .challenge-time {
@@ -53,13 +53,13 @@
 .challenge-link {
     display: inline-block;
     margin-top: 12px;
-    color: #007bff;
+    color: var(--primary-color);
     font-weight: bold;
 }
 
 .challenge-empty {
     grid-column: 1 / -1;
-    color: #666;
+    color: var(--secondary-text);
     padding: 20px 0;
 }
 
